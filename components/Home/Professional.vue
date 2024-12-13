@@ -9,16 +9,9 @@
         :key="i"
         class="bg-white p-5 rounded-lg shadow min-h-full flex flex-col"
       >
-        <div class="flex gap-3 items-center">
-          <div
-            class="size-12 rounded-full bg-indigo-500 flex items-center justify-center"
-          >
-            <Component :is="option.icon" class="text-white" />
-          </div>
-          <h3 class="text-gray-800 text-2xl font-bold">
-            {{ option.title }}
-          </h3>
-        </div>
+        <h3 class="text-gray-800 text-2xl font-bold">
+          {{ option.title }}
+        </h3>
         <p class="text-gray-600 mt-2 flex-1">{{ option.description }}</p>
       </div>
     </div>
@@ -37,7 +30,7 @@ export default {
             "Create unique, engaging assessments in minutes. Save hours of manual work while ensuring fresh question sets for every class and exam.",
         },
         {
-          title: "Online Courses, Tutors & Mentors",
+          title: "Online Courses & Tutors",
           description:
             "Easily generate a quiz from any text you provide. Upload or paste your text, and watch it transform into engaging questions. Ideal for testing comprehension and knowledge quickly.",
         },

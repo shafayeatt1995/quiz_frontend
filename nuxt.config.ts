@@ -22,4 +22,5 @@ export default defineNuxtConfig({
   css: ["~/assets/css/tailwind.css"],
   shadcn: { prefix: "", componentDir: "./components/ui" },
   image: { quality: 80, format: ["webp"] },
+  build: { transpile: ["@nuxtjs/tailwindcss"] },
 });
