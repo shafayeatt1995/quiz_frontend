@@ -2,7 +2,7 @@
   <div class="container mx-auto py-12">
     <div class="grid grid-cols-6 gap-5">
       <div class="col-span-2">
-        <NuxtImg src="/images/logo.svg" alt="logo" class="size-10" />
+        <img src="/images/logo.svg" alt="logo" class="size-10" />
         <p class="mt-2 text-gray-600">
           MagicForm.app helps you create quizzes using AI. Generate quizzes from
           any URL, PDF, YouTube video, or topic in seconds for free.

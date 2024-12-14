@@ -3,7 +3,7 @@
     <div class="container mx-auto py-2">
       <div class="flex justify-between items-center">
         <NuxtLink to="/">
-          <NuxtImg src="/images/logo.svg" alt="logo" class="size-10" />
+          <img src="/images/logo.svg" alt="logo" class="size-10" />
         </NuxtLink>
         <div class="flex gap-4 items-center">
           <NuxtLink :to="{ name: 'index', hash: '#pricing' }">Pricing</NuxtLink>

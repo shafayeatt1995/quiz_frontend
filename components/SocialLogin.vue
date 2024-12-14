@@ -8,11 +8,7 @@
         </h1>
         <div class="flex flex-col gap-2 my-4">
           <Button @click="socialLogin" variant="default">
-            <NuxtImg
-              src="/images/google.svg"
-              alt="google"
-              class="size-5 mr-2"
-            />
+            <img src="/images/google.svg" alt="google" class="size-5 mr-2" />
             Sign in with google
           </Button>
         </div>

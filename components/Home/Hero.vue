@@ -42,7 +42,7 @@
       </p>
     </form>
     <div class="mt-10 flex justify-center">
-      <NuxtImg src="/images/hero-image.png" alt="hero" class="h-80 w-auto" />
+      <img src="/images/hero-image.png" alt="hero" class="h-80 w-auto" />
     </div>
   </div>
 </template>
