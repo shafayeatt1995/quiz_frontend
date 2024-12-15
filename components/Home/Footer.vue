@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto py-12">
-    <div class="grid grid-cols-6 gap-5">
+    <div class="grid md:grid-cols-6 grid-cols-2 gap-5">
       <div class="col-span-2">
         <img src="/images/logo.svg" alt="logo" class="size-10" />
         <p class="mt-2 text-gray-600">
@@ -13,7 +13,7 @@
           ><MailIcon /> support@magicform.app
         </a>
       </div>
-      <div class="justify-self-center">
+      <div class="md:justify-self-center">
         <h3 class="text-gray-800 font-bold text-lg">Support</h3>
         <div class="mt-4 flex flex-col gap-2">
           <NuxtLink to="#">Review</NuxtLink>

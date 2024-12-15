@@ -1,49 +1,92 @@
 <template>
-  <div class="border-b bg-white">
-    <div class="container mx-auto py-2">
-      <div class="flex justify-between items-center">
-        <NuxtLink to="/">
-          <img src="/images/logo.svg" alt="logo" class="size-10" />
+  <div class="bg-white border-b">
+    <header
+      class="flex items-center gap-4 p-4 justify-between container mx-auto"
+    >
+      <NuxtLink :to="{ name: 'index' }">
+        <img src="/images/logo.svg" alt="logo" class="size-10" />
+      </NuxtLink>
+      <nav class="font-medium flex flex-row items-center md:gap-5 gap-3">
+        <Sheet class="md:hidden" :open="open" @update:open="open = !open">
+          <SheetTrigger as-child>
+            <Button variant="outline" size="icon" class="shrink-0 md:hidden">
+              <MenuIcon class="h-5 w-5" />
+              <span class="sr-only">Toggle navigation menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <nav class="flex flex-col gap-5 text-lg font-medium">
+              <NuxtLink :to="{ name: 'index', hash: '#pricing' }">
+                Pricing
+              </NuxtLink>
+              <NuxtLink :to="{ name: 'index', hash: '#faq' }"> FAQ </NuxtLink>
+            </nav>
+          </SheetContent>
+        </Sheet>
+        <NuxtLink
+          :to="{ name: 'index', hash: '#pricing' }"
+          class="hidden md:block"
+        >
+          Pricing
         </NuxtLink>
-        <div class="flex gap-4 items-center">
-          <NuxtLink :to="{ name: 'index', hash: '#pricing' }">Pricing</NuxtLink>
-          <NuxtLink :to="{ name: 'index', hash: '#usecase' }">UseCase</NuxtLink>
-          <NuxtLink :to="{ name: 'index', hash: '#blog' }">Blog</NuxtLink>
-          <Button variant="outline" @click="loginModal" v-if="!loggedIn">
-            Login
-          </Button>
-          <Button @click="loginModal" v-if="!loggedIn"> Signup </Button>
-          <DropdownMenu v-if="loggedIn">
-            <DropdownMenuTrigger asChild>
-              <Avatar class="cursor-pointer">
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent class="w-44" align="end">
-              <DropdownMenuItem @click="logout">
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-    </div>
+        <NuxtLink :to="{ name: 'index', hash: '#faq' }" class="hidden md:block">
+          FAQ
+        </NuxtLink>
+        <DropdownMenu v-if="loggedIn">
+          <DropdownMenuTrigger asChild>
+            <Avatar class="cursor-pointer">
+              <AvatarImage :src="authUser.avatar" :alt="authUser.name" />
+              <AvatarFallback>{{ authUser.name }}</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent class="w-44" align="end">
+            <DropdownMenuItem :to="{ name: 'dashboard' }">
+              <NuxtLink :to="{ name: 'dashboard' }" class="flex gap-2 w-full">
+                <LayoutDashboardIcon :size="18" />
+                <span>Dashboard</span>
+              </NuxtLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem @click="logout" class="cursor-pointer">
+              <LogOutIcon />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <Button @click="loginModal" v-if="!loggedIn"> Login </Button>
+      </nav>
+    </header>
   </div>
 </template>
 
 <script>
+import { LayoutDashboardIcon, LogOutIcon, MenuIcon } from "lucide-vue-next";
 import eventBus from "~/lib/eventBus";
 
 export default {
   name: "HomeHeader",
+  components: { LogOutIcon, LayoutDashboardIcon, MenuIcon },
+  data() {
+    return {
+      open: false,
+    };
+  },
   computed: {
     loggedIn() {
       const { loggedIn } = useAuth();
       return loggedIn;
+    },
+    authUser() {
+      const { authUser } = useAuth();
+      return authUser.value;
+    },
+  },
+  watch: {
+    $route(to, from) {
+      console.log(to, form);
+      if (to.hash !== from.hash) {
+        this.open = false;
+      }
     },
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto py-12" id="pricing">
     <div class="text-center">
-      <h2 class="text-gray-800 text-4xl font-bold">
+      <h2 class="text-gray-800 md:text-4xl text-3xl font-bold">
         Straightforward, affordable pricing
       </h2>
     </div>

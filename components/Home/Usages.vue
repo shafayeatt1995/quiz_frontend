@@ -1,9 +1,9 @@
 <template>
   <div class="container mx-auto py-12">
-    <h2 class="text-gray-800 text-4xl font-bold text-center">
+    <h2 class="text-gray-800 md:text-4xl text-3xl font-bold text-center">
       How to create AI Quiz
     </h2>
-    <div class="grid grid-cols-3 gap-5 mt-5">
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5 mt-5">
       <div
         v-for="(option, i) in options"
         :key="i"
@@ -11,7 +11,7 @@
       >
         <div class="flex gap-3 items-center">
           <div
-            class="size-12 rounded-full bg-indigo-500 flex items-center justify-center"
+            class="size-12 rounded-full bg-gray-800 flex items-center justify-center"
           >
             <Component :is="option.icon" class="text-white" />
           </div>

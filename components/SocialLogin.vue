@@ -4,7 +4,7 @@
       <DialogTitle></DialogTitle>
       <div>
         <h1 class="text-3xl font-bold text-gray-800 text-center">
-          Login on FeedPack
+          Sign in to your account
         </h1>
         <div class="flex flex-col gap-2 my-4">
           <Button @click="socialLogin" variant="default">
@@ -13,8 +13,8 @@
           </Button>
         </div>
         <p class="text-sm text-gray-600 text-center w-2/3 mx-auto">
-          We use Feedpack to collect feedback from users like you. Sign up to
-          post and vote.
+          You are just 2 clicks away from creating quiz from any piece of text
+          in seconds.
         </p>
       </div>
     </DialogContent>
