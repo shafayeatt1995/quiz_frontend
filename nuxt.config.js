@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
@@ -34,6 +33,17 @@ export default defineNuxtConfig({
           type: "text/javascript",
           src: `/js/gtag.js`,
           head: true,
+          defer: true,
+        },
+        {
+          src: `https://www.googletagmanager.com/gtag/js?id=G-GFEZLZRP5Y`,
+          defer: true,
+          async: true,
+        },
+        {
+          type: "text/javascript",
+          src: `/js/gana.js`,
+          defer: true,
         },
       ],
       noscript: [
