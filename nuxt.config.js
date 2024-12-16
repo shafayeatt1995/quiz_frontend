@@ -14,6 +14,10 @@ export default defineNuxtConfig({
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         {
+          name: "google-site-verification",
+          content: "3QrLYsJqtZiaa5_veQlFIutyiLD-gk06HThm11aF4HA",
+        },
+        {
           property: "og:image",
           content: `${process.env.BASE_URL}/og-image.webp`,
         },
