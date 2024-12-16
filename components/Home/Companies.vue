@@ -11,7 +11,7 @@
         :key="i"
         :href="company.url"
         target="_blank"
-        ><img :src="company.image" alt="company" class="max-h-20"
+        ><NuxtImg :src="company.image" alt="company" class="max-h-20"
       /></a>
     </div>
   </div>
