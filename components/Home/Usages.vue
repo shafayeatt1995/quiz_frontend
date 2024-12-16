@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto py-12">
-    <h2 class="text-gray-800 md:text-4xl text-3xl font-bold text-center">
+    <h2 class="md:text-4xl text-3xl font-bold text-center">
       How to create AI Quiz
     </h2>
     <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5 mt-5">
@@ -15,7 +15,7 @@
           >
             <Component :is="option.icon" class="text-white" />
           </div>
-          <h3 class="text-gray-800 text-2xl font-bold">
+          <h3 class="text-2xl font-bold">
             {{ option.title }}
           </h3>
         </div>

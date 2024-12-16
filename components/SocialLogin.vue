@@ -3,9 +3,7 @@
     <DialogContent>
       <DialogTitle></DialogTitle>
       <div>
-        <h1 class="text-3xl font-bold text-gray-800 text-center">
-          Sign in to your account
-        </h1>
+        <h1 class="text-3xl font-bold text-center">Sign in to your account</h1>
         <div class="flex flex-col gap-2 my-4">
           <Button @click="socialLogin" variant="default">
             <img src="/images/google.svg" alt="google" class="size-5 mr-2" />

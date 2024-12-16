@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto py-12">
-    <h2 class="text-gray-800 md:text-4xl text-3xl font-bold text-center">
+    <h2 class="md:text-4xl text-3xl font-bold text-center">
       Trusted by top universities and companies
     </h2>
     <div

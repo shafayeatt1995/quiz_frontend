@@ -1,9 +1,7 @@
 <template>
   <div class="container mx-auto py-12 px-2">
     <div class="text-center mb-2">
-      <h2 class="text-gray-800 md:text-4xl text-3xl font-bold">
-        Frequently asked questions
-      </h2>
+      <h2 class="md:text-4xl text-3xl font-bold">Frequently asked questions</h2>
     </div>
     <div class="max-w-2xl mx-auto">
       <Accordion type="single" class="w-full" collapsible>

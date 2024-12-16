@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto py-12" id="pricing">
     <div class="text-center">
-      <h2 class="text-gray-800 md:text-4xl text-3xl font-bold">
+      <h2 class="md:text-4xl text-3xl font-bold">
         Straightforward, affordable pricing
       </h2>
     </div>
@@ -33,7 +33,7 @@
               :key="i"
             >
               <p class="text-xl">{{ price.name }}</p>
-              <h3 class="text-gray-800 font-bold text-2xl">
+              <h3 class="font-bold text-2xl">
                 ${{ yearly ? price.yearlyPrice : price.monthlyPrice }}
                 <span class="text-xs text-gray-500 font-medium"
                   >/{{ yearly ? "Year" : "Month" }}</span
@@ -57,11 +57,11 @@
 
         <tbody class="border text-sm">
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
+            <td class="px-4 py-3 border max-w-[150px]">
               Quiz Questions per month
             </td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
@@ -69,11 +69,9 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
-              Questions per Quiz
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">Questions per Quiz</td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
@@ -81,11 +79,11 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
+            <td class="px-4 py-3 border max-w-[150px]">
               Character Input Limit
             </td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
@@ -93,11 +91,9 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
-              URL to Quiz
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">URL to Quiz</td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
@@ -108,11 +104,9 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
-              YouTube to Quiz
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">YouTube to Quiz</td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
@@ -123,11 +117,9 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
-              PDF to Quiz
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">PDF to Quiz</td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
@@ -138,11 +130,9 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
-              Access Previous Quiz
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">Access Previous Quiz</td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
@@ -153,11 +143,11 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 text-gray-800 border max-w-[150px]">
+            <td class="px-4 py-3 border max-w-[150px]">
               Multi Languages Support
             </td>
             <td
-              class="px-4 py-3 text-gray-800 text-center border max-w-[150px]"
+              class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >

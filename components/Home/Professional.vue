@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto py-12">
-    <h2 class="text-gray-800 md:text-4xl text-3xl font-bold text-center">
+    <h2 class="md:text-4xl text-3xl font-bold text-center">
       Perfect for Every Professional
     </h2>
     <div class="grid lg:grid-cols-3 gap-5 mt-5">
@@ -9,7 +9,7 @@
         :key="i"
         class="bg-white p-5 rounded-lg shadow min-h-full flex flex-col"
       >
-        <h3 class="text-gray-800 text-2xl font-bold">
+        <h3 class="text-2xl font-bold">
           {{ option.title }}
         </h3>
         <p class="text-gray-600 mt-2 flex-1">{{ option.description }}</p>
