@@ -45,8 +45,6 @@
             Use Power of AI Inside Google Sheets Create Presentation Slides with
             AI in Seconds
           </p>
-          <h3 class="font-bold text-lg mt-5">New Tutorial</h3>
-          <p>How AI Helped Me Create a Quiz in 1 Click</p>
         </div>
       </div>
     </div>
