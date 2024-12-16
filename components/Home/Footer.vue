@@ -45,15 +45,13 @@
             Use Power of AI Inside Google Sheets Create Presentation Slides with
             AI in Seconds
           </p>
+          <p class="mt-10">
+            ©
+            <span class="underline">
+              {{ new Date().getFullYear() }} Mr. Quizer</span
+            >. All rights reserved.
+          </p>
         </div>
-      </div>
-      <hr class="my-10" />
-      <div class="flex justify-between items-center">
-        <p>
-          ©
-          <span class="underline"> {{ new Date().getFullYear() }} MrQuizer</span
-          >. All rights reserved.
-        </p>
       </div>
     </div>
   </div>
