@@ -35,7 +35,7 @@
             accept=".pdf&.doc&.docx&.text&.jpg&.png&.jpeg&.svg&.webp"
           />
 
-          <button><LightbulbIcon /></button>
+          <button aria-label="Get Suggestions"><LightbulbIcon /></button>
         </div>
         <Button type="submit">Generate quiz</Button>
       </div>
