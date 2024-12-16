@@ -1,6 +1,11 @@
 const loadedAnimations = new Map();
 export const useUtils = () => {
+  const config = useRuntimeConfig();
+  const { APP_NAME, BASE_URL } = config.public;
   return {
+    baseUrl: BASE_URL,
+    appName: APP_NAME,
+
     strSlug(val) {
       return val
         .toLowerCase()
@@ -131,19 +136,6 @@ export const useUtils = () => {
         month: "short",
         year: "numeric",
       }).format(new Date(date));
-    },
-
-    meta({
-      title = "CholoZai - Your Ultimate Guide to Travel in Bangladesh",
-      description = "Discover the beauty of Bangladesh with CholoZai. Explore top destinations, hidden gems, cultural experiences, and travel tips for an unforgettable journey through this vibrant country.",
-    } = {}) {
-      return [
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-      ];
     },
 
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,

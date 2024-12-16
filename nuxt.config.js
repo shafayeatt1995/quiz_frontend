@@ -4,12 +4,14 @@ export default defineNuxtConfig({
   nitro: { static: true },
   runtimeConfig: {
     public: {
+      APP_NAME: process.env.APP_NAME,
       BASE_URL: process.env.BASE_URL,
       API_URL: process.env.API_URL,
     },
   },
   app: {
     head: {
+      htmlAttrs: { lang: "en" },
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -70,5 +72,4 @@ export default defineNuxtConfig({
   css: ["~/assets/css/tailwind.css"],
   shadcn: { prefix: "", componentDir: "./components/ui" },
   image: { quality: 80, format: ["webp"] },
-  // build: { transpile: ["@nuxtjs/tailwindcss"] },
 });

@@ -1,4 +1,5 @@
 <template>
+  <MetaHead />
   <div style="background-image: url('/images/bg.svg')">
     <HomeHeader />
     <HomeHero />
