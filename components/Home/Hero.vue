@@ -1,11 +1,11 @@
 <template>
   <div class="container mx-auto py-12 px-2">
     <h1
-      class="text-7xl font-bold text-center bg-clip-text bg-gradient fill-transparent text-transparent max-w-3xl mx-auto"
+      class="md:text-7xl text-4xl font-bold text-center bg-clip-text bg-gradient fill-transparent text-transparent max-w-3xl mx-auto"
     >
       Create Quiz with AI from any text
     </h1>
-    <p class="text-center">
+    <p class="text-center md:text-base text-sm px-10">
       Create quizzes from any topic, YouTube URL, PDF, or text in less than 10
       seconds
     </p>

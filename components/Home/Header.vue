@@ -1,10 +1,13 @@
 <template>
   <div class="bg-white border-b">
     <header
-      class="container mx-auto flex items-center gap-4 px-2 py-2 justify-between"
+      class="container mx-auto flex items-center gap-4 p-2 justify-between"
     >
-      <NuxtLink :to="{ name: 'index' }">
-        <img src="/logo.svg" alt="logo" class="size-10" />
+      <NuxtLink
+        :to="{ name: 'index' }"
+        class="flex items-center gap-2 text-2xl font-bold text-gray-700"
+      >
+        <img src="/logo.svg" alt="logo" class="size-10" /> Mr. Quizer
       </NuxtLink>
       <nav class="font-medium flex flex-row items-center md:gap-5 gap-3">
         <Sheet class="md:hidden" :open="open" @update:open="open = !open">
@@ -36,7 +39,12 @@
           <DropdownMenuTrigger asChild>
             <Avatar class="cursor-pointer">
               <AvatarImage :src="authUser.avatar" :alt="authUser.name" />
-              <AvatarFallback>{{ authUser.name }}</AvatarFallback>
+              <AvatarFallback class="text-base">{{
+                authUser.name
+                  .split(" ")
+                  .map((i) => i[0].toUpperCase())
+                  .join("")
+              }}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent class="w-44" align="end">

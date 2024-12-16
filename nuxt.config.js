@@ -59,17 +59,42 @@ export default defineNuxtConfig({
       ],
     },
   },
-  routeRules: {
-    "*": { prerender: true },
-  },
   modules: [
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
     "@nuxt/image",
     "@nuxt/fonts",
+    "@vite-pwa/nuxt",
   ],
+  routeRules: {
+    "*": { prerender: true },
+  },
   css: ["~/assets/css/tailwind.css"],
   shadcn: { prefix: "", componentDir: "./components/ui" },
   image: { quality: 80, format: ["webp"] },
+  pwa: {
+    manifest: {
+      name: "Mr. Quizer",
+      short_name: "MrQuizer",
+      theme_color: "#4f46e5",
+      icons: [
+        {
+          src: "/public/pwa/128.png",
+          sizes: "128x128",
+          type: "image/png",
+        },
+        {
+          src: "/public/pwa/192.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "/public/pwa/512.png",
+          sizes: "512x512",
+          type: "image/png",
+        },
+      ],
+    },
+  },
 });

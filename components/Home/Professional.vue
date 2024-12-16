@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-12">
+  <div class="container mx-auto py-12 px-2">
     <h2 class="md:text-4xl text-3xl font-bold text-center">
       Perfect for Every Professional
     </h2>

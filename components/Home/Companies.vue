@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto py-12">
+  <div class="container mx-auto py-12 px-2">
     <h2 class="md:text-4xl text-3xl font-bold text-center">
-      Trusted by top universities and companies
+      Trusted by top universities
     </h2>
     <div
       class="grid md:grid-cols-4 grid-cols-2 gap-5 items-center justify-items-center mt-5"

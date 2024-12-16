@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-12" id="pricing">
+  <div class="container mx-auto py-12 px-2" id="pricing">
     <div class="text-center">
       <h2 class="md:text-4xl text-3xl font-bold">
         Straightforward, affordable pricing
