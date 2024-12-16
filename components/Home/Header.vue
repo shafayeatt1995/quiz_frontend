@@ -1,10 +1,10 @@
 <template>
   <div class="bg-white border-b">
     <header
-      class="flex items-center gap-4 p-4 justify-between container mx-auto"
+      class="flex items-center gap-4 px-4 py-2 justify-between container mx-auto"
     >
       <NuxtLink :to="{ name: 'index' }">
-        <img src="/images/logo.svg" alt="logo" class="size-10" />
+        <img src="/logo.svg" alt="logo" class="size-10" />
       </NuxtLink>
       <nav class="font-medium flex flex-row items-center md:gap-5 gap-3">
         <Sheet class="md:hidden" :open="open" @update:open="open = !open">

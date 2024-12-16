@@ -34,7 +34,7 @@ export default {
         },
         {
           q: "What do I actually receive after I purchase a license?",
-          a: "We will find account with the gmail/gsuide id specified in purchase and upgrade it. No license key required! then just follow https://www.magicform.app/get-started",
+          a: "We will find account with the gmail/gsuide id specified in purchase and upgrade it. No license key required! then just follow https://mrquizer.com/get-started",
         },
         {
           q: "Can someone else order the license on my behalf?",
@@ -42,7 +42,7 @@ export default {
         },
         {
           q: "How is support provided and what does it include?",
-          a: "You can send a mail to support@magicform.app while your support period is still valid. Support is provided for issues with installation, licensing and usage. It does not include any customization or custom new features.",
+          a: "You can send a mail to support@mrquizer.com while your support period is still valid. Support is provided for issues with installation, licensing and usage. It does not include any customization or custom new features.",
         },
         {
           q: "What constitutes a user in terms of pricing?",
@@ -54,7 +54,7 @@ export default {
         },
         {
           q: "Can't find an answer to your question?",
-          a: "Send a mail at support@magicform.app and we'll be happy to help you 🙌",
+          a: "Send a mail at support@mrquizer.com and we'll be happy to help you 🙌",
         },
       ],
     };

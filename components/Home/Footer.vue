@@ -2,15 +2,15 @@
   <div class="container mx-auto py-12">
     <div class="grid md:grid-cols-6 grid-cols-2 gap-5">
       <div class="col-span-2">
-        <img src="/images/logo.svg" alt="logo" class="size-10" />
+        <img src="/logo.svg" alt="logo" class="size-10" />
         <p class="mt-2 text-gray-600">
-          MagicForm.app helps you create quizzes using AI. Generate quizzes from
+          mrquizer.com helps you create quizzes using AI. Generate quizzes from
           any URL, PDF, YouTube video, or topic in seconds for free.
         </p>
         <a
-          href="mailto:support@magicform.app"
+          href="mailto:support@mrquizer.com"
           class="flex items-center gap-2 mt-4 text-gray-600"
-          ><MailIcon /> support@magicform.app
+          ><MailIcon /> support@mrquizer.com
         </a>
       </div>
       <div class="md:justify-self-center">

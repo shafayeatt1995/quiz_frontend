@@ -39,12 +39,7 @@
                   >/{{ yearly ? "Year" : "Month" }}</span
                 >
               </h3>
-              <button
-                type="button"
-                class="w-full mt-4 px-5 py-2.5 text-xs tracking-wide font-bold bg-gray-800 hover:bg-gray-700 text-white rounded-md"
-              >
-                Choose Plan
-              </button>
+              <Button type="button" class="w-full"> Choose Plan </Button>
 
               <p
                 @click="yearly = !yearly"

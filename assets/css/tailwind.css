@@ -76,31 +76,34 @@
     @apply bg-background text-foreground text-gray-800;
     font-family: "Red Hat Display", serif;
   }
-}
+  .bg-gradient {
+    @apply bg-gradient-to-br from-[#9b8eff] to-[#4b56f9];
+  }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
 
-.slideUp-enter-active {
-  transition: transform 0.5s ease-in, opacity 0.5s ease-in;
-}
+  .slideUp-enter-active {
+    transition: transform 0.5s ease-in, opacity 0.5s ease-in;
+  }
 
-.slideUp-leave-active {
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-}
+  .slideUp-leave-active {
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  }
 
-.slideUp-leave-to {
-  transform: translateY(10px);
-  opacity: 0;
-}
-.slideUp-enter-from {
-  transform: translateY(-10px);
-  opacity: 0;
+  .slideUp-leave-to {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  .slideUp-enter-from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
 }
