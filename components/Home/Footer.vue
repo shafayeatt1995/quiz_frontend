@@ -47,6 +47,14 @@
           </p>
         </div>
       </div>
+      <hr class="my-10" />
+      <div class="flex justify-between items-center">
+        <p>
+          ©
+          <span class="underline"> {{ new Date().getFullYear() }} MrQuizer</span
+          >. All rights reserved.
+        </p>
+      </div>
     </div>
   </div>
 </template>

@@ -33,7 +33,7 @@ export default defineNuxtConfig({
         { name: "twitter:card", content: `summary_large_image` },
         { name: "robots", content: `max-image-preview:large` },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
       script: [
         {
           type: "text/javascript",
