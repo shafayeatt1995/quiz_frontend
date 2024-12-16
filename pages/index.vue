@@ -1,15 +1,13 @@
 <template>
   <MetaHead />
-  <div style="background-image: url('/images/bg.svg')">
-    <HomeHeader />
+  <Home>
     <HomeHero />
     <HomeCompanies />
     <HomeUsages />
     <HomeProfessional />
     <HomePricing />
     <HomeFaq />
-    <HomeFooter />
-  </div>
+  </Home>
 </template>
 <script>
 export default {

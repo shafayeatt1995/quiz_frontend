@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white border-b">
     <header
-      class="flex items-center gap-4 px-4 py-2 justify-between container mx-auto"
+      class="container mx-auto flex items-center gap-4 px-2 py-2 justify-between"
     >
       <NuxtLink :to="{ name: 'index' }">
         <img src="/logo.svg" alt="logo" class="size-10" />

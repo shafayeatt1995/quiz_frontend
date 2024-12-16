@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-12">
+  <div class="container mx-auto py-12 px-2">
     <div class="grid md:grid-cols-6 grid-cols-2 gap-5">
       <div class="col-span-2">
         <img src="/logo.svg" alt="logo" class="size-10" />
@@ -16,8 +16,10 @@
       <div class="md:justify-self-center">
         <h3 class="text-gray-800 font-bold text-lg">Support</h3>
         <div class="mt-4 flex flex-col gap-2">
-          <NuxtLink to="#">Review</NuxtLink>
-          <NuxtLink to="#">Changelog</NuxtLink>
+          <a href="https://feedpack.xyz/board/mrquizer" target="_blank"
+            >Review</a
+          >
+          <NuxtLink :to="{ name: 'change-log' }">Change log</NuxtLink>
           <NuxtLink to="#">Subscription</NuxtLink>
         </div>
       </div>
