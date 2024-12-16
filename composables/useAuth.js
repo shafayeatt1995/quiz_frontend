@@ -33,6 +33,7 @@ export const useAuth = () => {
   const logout = () => {
     removeCookie("sessionToken");
     setUser(null);
+    navigateTo("/");
   };
   const loggedIn = !!authUser.value;
   return {
