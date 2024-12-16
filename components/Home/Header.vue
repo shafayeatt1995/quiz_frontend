@@ -7,7 +7,7 @@
         :to="{ name: 'index' }"
         class="flex items-center gap-2 text-2xl font-bold text-gray-700"
       >
-        <img src="/logo.svg" alt="logo" class="size-10" /> Mr. Quizer
+        <img src="/logo.svg" alt="logo" class="size-10" /> {{ appName }}
       </NuxtLink>
       <nav class="font-medium flex flex-row items-center md:gap-5 gap-3">
         <Sheet class="md:hidden" :open="open" @update:open="open = !open">
@@ -80,6 +80,10 @@ export default {
     };
   },
   computed: {
+    appName() {
+      const { appName } = useUtils();
+      return appName;
+    },
     loggedIn() {
       const { loggedIn } = useAuth();
       return loggedIn;
