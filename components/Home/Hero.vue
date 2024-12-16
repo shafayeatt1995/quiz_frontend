@@ -46,7 +46,7 @@
     <div class="mt-10 flex justify-center">
       <NuxtImg
         src="/images/hero-image.png"
-        alt="hero"
+        alt="How it works"
         class="max-h-80 w-auto"
       />
     </div>

@@ -11,7 +11,11 @@
         :key="i"
         :href="company.url"
         target="_blank"
-        ><NuxtImg :src="company.image" alt="company" class="max-h-20"
+        ><NuxtImg
+          :src="company.image"
+          alt="company"
+          class="max-h-20"
+          fit="contain"
       /></a>
     </div>
   </div>
