@@ -1,11 +1,20 @@
-const animate = require("tailwindcss-animate")
+import animate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   safelist: ["dark"],
   prefix: "",
-  
+  content: [
+    "./components/**/*.{vue,js}",
+    "./composables/**/*.{js,ts}",
+    "./layouts/**/*.vue",
+    "./lib/**/*.{js,ts}",
+    "./middleware/**/*.{js,ts}",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
+  ],
   theme: {
     container: {
       center: true,
@@ -67,10 +76,10 @@ module.exports = {
         },
         "collapsible-down": {
           from: { height: 0 },
-          to: { height: 'var(--radix-collapsible-content-height)' },
+          to: { height: "var(--radix-collapsible-content-height)" },
         },
         "collapsible-up": {
-          from: { height: 'var(--radix-collapsible-content-height)' },
+          from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: 0 },
         },
       },
@@ -83,4 +92,4 @@ module.exports = {
     },
   },
   plugins: [animate],
-}
+};
