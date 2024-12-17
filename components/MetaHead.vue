@@ -18,9 +18,7 @@ export default {
       type: String,
       default() {
         const { appName } = useUtils();
-        return `${
-          appName || ""
-        } - Create Quizzes from Text, YouTube, PDFs, and More using AI in Seconds`;
+        return `${appName || ""} - Create Quizzes using AI in Seconds`;
       },
     },
     description: {

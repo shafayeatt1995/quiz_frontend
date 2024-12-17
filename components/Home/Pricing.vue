@@ -33,7 +33,7 @@
               :key="i"
             >
               <p class="text-xl">{{ price.name }}</p>
-              <h3 class="font-bold text-2xl">
+              <p class="font-bold text-2xl">
                 ${{ yearly ? price.yearlyPrice : price.monthlyPrice }}
                 <span class="text-xs text-gray-500 font-medium"
                   >/{{
@@ -44,7 +44,7 @@
                       : "Month"
                   }}</span
                 >
-              </h3>
+              </p>
               <Button type="button" class="w-full"> Choose Plan </Button>
 
               <p
