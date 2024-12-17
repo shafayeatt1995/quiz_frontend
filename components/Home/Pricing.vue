@@ -4,6 +4,9 @@
       <h2 class="md:text-4xl text-3xl font-bold">
         Straightforward, affordable pricing
       </h2>
+      <p class="text-gray-500 mt-2">
+        No subscriptions, no stress😃. Enjoy with one-time payments😎.
+      </p>
     </div>
     <div class="overflow-x-auto mt-12">
       <table class="w-full border border-collapse min-w-[980px]">
@@ -16,14 +19,11 @@
               >
                 <div class="flex items-center space-x-2">
                   <RadioGroupItem id="monthly" :value="false" />
-                  <label for="monthly" class="text-sm">Pay monthly</label>
+                  <label for="monthly" class="text-sm">Monthly Bundle</label>
                 </div>
                 <div class="flex items-center space-x-2">
                   <RadioGroupItem id="yearly" :value="true" />
-                  <label for="yearly" class="text-sm"
-                    >Pay yearly
-                    <span class="text-xs">(Save 2 months)</span></label
-                  >
+                  <label for="yearly" class="text-sm">Yearly Bundle</label>
                 </div>
               </RadioGroup>
             </th>
@@ -36,7 +36,13 @@
               <h3 class="font-bold text-2xl">
                 ${{ yearly ? price.yearlyPrice : price.monthlyPrice }}
                 <span class="text-xs text-gray-500 font-medium"
-                  >/{{ yearly ? "Year" : "Month" }}</span
+                  >/{{
+                    price.name === "Pay per use"
+                      ? "Per quiz"
+                      : yearly
+                      ? "Year"
+                      : "Month"
+                  }}</span
                 >
               </h3>
               <Button type="button" class="w-full"> Choose Plan </Button>
@@ -45,11 +51,7 @@
                 @click="yearly = !yearly"
                 class="text-xs mt-3 font-normal cursor-pointer hover:underline"
               >
-                {{
-                  yearly
-                    ? "View monthly billing"
-                    : "Save with yearly (2 months free)"
-                }}
+                {{ yearly ? "View monthly bundle" : "Save with yearly bundle" }}
               </p>
             </th>
           </tr>
@@ -57,9 +59,7 @@
 
         <tbody class="border text-sm">
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Quiz Questions per month
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">Quiz per month</td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
@@ -79,15 +79,26 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Character Input Limit
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">Character Limit</td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
               {{ price.cil.toLocaleString() }}
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">Text to Quiz</td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <div class="flex justify-center items-center">
+                <CheckIcon v-if="price.ttq" class="text-green-500" />
+                <XIcon v-else class="text-rose-500" />
+              </div>
             </td>
           </tr>
           <tr>
@@ -130,19 +141,6 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Access Previous Quiz</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.apq" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
             <td class="px-4 py-3 border max-w-[150px]">
               Multi Languages Support
             </td>
@@ -153,6 +151,19 @@
             >
               <div class="flex justify-center items-center">
                 <CheckIcon v-if="price.mls" class="text-green-500" />
+                <XIcon v-else class="text-rose-500" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">Access Previous Quiz</td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <div class="flex justify-center items-center">
+                <CheckIcon v-if="price.apq" class="text-green-500" />
                 <XIcon v-else class="text-rose-500" />
               </div>
             </td>
@@ -175,44 +186,61 @@ export default {
       yearly: false,
       pricing: [
         {
-          name: "Basic Plan",
+          name: "Starter Plan",
           monthlyPrice: 9,
           yearlyPrice: 89,
-          qqm: 30,
-          qpq: 20,
-          cil: 6000,
+          qqm: 50,
+          qpq: 25,
+          cil: 10000,
+          ttq: true,
           utq: true,
           ytq: true,
           ptq: true,
-          apq: true,
-          mls: true,
+          apq: false,
+          mls: false,
         },
         {
-          name: "Pro Plan",
+          name: "Growth Plan",
           monthlyPrice: 19,
           yearlyPrice: 189,
-          qqm: "Unlimited",
+          qqm: 200,
           qpq: 50,
-          cil: 12000,
+          cil: 20000,
+          ttq: true,
           utq: true,
           ytq: true,
           ptq: true,
-          apq: true,
+          apq: false,
           mls: true,
         },
         {
-          name: "Premium Plan",
+          name: "Professional Plan",
           monthlyPrice: 29,
           yearlyPrice: 289,
-          qqm: "Unlimited",
+          qqm: 500,
           qpq: 100,
           cil: 50000,
+          ttq: true,
           utq: true,
           ytq: true,
           ptq: true,
           apq: true,
           mls: true,
         },
+        // {
+        //   name: "Pay per use",
+        //   monthlyPrice: "0.05 - $0.10",
+        //   yearlyPrice: 0.05,
+        //   qqm: "Unlimited (Pay per quiz)",
+        //   qpq: 100,
+        //   cil: 50000,
+        //   ttq: true,
+        //   utq: true,
+        //   ytq: true,
+        //   ptq: true,
+        //   apq: true,
+        //   mls: true,
+        // },
       ],
     };
   },

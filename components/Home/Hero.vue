@@ -44,10 +44,10 @@
       </p>
     </form>
     <div class="mt-10 flex justify-center">
-      <NuxtImg
+      <img
         src="/images/hero-image.png"
         alt="How it works"
-        class="max-h-80 w-auto"
+        class="max-h-60 w-auto"
       />
     </div>
   </div>

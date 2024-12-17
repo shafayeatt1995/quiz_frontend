@@ -6,7 +6,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev -p 8080 --host",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "preview": "PORT=8080 HOST=0.0.0.0 nuxt preview",
     "postinstall": "nuxt prepare",
     "sitemap": "node scripts/sitemap.js"
   },
