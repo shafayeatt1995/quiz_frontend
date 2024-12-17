@@ -27,6 +27,10 @@ export default {
           a: "Each time you enter info and click on the generate button, you will get a set of questions. Each run is called a question set. With the Professional plan, you can run it 500 times a month and 5,000 times a year.",
         },
         {
+          q: "What happens if I can't finish my quizes on time?",
+          a: "If you can't finish your quizes on time, you can buy the same plan again and your existing quizes will be added to the new plan. If you buy a different plan, your existing quizes will be removed.",
+        },
+        {
           q: "How do I access the plan after purchasing?",
           a: "You must first create an account. Once you've created your account and made a one-time payment, we will upgrade your account to the plan. After payment, you can start using the plan immediately.",
         },

@@ -145,6 +145,19 @@
             </td>
           </tr>
           <tr>
+            <td class="px-4 py-3 border max-w-[150px]">Rearrange Questions</td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <div class="flex justify-center items-center">
+                <CheckIcon v-if="price.rqp" class="text-green-500" />
+                <XIcon v-else class="text-rose-500" />
+              </div>
+            </td>
+          </tr>
+          <tr>
             <td class="px-4 py-3 border max-w-[150px]">Online exam</td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
@@ -213,6 +226,7 @@ export default {
           utq: true,
           ytq: true,
           ptq: true,
+          rqp: true,
           oe: true,
           apq: false,
           mls: false,
@@ -228,6 +242,7 @@ export default {
           utq: true,
           ytq: true,
           ptq: true,
+          rqp: true,
           oe: true,
           apq: false,
           mls: true,
@@ -243,6 +258,7 @@ export default {
           utq: true,
           ytq: true,
           ptq: true,
+          rqp: true,
           oe: true,
           apq: true,
           mls: true,
