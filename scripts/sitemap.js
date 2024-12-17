@@ -9,7 +9,6 @@ const generateSitemap = async () => {
     "/about",
     "/change-log",
     "/privacy-policy",
-    "/refund-policy",
     "/terms",
   ];
   let dynamicRoutes = [];

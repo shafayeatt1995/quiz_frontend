@@ -59,13 +59,17 @@
 
         <tbody class="border text-sm">
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Quiz per month</td>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Quiz per {{ yearly ? "12 months" : "month" }}
+            </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
-              {{ price.qqm }}
+              <p class="flex items-center justify-center">
+                {{ yearly ? price.qqm * 10 : price.qqm }}
+              </p>
             </td>
           </tr>
           <tr>
@@ -141,6 +145,19 @@
             </td>
           </tr>
           <tr>
+            <td class="px-4 py-3 border max-w-[150px]">Online exam</td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <div class="flex justify-center items-center">
+                <CheckIcon v-if="price.oe" class="text-green-500" />
+                <XIcon v-else class="text-rose-500" />
+              </div>
+            </td>
+          </tr>
+          <tr>
             <td class="px-4 py-3 border max-w-[150px]">
               Multi Languages Support
             </td>
@@ -196,6 +213,7 @@ export default {
           utq: true,
           ytq: true,
           ptq: true,
+          oe: true,
           apq: false,
           mls: false,
         },
@@ -210,6 +228,7 @@ export default {
           utq: true,
           ytq: true,
           ptq: true,
+          oe: true,
           apq: false,
           mls: true,
         },
@@ -224,6 +243,7 @@ export default {
           utq: true,
           ytq: true,
           ptq: true,
+          oe: true,
           apq: true,
           mls: true,
         },

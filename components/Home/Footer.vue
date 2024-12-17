@@ -24,7 +24,6 @@
             <NuxtLink :to="{ name: 'change-log' }">Change log</NuxtLink>
             <NuxtLink :to="{ name: 'terms' }">Terms & condition</NuxtLink>
             <NuxtLink :to="{ name: 'privacy-policy' }">Privacy Policy</NuxtLink>
-            <NuxtLink :to="{ name: 'refund-policy' }">Refund Policy</NuxtLink>
           </div>
         </div>
         <div class="justify-self-center">
