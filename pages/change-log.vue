@@ -1,4 +1,5 @@
 <template>
+  <MetaHead title="Change log" description="This is change log page" />
   <Home>
     <div class="max-w-2xl mx-auto py-12 px-2">
       <h1 class="md:text-4xl text-3xl font-bold">

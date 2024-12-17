@@ -1,4 +1,8 @@
 <template>
+  <MetaHead
+    title="Terms and Conditions"
+    description="This is terms and conditions page"
+  />
   <Home>
     <div class="max-w-2xl mx-auto py-12 px-2">
       <Button @click="$router.go(-1)"><Undo2Icon />Back</Button>

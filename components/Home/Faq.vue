@@ -59,6 +59,7 @@ export default {
           a: "No, the amount paid for the plan is non-refundable.",
         },
       ],
+      collapsible: false,
     };
   },
 };

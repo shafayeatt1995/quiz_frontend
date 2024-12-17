@@ -1,4 +1,5 @@
 <template>
+  <MetaHead title="Social login" description="This is social login page" />
   <div class="container mx-auto h-screen">
     <div class="flex flex-col justify-center items-center h-full">
       <div ref="loading" class="max-h-80"></div>

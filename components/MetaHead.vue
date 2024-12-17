@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <Title>{{ title }}</Title>
+    <Title>{{ title }} - {{ appName }}</Title>
     <Meta name="description" :content="description" />
     <Meta property="og:title" :content="title" />
     <Meta property="og:description" :content="description" />
@@ -16,14 +16,16 @@ export default {
   props: {
     title: {
       type: String,
-      default() {
-        const { appName } = useUtils();
-        return `${appName || ""} - Create Quizzes using AI in Seconds`;
-      },
+      default: "Create Quizzes using AI in Seconds",
     },
     description: {
       type: String,
       default: `Generate quizzes instantly from text, YouTube videos, PDFs, and more using AI. The process of creating quizzes has never been easier. Save time and effort with automated content generation for quick, accurate results.`,
+    },
+  },
+  computed: {
+    appName() {
+      return useUtils().appName;
     },
   },
 };

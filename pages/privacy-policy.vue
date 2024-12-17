@@ -1,4 +1,5 @@
 <template>
+  <MetaHead title="Privacy Policy" description="This is privacy policy page" />
   <Home>
     <div class="max-w-2xl mx-auto py-12 px-2">
       <Button @click="$router.go(-1)"><Undo2Icon />Back</Button>

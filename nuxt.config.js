@@ -34,12 +34,7 @@ export default defineNuxtConfig({
         { name: "robots", content: `max-image-preview:large` },
       ],
       link: [
-        {
-          rel: "icon",
-          type: "image/x-icon",
-          href: "/favicon.ico",
-          sizes: "any",
-        },
+        { rel: "icon", type: "image/x-icon", href: "/images/favicon.ico" },
       ],
       script: [
         {

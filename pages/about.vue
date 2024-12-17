@@ -1,4 +1,5 @@
 <template>
+  <MetaHead title="About us" description="This is about us page" />
   <Home>
     <div class="max-w-2xl mx-auto py-12 px-2">
       <Button @click="$router.go(-1)"><Undo2Icon />Back</Button>
@@ -20,10 +21,11 @@
 
 <script>
 import { Undo2Icon } from "lucide-vue-next";
+import MetaHead from "@/components/MetaHead.vue";
 
 export default {
   name: "terms",
-  components: { Undo2Icon },
+  components: { Undo2Icon, MetaHead },
   data() {
     return {
       contents: [
