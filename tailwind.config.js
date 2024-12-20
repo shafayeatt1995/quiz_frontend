@@ -89,6 +89,9 @@ export default {
         "collapsible-down": "collapsible-down 0.2s ease-in-out",
         "collapsible-up": "collapsible-up 0.2s ease-in-out",
       },
+      backgroundImage: {
+        "custom-gradient": "linear-gradient(to bottom right, #9b8eff, #4b56f9)",
+      },
     },
   },
   plugins: [animate],

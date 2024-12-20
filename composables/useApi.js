@@ -2,6 +2,7 @@ export const useApi = () => {
   const { cookieParse } = useUtils();
   const config = useRuntimeConfig();
   const API_URL = config.public.API_URL;
+  const AP2I_URL = config.public.AP2I_URL;
 
   const api = {
     async request(
@@ -9,7 +10,8 @@ export const useApi = () => {
       url,
       jsonBody = null,
       formData = null,
-      params = null
+      params = null,
+      api2 = false
     ) {
       let token = null;
       if (typeof window === "undefined") {
@@ -38,7 +40,7 @@ export const useApi = () => {
       };
 
       const query = params ? `?${new URLSearchParams(params)}` : "";
-      return $fetch(API_URL + url + query, options);
+      return $fetch((api2 ? AP2I_URL : API_URL) + url + query, options);
     },
 
     get(url, params) {
@@ -55,6 +57,22 @@ export const useApi = () => {
 
     delete(url, params) {
       return this.request("DELETE", url, null, null, params);
+    },
+
+    get2(url, params) {
+      return this.request("GET", url, null, null, params, true);
+    },
+
+    post2(url, jsonBody = null, formData = null) {
+      return this.request("POST", url, jsonBody, formData, null, true);
+    },
+
+    put2(url, jsonBody = null, formData = null) {
+      return this.request("PUT", url, jsonBody, formData, null, true);
+    },
+
+    delete2(url, params) {
+      return this.request("DELETE", url, null, null, params, true);
     },
   };
   return { api };

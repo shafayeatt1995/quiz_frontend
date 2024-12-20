@@ -95,7 +95,6 @@ export default {
   },
   watch: {
     $route(to, from) {
-      console.log(to, form);
       if (to.hash !== from.hash) {
         this.open = false;
       }

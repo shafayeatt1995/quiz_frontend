@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       APP_NAME: process.env.APP_NAME,
       BASE_URL: process.env.BASE_URL,
       API_URL: process.env.API_URL,
+      AP2I_URL: process.env.AP2I_URL,
     },
   },
   app: {
@@ -36,24 +37,27 @@ export default defineNuxtConfig({
       link: [
         { rel: "icon", type: "image/x-icon", href: "/images/favicon.ico" },
       ],
-      script: [
-        {
-          type: "text/javascript",
-          src: `/js/gtag.js`,
-          head: true,
-          defer: true,
-        },
-        {
-          src: `https://www.googletagmanager.com/gtag/js?id=G-GFEZLZRP5Y`,
-          defer: true,
-          async: true,
-        },
-        {
-          type: "text/javascript",
-          src: `/js/gana.js`,
-          defer: true,
-        },
-      ],
+      script:
+        process.env.DEV === "true"
+          ? []
+          : [
+              {
+                type: "text/javascript",
+                src: `/js/gtag.js`,
+                head: true,
+                defer: true,
+              },
+              {
+                src: `https://www.googletagmanager.com/gtag/js?id=G-GFEZLZRP5Y`,
+                defer: true,
+                async: true,
+              },
+              {
+                type: "text/javascript",
+                src: `/js/gana.js`,
+                defer: true,
+              },
+            ],
       noscript: [
         {
           innerHTML: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XK8KVP5" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,

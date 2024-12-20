@@ -5,10 +5,13 @@
     <div class="hidden border-r bg-muted/40 md:block">
       <div class="flex h-full max-h-screen flex-col gap-2">
         <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-          <a href="/" class="flex items-center gap-2 font-bold text-xl">
+          <NuxtLink
+            :to="{ name: 'dashboard' }"
+            class="flex items-center gap-2 font-bold text-xl"
+          >
             <img src="/logo.svg" alt="logo" class="size-8" loading="lazy" />
             Mr. Quizer
-          </a>
+          </NuxtLink>
         </div>
         <div class="flex-1">
           <nav class="grid items-start px-2 text-sm font-medium lg:px-4">
@@ -25,7 +28,13 @@
               </CardDescription>
             </CardHeader>
             <CardContent class="p-2 pt-0 md:p-4 md:pt-0">
-              <Button size="sm" class="w-full"> Upgrade </Button>
+              <Button
+                size="sm"
+                class="w-full"
+                @click="$router.push({ name: 'index', hash: '#pricing' })"
+              >
+                Upgrade
+              </Button>
             </CardContent>
           </Card>
         </div>
@@ -105,7 +114,7 @@
           </DropdownMenu>
         </div>
       </header>
-      <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-gray-100">
+      <main class="flex flex-1 flex-col gap-4 p-2 lg:p-4">
         <slot />
       </main>
     </div>
@@ -118,6 +127,9 @@ import { LayoutDashboardIcon, MenuIcon, LogOutIcon } from "lucide-vue-next";
 export default {
   name: "DashboardComponent",
   components: { MenuIcon, LayoutDashboardIcon, LogOutIcon },
+  data() {
+    return { interval: null };
+  },
   computed: {
     loggedIn() {
       const { loggedIn } = useAuth();
@@ -128,10 +140,27 @@ export default {
       return authUser.value;
     },
   },
+  mounted() {
+    this.trigger();
+    this.interval = setInterval(() => {
+      this.trigger();
+    }, 12 * 60 * 1000);
+  },
+  unmounted() {
+    clearInterval(this.interval);
+  },
   methods: {
-    logout() {
-      const { logout } = useAuth();
-      logout();
+    async trigger() {
+      try {
+        const { api } = useApi();
+        await api.get2("/");
+      } catch (error) {}
+    },
+    async logout() {
+      try {
+        const { logout } = useAuth();
+        await logout();
+      } catch (error) {}
     },
   },
 };

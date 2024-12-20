@@ -1,5 +1,5 @@
 <template>
-  <div style="background-image: url('/images/bg.svg')">
+  <div>
     <HomeHeader />
     <slot />
     <HomeFooter />

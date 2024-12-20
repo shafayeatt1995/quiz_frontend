@@ -60,7 +60,7 @@
         <tbody class="border text-sm">
           <tr>
             <td class="px-4 py-3 border max-w-[150px]">
-              Quiz per {{ yearly ? "12 months" : "month" }}
+              Quiz in {{ yearly ? "12 months" : "month" }}
             </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"

@@ -18,6 +18,7 @@ import {
   ShoppingCartIcon,
   LayoutDashboardIcon,
   NotebookTextIcon,
+  MessageCircleQuestionIcon,
 } from "lucide-vue-next";
 
 export default {
@@ -38,6 +39,11 @@ export default {
           icon: LayoutDashboardIcon,
         },
         {
+          label: "Quiz",
+          to: { name: "dashboard-quiz" },
+          icon: MessageCircleQuestionIcon,
+        },
+        {
           label: "User manual",
           to: { name: "index" },
           icon: NotebookTextIcon,
@@ -50,6 +56,6 @@ export default {
 
 <style scoped>
 .sidebar-menu.router-link-exact-active {
-  @apply bg-gray-100;
+  @apply bg-custom-gradient text-white;
 }
 </style>
