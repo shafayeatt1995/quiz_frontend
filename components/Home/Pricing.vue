@@ -45,7 +45,9 @@
                   }}</span
                 >
               </p>
-              <Button type="button" class="w-full"> Choose Plan </Button>
+              <Button type="button" class="w-full" @click="openUrl(i)">
+                Choose Plan
+              </Button>
 
               <p
                 @click="yearly = !yearly"
@@ -68,7 +70,7 @@
               :key="i"
             >
               <p class="flex items-center justify-center">
-                {{ yearly ? price.qqm * 10 : price.qqm }}
+                {{ yearly ? price.qqmYear : price.qqm }}
               </p>
             </td>
           </tr>
@@ -83,7 +85,9 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Character Limit</td>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Input character Limit
+            </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
@@ -145,19 +149,6 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Rearrange Questions</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.rqp" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
             <td class="px-4 py-3 border max-w-[150px]">Online exam</td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
@@ -166,6 +157,19 @@
             >
               <div class="flex justify-center items-center">
                 <CheckIcon v-if="price.oe" class="text-green-500" />
+                <XIcon v-else class="text-rose-500" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">Rearrange Questions</td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <div class="flex justify-center items-center">
+                <CheckIcon v-if="price.rqp" class="text-green-500" />
                 <XIcon v-else class="text-rose-500" />
               </div>
             </td>
@@ -207,21 +211,33 @@
 <script>
 import RadioGroup from "@/components/ui/radio-group/RadioGroup.vue";
 import RadioGroupItem from "@/components/ui/radio-group/RadioGroupItem.vue";
+import eventBus from "@/lib/eventBus";
 import { CheckIcon, XIcon } from "lucide-vue-next";
+import { initializePaddle } from "@paddle/paddle-js";
+
 export default {
   name: "HomePricing",
   components: { RadioGroup, RadioGroupItem, CheckIcon, XIcon },
   data() {
     return {
+      click: true,
+      loading: false,
       yearly: false,
       pricing: [
         {
           name: "Starter Plan",
           monthlyPrice: 9,
           yearlyPrice: 89,
+          paddle: {
+            monthlyName: "starter_monthly",
+            yearlyName: "starter_yearly",
+            monthly: "pri_01jfjxq5n6bxeddz7s54f64trs",
+            yearly: "pri_01jfjxszwcggm9bcan4jzv55y9",
+          },
           qqm: 50,
+          qqmYear: 500,
           qpq: 25,
-          cil: 10000,
+          cil: 5000,
           ttq: true,
           utq: true,
           ytq: true,
@@ -235,9 +251,16 @@ export default {
           name: "Growth Plan",
           monthlyPrice: 19,
           yearlyPrice: 189,
+          paddle: {
+            monthlyName: "growth_monthly",
+            yearlyName: "growth_yearly",
+            monthly: "pri_01jfjxyfnjrkgjexstgnm4zjx4",
+            yearly: "pri_01jfjy17tpf4d3z7ahjk0vjxtg",
+          },
           qqm: 200,
+          qqmYear: 2000,
           qpq: 50,
-          cil: 20000,
+          cil: 10000,
           ttq: true,
           utq: true,
           ytq: true,
@@ -251,9 +274,16 @@ export default {
           name: "Professional Plan",
           monthlyPrice: 29,
           yearlyPrice: 289,
+          paddle: {
+            monthlyName: "professional_monthly",
+            yearlyName: "professional_yearly",
+            monthly: "pri_01jfjy3m34kw4m7be10d2ynwx5",
+            yearly: "pri_01jfjy4y2z790pjdehvvdn1tfm",
+          },
           qqm: 500,
+          qqmYear: 5000,
           qpq: 100,
-          cil: 50000,
+          cil: 25000,
           ttq: true,
           utq: true,
           ytq: true,
@@ -263,22 +293,90 @@ export default {
           apq: true,
           mls: true,
         },
-        // {
-        //   name: "Pay per use",
-        //   monthlyPrice: "0.05 - $0.10",
-        //   yearlyPrice: 0.05,
-        //   qqm: "Unlimited (Pay per quiz)",
-        //   qpq: 100,
-        //   cil: 50000,
-        //   ttq: true,
-        //   utq: true,
-        //   ytq: true,
-        //   ptq: true,
-        //   apq: true,
-        //   mls: true,
-        // },
+        {
+          name: "Free trial",
+          monthlyPrice: 0,
+          yearlyPrice: 0,
+          qqm: "Total 3",
+          qqmYear: "Total 3",
+          qpq: 25,
+          cil: 100,
+          ttq: true,
+          utq: true,
+          ytq: true,
+          ptq: true,
+          apq: true,
+          oe: true,
+          rqp: true,
+          mls: true,
+        },
       ],
+      paddle: null,
     };
+  },
+  mounted() {
+    const { PADDLE_ENVIRONMENT, PADDLE_TOKEN } = useRuntimeConfig().public;
+    initializePaddle({
+      environment: PADDLE_ENVIRONMENT,
+      token: PADDLE_TOKEN,
+    }).then((paddleInstance) => {
+      if (paddleInstance) this.paddle = paddleInstance;
+    });
+  },
+  methods: {
+    async openUrl(i) {
+      if (this.click) {
+        try {
+          this.click = false;
+          this.loading = i;
+          const { authUser } = useAuth();
+          if (authUser.value) {
+            const pack = this.pricing[i];
+            if (pack.name === "Free trial") {
+              this.$router.push({ name: "dashboard" });
+            } else {
+              const { BASE_URL } = useRuntimeConfig().public;
+              const { monthly, yearly, monthlyName, yearlyName } = pack.paddle;
+              const priceId = this.yearly ? yearly : monthly;
+
+              this.paddle.Checkout.open({
+                settings: {
+                  allowedPaymentMethods: [
+                    "alipay",
+                    "apple_pay",
+                    "bancontact",
+                    "card",
+                    "google_pay",
+                    "ideal",
+                    "paypal",
+                    "saved_payment_methods",
+                  ],
+                  displayMode: "overlay",
+                  successUrl: `${BASE_URL}/payment/success`,
+                  variant: "one-page",
+                },
+                items: [{ quantity: 1, priceId }],
+                customer: { email: authUser.value.email },
+                customData: {
+                  userID: authUser.value._id,
+                  package: this.yearly ? yearlyName : monthlyName,
+                  period: this.yearly ? "yearly" : "monthly",
+                },
+              });
+            }
+          } else {
+            eventBus.emit("loginModal");
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.click = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 5000);
+        }
+      }
+    },
   },
 };
 </script>

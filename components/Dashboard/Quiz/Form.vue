@@ -377,7 +377,6 @@ export default {
             const data = await api.post2("/dashboard/generate-quiz", {
               text: this.raw,
             });
-            console.log(data);
           }
         } else if (this.inputType === "Blog URL / Content url") {
           if (this.isValidURL) {

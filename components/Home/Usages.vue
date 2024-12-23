@@ -30,7 +30,7 @@ import {
   FileTextIcon,
   ImageIcon,
   Link2Icon,
-  MessagesSquareIcon,
+  ScrollTextIcon,
   TypeOutlineIcon,
   YoutubeIcon,
 } from "lucide-vue-next";
@@ -47,19 +47,13 @@ export default {
             "Easily generate a quiz from any text you provide. Upload or paste your text, and watch it transform into engaging questions. Ideal for testing comprehension and knowledge quickly.",
         },
         {
-          icon: MessagesSquareIcon,
-          title: "Topic to Quiz",
+          icon: FileTextIcon,
+          title: "Document to Quiz",
           description:
             "Create an insightful quiz on any topic of your choice. Input a subject or idea, and get relevant, structured questions. Perfect for learning and teaching purposes.",
         },
         {
-          icon: Link2Icon,
-          title: "URL to Quiz",
-          description:
-            "Turn any webpage into an interactive quiz effortlessly. Provide the URL, and extract meaningful questions from the content. Great for enhancing reading comprehension.",
-        },
-        {
-          icon: FileTextIcon,
+          icon: ScrollTextIcon,
           title: "PDF to Quiz",
           description:
             "Upload a PDF document to generate a customized quiz based on its content. Extract key points and test understanding effectively. Ideal for academic or professional use.",
@@ -69,6 +63,12 @@ export default {
           title: "Image to Quiz",
           description:
             "Convert visual content into thought-provoking quizzes. Upload an image with text, and transform it into questions. A creative way to learn and teach visually.",
+        },
+        {
+          icon: Link2Icon,
+          title: "URL to Quiz",
+          description:
+            "Turn any webpage into an interactive quiz effortlessly. Provide the URL, and extract meaningful questions from the content. Great for enhancing reading comprehension.",
         },
         {
           icon: YoutubeIcon,

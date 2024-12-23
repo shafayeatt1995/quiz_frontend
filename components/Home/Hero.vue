@@ -12,7 +12,7 @@
 
     <form class="max-w-2xl mx-auto mt-10">
       <label for="characters" class="text-gray-600 text-sm"
-        >Character count: 0/ 2500</label
+        >Character count: 0/25000</label
       >
       <textarea
         id="characters"

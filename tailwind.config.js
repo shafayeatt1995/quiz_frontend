@@ -24,6 +24,9 @@ export default {
       },
     },
     extend: {
+      transitionDuration: {
+        15000: "15000ms",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -36,11 +36,19 @@ export const useAuth = () => {
     navigateTo("/");
   };
   const loggedIn = !!authUser.value;
+  const refreshToken = async () => {
+    try {
+      const data = await api.get("/user/refresh-token");
+      setUser(data.user);
+      setCookie("sessionToken", data.token, { expires: 7 });
+    } catch (err) {}
+  };
   return {
     login,
     userLoggedIn,
     logout,
     authUser,
     loggedIn,
+    refreshToken,
   };
 };

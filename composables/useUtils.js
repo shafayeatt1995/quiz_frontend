@@ -47,7 +47,7 @@ export const useUtils = () => {
       return value ? atob(value) : "";
     },
 
-    async initLottie(container, path) {
+    async initLottie(container, path, loop = true) {
       if (typeof window === "undefined") return;
 
       if (
@@ -76,7 +76,7 @@ export const useUtils = () => {
       window.lottie.loadAnimation({
         container: container,
         renderer: "canvas",
-        loop: true,
+        loop,
         autoplay: true,
         path: path,
       });
@@ -138,6 +138,20 @@ export const useUtils = () => {
       }).format(new Date(date));
     },
 
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    processDate(date = new Date()) {
+      const d = new Date(date);
+      return {
+        utc: d.toISOString(),
+        local: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+          2,
+          "0"
+        )}-${String(d.getDate()).padStart(2, "0")}T${String(
+          d.getHours()
+        ).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(
+          d.getSeconds()
+        ).padStart(2, "0")}`,
+        isActive: d > new Date(),
+      };
+    },
   };
 };
