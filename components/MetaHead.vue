@@ -12,15 +12,15 @@
 
 <script>
 export default {
-  name: "PageHeader",
+  name: "MetaHead",
   props: {
     title: {
       type: String,
-      default: "Create Quizzes using AI in Seconds",
+      default: "Mr. Quizer: AI Quiz Generator",
     },
     description: {
       type: String,
-      default: `Generate quizzes instantly from text, YouTube videos, PDFs, and more using AI. The process of creating quizzes has never been easier. Save time and effort with automated content generation for quick, accurate results.`,
+      default: `Mr. Quizer is an AI-powered platform designed to generate quizzes dynamically based on user preferences and input. User can generate quizzes instantly from text, YouTube videos, PDFs, and more using AI. This platform aims to make learning and assessment engaging, interactive, and adaptive by leveraging state-of-theart AI technologies.`,
     },
   },
   computed: {

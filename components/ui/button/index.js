@@ -26,7 +26,7 @@ export const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "indigo",
+      variant: "default",
       size: "default",
     },
   }

@@ -2,7 +2,7 @@
   <MetaHead />
   <Home>
     <HomeHero />
-    <HomeCompanies />
+    <!-- <HomeCompanies /> -->
     <HomeUsages />
     <HomeProfessional />
     <HomePricing />

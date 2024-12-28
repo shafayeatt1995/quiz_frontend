@@ -45,7 +45,14 @@
                   }}</span
                 >
               </p>
-              <Button type="button" class="w-full" @click="openUrl(i)">
+              <Button
+                type="button"
+                class="w-full"
+                @click="openUrl(i)"
+                :disabled="loading === i"
+              >
+                <Loader2Icon class="animate-spin" v-if="loading === i" />
+
                 Choose Plan
               </Button>
 
@@ -62,26 +69,19 @@
         <tbody class="border text-sm">
           <tr>
             <td class="px-4 py-3 border max-w-[150px]">
-              Quiz in {{ yearly ? "12 months" : "month" }}
+              Generate quiz questions
             </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
-              <p class="flex items-center justify-center">
-                {{ yearly ? price.qqmYear : price.qqm }}
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Questions per Quiz</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              Up to {{ price.qpq }}
+              Up to
+              {{
+                yearly
+                  ? price.gqqYear.toLocaleString()
+                  : price.gqq.toLocaleString()
+              }}
             </td>
           </tr>
           <tr>
@@ -93,7 +93,50 @@
               v-for="(price, i) in pricing"
               :key="i"
             >
-              {{ price.cil.toLocaleString() }}
+              {{ price.icl.toLocaleString() }}
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Online exam in {{ yearly ? "12 months" : "month" }}
+            </td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <p class="flex items-center justify-center">
+                {{ yearly ? price.oemYear : price.oem }}
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Online exam Student limit
+            </td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <p class="flex items-center justify-center">
+                {{ price.sl }}
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Download quiz question
+            </td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <div class="flex justify-center items-center">
+                <CheckIcon v-if="price.dqq" class="text-green-500" />
+                <XIcon v-else class="text-rose-500" />
+              </div>
             </td>
           </tr>
           <tr>
@@ -149,32 +192,6 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Online exam</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.oe" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Rearrange Questions</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.rqp" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
             <td class="px-4 py-3 border max-w-[150px]">
               Multi Languages Support
             </td>
@@ -212,107 +229,26 @@
 import RadioGroup from "@/components/ui/radio-group/RadioGroup.vue";
 import RadioGroupItem from "@/components/ui/radio-group/RadioGroupItem.vue";
 import eventBus from "@/lib/eventBus";
-import { CheckIcon, XIcon } from "lucide-vue-next";
+import { CheckIcon, Loader2Icon, XIcon } from "lucide-vue-next";
 import { initializePaddle } from "@paddle/paddle-js";
+import { useLimit } from "@/composables/useLimit";
 
 export default {
   name: "HomePricing",
-  components: { RadioGroup, RadioGroupItem, CheckIcon, XIcon },
+  components: { RadioGroup, RadioGroupItem, CheckIcon, XIcon, Loader2Icon },
   data() {
     return {
       click: true,
-      loading: false,
+      loading: null,
       yearly: false,
-      pricing: [
-        {
-          name: "Starter Plan",
-          monthlyPrice: 9,
-          yearlyPrice: 89,
-          paddle: {
-            monthlyName: "starter_monthly",
-            yearlyName: "starter_yearly",
-            monthly: "pri_01jfjxq5n6bxeddz7s54f64trs",
-            yearly: "pri_01jfjxszwcggm9bcan4jzv55y9",
-          },
-          qqm: 50,
-          qqmYear: 500,
-          qpq: 25,
-          cil: 5000,
-          ttq: true,
-          utq: true,
-          ytq: true,
-          ptq: true,
-          rqp: true,
-          oe: true,
-          apq: false,
-          mls: false,
-        },
-        {
-          name: "Growth Plan",
-          monthlyPrice: 19,
-          yearlyPrice: 189,
-          paddle: {
-            monthlyName: "growth_monthly",
-            yearlyName: "growth_yearly",
-            monthly: "pri_01jfjxyfnjrkgjexstgnm4zjx4",
-            yearly: "pri_01jfjy17tpf4d3z7ahjk0vjxtg",
-          },
-          qqm: 200,
-          qqmYear: 2000,
-          qpq: 50,
-          cil: 10000,
-          ttq: true,
-          utq: true,
-          ytq: true,
-          ptq: true,
-          rqp: true,
-          oe: true,
-          apq: false,
-          mls: true,
-        },
-        {
-          name: "Professional Plan",
-          monthlyPrice: 29,
-          yearlyPrice: 289,
-          paddle: {
-            monthlyName: "professional_monthly",
-            yearlyName: "professional_yearly",
-            monthly: "pri_01jfjy3m34kw4m7be10d2ynwx5",
-            yearly: "pri_01jfjy4y2z790pjdehvvdn1tfm",
-          },
-          qqm: 500,
-          qqmYear: 5000,
-          qpq: 100,
-          cil: 25000,
-          ttq: true,
-          utq: true,
-          ytq: true,
-          ptq: true,
-          rqp: true,
-          oe: true,
-          apq: true,
-          mls: true,
-        },
-        {
-          name: "Free trial",
-          monthlyPrice: 0,
-          yearlyPrice: 0,
-          qqm: "Total 3",
-          qqmYear: "Total 3",
-          qpq: 25,
-          cil: 100,
-          ttq: true,
-          utq: true,
-          ytq: true,
-          ptq: true,
-          apq: true,
-          oe: true,
-          rqp: true,
-          mls: true,
-        },
-      ],
       paddle: null,
     };
+  },
+  computed: {
+    pricing() {
+      const data = useLimit();
+      return Object.values(data).filter((val) => typeof val === "object");
+    },
   },
   mounted() {
     const { PADDLE_ENVIRONMENT, PADDLE_TOKEN } = useRuntimeConfig().public;
@@ -372,7 +308,7 @@ export default {
         } finally {
           this.click = true;
           setTimeout(() => {
-            this.loading = false;
+            this.loading = null;
           }, 5000);
         }
       }

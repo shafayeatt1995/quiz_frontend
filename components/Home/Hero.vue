@@ -1,8 +1,6 @@
 <template>
   <div class="container mx-auto py-12 px-2">
-    <h1
-      class="md:text-7xl text-4xl font-bold text-center bg-clip-text bg-gradient fill-transparent text-transparent max-w-3xl mx-auto"
-    >
+    <h1 class="md:text-7xl text-4xl font-bold text-center max-w-3xl mx-auto">
       Create Quiz with AI from any text
     </h1>
     <p class="text-center md:text-base text-sm px-10">
@@ -12,7 +10,7 @@
 
     <form class="max-w-2xl mx-auto mt-10">
       <label for="characters" class="text-gray-600 text-sm"
-        >Character count: 0/25000</label
+        >Character count: 0/20000</label
       >
       <textarea
         id="characters"

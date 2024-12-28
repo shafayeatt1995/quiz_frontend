@@ -11,7 +11,7 @@
       >
         <div class="flex gap-3 items-center">
           <div
-            class="size-12 rounded-full bg-gradient flex items-center justify-center"
+            class="size-12 rounded-full bg-gray-700 flex items-center justify-center"
           >
             <Component :is="option.icon" class="text-white" />
           </div>

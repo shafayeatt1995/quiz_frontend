@@ -2,22 +2,34 @@
   <div>
     <div class="flex justify-end">
       <Button class="w-full md:w-auto" @click="modal = true"
-        ><PlusIcon /> Create new quiz</Button
+        ><PlusIcon /> Create new question</Button
       >
     </div>
     <Sheet @update:open="modal = false" :open="modal">
-      <SheetContent side="right" class="w-full md:max-w-[500px]">
+      <SheetContent
+        side="right"
+        class="w-full md:max-w-[550px] overflow-y-auto"
+      >
         <SheetHeader>
-          <SheetTitle>Create new quiz</SheetTitle>
+          <SheetTitle>Create new question</SheetTitle>
         </SheetHeader>
         <div class="space-y-2">
+          <div class="flex-1">
+            <Label for="difficulty">Question Name</Label>
+            <Input
+              type="text"
+              v-model="form.name"
+              placeholder="Enter question Name"
+            />
+            <ErrorMesage :error="errors" name="name" />
+          </div>
           <div class="flex flex-col md:flex-row gap-4">
             <div class="flex-1">
               <Label for="difficulty">Difficulty level</Label>
               <Select
                 id="difficulty"
-                :modelValue="difficulty"
-                @update:modelValue="difficulty = $event"
+                :modelValue="form.difficulty"
+                @update:modelValue="form.difficulty = $event"
               >
                 <SelectTrigger class="w-full">
                   <SelectValue placeholder="Select difficulty level" />
@@ -36,20 +48,20 @@
               </Select>
             </div>
             <div class="flex-1">
-              <Label for="quizType">Quiz type</Label>
+              <Label for="questionType">Question type</Label>
               <Select
-                id="quizType"
-                :modelValue="quizType"
-                @update:modelValue="quizType = $event"
+                id="questionType"
+                :modelValue="form.questionType"
+                @update:modelValue="form.questionType = $event"
               >
                 <SelectTrigger class="w-full">
-                  <SelectValue placeholder="Select quiz type" />
+                  <SelectValue placeholder="Select question type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectItem
                       :value="type"
-                      v-for="(type, i) in quizTypes"
+                      v-for="(type, i) in questionTypes"
                       :key="i"
                     >
                       {{ type }}
@@ -61,7 +73,8 @@
           </div>
           <div class="flex flex-col md:flex-row gap-4">
             <div class="flex-1">
-              <Label for="language">Quiz language</Label>
+              <!-- 
+              <Label for="language">question language</Label>
               <Popover v-model:open="open">
                 <PopoverTrigger as-child>
                   <Button
@@ -71,10 +84,7 @@
                     class="w-full flex justify-between h-10"
                   >
                     {{ languages.find((lang) => lang === language) }}
-
-                    <ChevronsUpDownIcon
-                      class="ml-2 h-4 w-4 shrink-0 opacity-50"
-                    />
+                    <ChevronDownIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent class="w-full p-0">
@@ -104,6 +114,27 @@
                   </Command>
                 </PopoverContent>
               </Popover>
+              -->
+              <Label for="questionCount"
+                >Question count
+                <span class="text-xs">
+                  ({{ authUser.questionCount.toLocaleString() }} left)
+                </span>
+              </Label>
+              <NumberField
+                id="questionCount"
+                :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
+                :min="25"
+                :modelValue="form.questionCount"
+                @update:modelValue="form.questionCount = $event"
+              >
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+              <ErrorMesage :error="errors" name="questionCount" />
             </div>
             <div class="flex-1">
               <Label for="inputType">Select input type</Label>
@@ -132,28 +163,29 @@
           <div>
             <Label
               for="characters"
-              :class="raw.length > 10000 ? 'text-red-500' : ''"
-              >Character count: {{ raw.length }}/{{
-                isFreeUser ? 0 : 10000
-              }}</Label
+              :class="form.prompt.length > countLimit ? 'text-red-500' : ''"
+              >Topic or Prompt: {{ form.prompt.length }}/{{ countLimit }}</Label
             >
             <label
               class="border-2 border-dashed rounded-md px-2 py-1 flex flex-col justify-center items-center gap-2 text-gray-600 bg-white cursor-pointer h-80 font-semibold"
               for="file-upload"
               v-if="inputType === 'PDF / Document / TXT / Image'"
             >
-              <LockKeyholeIcon v-if="isFreeUser" :size="100" />
-              <FileUpIcon v-else :size="100" /> Upload file
+              <FileUpIcon v-if="countExpire > 0" :size="100" />
+              <LockKeyholeIcon v-else :size="100" />
+              Upload file
             </label>
             <textarea
               v-else-if="inputType === 'Text / Topic'"
               id="characters"
               class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
+              :class="form.prompt.length > countLimit ? 'border-red-500' : ''"
               rows="12"
-              placeholder="Enter Topic, Youtube URL, PDF, or Text to get a Quiz Docx in seconds. use the bulb for suggestions."
-              v-model="raw"
+              placeholder="Enter Topic, Youtube URL, PDF, or Text to get a question Docx in seconds. use the bulb for suggestions."
+              v-model="form.prompt"
             ></textarea>
-            <Input v-else v-model="raw" placeholder="Enter the url" />
+            <Input v-else v-model="form.prompt" placeholder="Enter the url" />
+            <ErrorMesage :error="errors" name="prompt" />
 
             <div v-if="pdfLoading">
               <p>Processing pdf page {{ pdfProcessing }}/{{ pdfPage }}</p>
@@ -171,8 +203,8 @@
                 class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
                 for="file-upload"
               >
-                <LockKeyholeIcon v-if="isFreeUser" />
-                <FileUpIcon v-else />
+                <FileUpIcon v-if="countExpire > 0" />
+                <LockKeyholeIcon v-else />
                 Upload file
               </label>
               <input
@@ -181,18 +213,20 @@
                 class="hidden"
                 accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
                 @change="extractText"
-                :disabled="isFreeUser"
+                :disabled="countExpire <= 0"
               />
             </div>
             <Button
               type="button"
-              @click="isFreeUser ? null : submit"
-              :disabled="loading || isFreeUser"
+              @click="countExpire > 0 ? submit() : null"
+              :disabled="loading || countExpire <= 0"
             >
-              <LockKeyholeIcon v-if="isFreeUser" />
+              <LockKeyholeIcon v-if="countExpire <= 0" />
               <Loader2Icon class="animate-spin" v-if="loading" />
               {{
-                inputType === "Text / Topic" ? "Generate quiz" : "Generate text"
+                inputType === "Text / Topic"
+                  ? "Generate question"
+                  : "Generate text"
               }}
             </Button>
           </div>
@@ -205,7 +239,7 @@
 <script>
 import {
   CheckIcon,
-  ChevronsUpDownIcon,
+  ChevronDownIcon,
   FileUpIcon,
   Loader2Icon,
   LockKeyholeIcon,
@@ -217,20 +251,28 @@ import Tesseract from "tesseract.js";
 import * as pdfjsLib from "pdfjs-dist";
 import { useApi } from "@/composables/useApi";
 import { cn } from "@/lib/utils";
+import ErrorMesage from "@/components/ErrorMesage.vue";
 
 export default {
-  name: "DashboardQuizForm",
+  name: "DashboardQuestionForm",
   components: {
     FileUpIcon,
     Loader2Icon,
     LockKeyholeIcon,
     PlusIcon,
-    ChevronsUpDownIcon,
+    ChevronDownIcon,
     CheckIcon,
+    ErrorMesage,
   },
   data() {
     return {
-      raw: "",
+      form: {
+        name: "",
+        difficulty: "Medium",
+        prompt: "",
+        questionType: "Multiple Choice questions",
+        questionCount: 25,
+      },
       inputType: "Text / Topic",
       inputTypes: [
         "Text / Topic",
@@ -238,13 +280,11 @@ export default {
         "PDF / Document / TXT / Image",
         "Youtube URL",
       ],
-      difficulty: "Easy",
-      difficultyLevels: ["Easy", "Medium", "Hard", "Very Hard"],
-      quizType: "Multiple Choice questions",
-      quizTypes: ["Multiple Choice questions", "True or False"],
+      difficultyLevels: ["Easy", "Medium", "Hard"],
+      questionTypes: ["Multiple Choice questions", "True or False"],
       language: "English",
       languages: [
-        "Amharic",
+        "English",
         "Arabic",
         "Assamese",
         "Azerbaijani",
@@ -263,7 +303,6 @@ export default {
         "Danish",
         "Dutch",
         "Egyptian Arabic",
-        "English",
         "Fijian",
         "Finnish",
         "Fula",
@@ -343,6 +382,7 @@ export default {
       pdfLoading: false,
       modal: false,
       open: false,
+      errors: {},
     };
   },
   computed: {
@@ -351,15 +391,29 @@ export default {
       return authUser.value;
     },
     isFreeUser() {
-      return this.authUser.isFreeUser;
+      return !!this.authUser.isFreeUser;
     },
     isValidURL() {
       try {
-        new URL(this.raw);
+        new URL(this.form.prompt);
         return true;
       } catch (e) {
         return false;
       }
+    },
+    countExpire() {
+      return this.authUser.questionCount || 0;
+    },
+    maxQuestionCount() {
+      return this.authUser.questionCount;
+    },
+    countLimit() {
+      if (this.authUser.isAdmin) return 20000;
+      else if (this.authUser.isProUser) return 20000;
+      else if (this.authUser.isGroUser) return 10000;
+      else if (this.authUser.isBasicUser) return 5000;
+      else if (this.authUser.isFreeUser) return 100;
+      return 0;
     },
   },
   methods: {
@@ -369,23 +423,29 @@ export default {
         if (this.click) return;
         this.click = true;
         this.loading = true;
+        this.errors = {};
         if (this.inputType === "Text / Topic") {
           if (
-            confirm("Are you sure you want to generate a quiz from this text?")
+            confirm(
+              "Are you sure you want to generate a Question from this text?"
+            )
           ) {
             const { api } = useApi();
-            const data = await api.post2("/dashboard/generate-quiz", {
-              text: this.raw,
-            });
+            const data = await api.post2(
+              "/dashboard/question/generate",
+              this.form
+            );
+            this.modal = false;
+            toast.success("Question generated successfully");
           }
         } else if (this.inputType === "Blog URL / Content url") {
           if (this.isValidURL) {
-            const html = await $fetch(this.raw);
+            const html = await $fetch(this.form.prompt);
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
             if (doc) {
               this.inputType = "Text / Topic";
-              this.raw = doc.body?.innerText.trim();
+              this.form.prompt = doc.body?.innerText.trim();
             }
           } else {
             toast.error("Invalid URL");
@@ -397,6 +457,9 @@ export default {
         }
       } catch (error) {
         const data = error.response._data;
+        if (data.errors) {
+          this.errors = data.errors;
+        }
         toast.error(data?.msg || "Something went wrong");
       } finally {
         this.click = false;
@@ -405,7 +468,8 @@ export default {
     },
     async extractText(event) {
       try {
-        if (this.isFreeUser || this.click || !event.target.files[0]) return;
+        if (this.countExpire <= 0 || this.click || !event.target.files[0])
+          return;
         this.click = true;
         this.loading = true;
 
@@ -420,11 +484,11 @@ export default {
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           )
         ) {
-          this.raw = await this.extractFromDOCX(file);
+          this.form.prompt = await this.extractFromDOCX(file);
         } else if (type.startsWith("image/")) {
-          this.raw = await this.extractFromImage(file);
+          this.form.prompt = await this.extractFromImage(file);
         } else if (type.startsWith("text/plain")) {
-          this.raw = await this.extractFromText(file);
+          this.form.prompt = await this.extractFromText(file);
         } else {
           toast.error("Invalid file type");
         }
@@ -439,7 +503,7 @@ export default {
     },
     async extractTextFromPDF(file) {
       try {
-        this.raw = "";
+        this.form.prompt = "";
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/js/pdf.worker.min.mjs";
         this.inputType = "Text / Topic";
         const pdfData = await file.arrayBuffer();
@@ -462,7 +526,7 @@ export default {
           const imageDataUrl = canvas.toDataURL("image/png");
 
           const pageText = await this.extractFromImage(imageDataUrl);
-          this.raw = `${this.raw} ${pageText.trim()}`;
+          this.form.prompt = `${this.form.prompt} ${pageText.trim()}`;
         }
       } catch (error) {
         console.error("Error extracting text from PDF:", error);
@@ -513,7 +577,7 @@ export default {
     },
     async generateFromYoutube() {
       try {
-        const videoId = this.raw.match(
+        const videoId = this.form.prompt.match(
           /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*\?v=|\S*\/videoseries\?v=)([a-zA-Z0-9_-]{11}))|(?:https?:\/\/(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]{11}))/
         );
         if (!videoId) {
@@ -524,7 +588,7 @@ export default {
         const id = videoId[1] || videoId[2];
         const { api } = useApi();
         const { data } = await api.post2("/dashboard/scrape/youtube", { id });
-        this.raw = data
+        this.form.prompt = data
           .join(" ")
           .replace(/\[[^\]]*\]/g, "")
           .replace(/\s+/g, " ")

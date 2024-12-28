@@ -97,8 +97,16 @@
                 <AvatarFallback>{{ authUser.name }}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent class="w-44" align="end">
-              <DropdownMenuLabel>{{ authUser.name }}</DropdownMenuLabel>
+            <DropdownMenuContent class="w-52" align="end">
+              <DropdownMenuLabel>
+                <p>{{ authUser.name }}</p>
+                <p class="font-normal mt-1">
+                  Question left: {{ authUser.questionCount }}
+                </p>
+                <p class="font-normal mt-1">
+                  Exam left: {{ authUser.examCount }}
+                </p>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem :to="{ name: 'dashboard' }">
                 <NuxtLink :to="{ name: 'dashboard' }" class="flex gap-2 w-full">

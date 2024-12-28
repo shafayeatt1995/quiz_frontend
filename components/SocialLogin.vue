@@ -6,11 +6,7 @@
         <h1 class="text-3xl font-bold text-center">Sign in to your account</h1>
         <div class="flex flex-col gap-2 my-4">
           <Button @click="socialLogin">
-            <img
-              src="/images/white-google.svg"
-              alt="google"
-              class="size-5 mr-2"
-            />
+            <img src="/images/google.svg" alt="google" class="size-5 mr-2" />
             Sign in with google
           </Button>
         </div>
@@ -52,7 +48,7 @@ export default {
     socialLogin() {
       const config = useRuntimeConfig();
       const { setItem } = useUtils();
-      setItem("socialLogin", window.location.href);
+      setItem("socialLogin", `${window.location.origin}/dashboard`);
       window.open(`${config.public.API_URL}/auth/social-login/google`, "_self");
     },
   },

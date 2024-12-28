@@ -51,8 +51,8 @@ export default {
         setTimeout(async () => {
           const { refreshToken } = useAuth();
           await refreshToken();
-          window.open("/dashboard", "_self");
-        }, 13000);
+          this.$router.push({ name: "dashboard" });
+        }, 14000);
       } catch (error) {
       } finally {
         this.click = true;

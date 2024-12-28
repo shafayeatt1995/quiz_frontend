@@ -17,12 +17,12 @@
             {{ authUser.email }}
           </p>
         </div>
-        <p class="text-green-500 lg:text-base text-sm">Professional</p>
+        <p class="text-gray-600 lg:text-base text-sm">Professional</p>
       </div>
       <div class="grid lg:grid-cols-3 grid-cols-2 gap-5">
         <div class="flex items-center gap-2">
           <div class="p-2 bg-white shadow rounded-md">
-            <ClipboardPenLineIcon size="30" class="text-indigo-500" />
+            <ClipboardPenLineIcon size="30" class="text-gray-600" />
           </div>
           <div>
             <p class="font-bold text-xl">27</p>
@@ -31,7 +31,7 @@
         </div>
         <div class="flex items-center gap-2">
           <div class="p-2 bg-white shadow rounded-md">
-            <CircleCheckBigIcon :size="30" class="text-green-500" />
+            <CircleCheckBigIcon :size="30" class="text-gray-600" />
           </div>
           <div>
             <p class="font-bold text-xl">2700</p>
@@ -40,7 +40,7 @@
         </div>
         <div class="flex items-center gap-2">
           <div class="p-2 bg-white shadow rounded-md">
-            <ClockIcon :size="30" class="text-indigo-500" />
+            <ClockIcon :size="30" class="text-gray-600" />
           </div>
           <div>
             <p class="font-bold text-xl">27000</p>

@@ -40,7 +40,7 @@ export default {
         },
         {
           q: "How is support provided and what does it include?",
-          a: `You can send an email to support@mrquizer.com if you encounter any issues. Support includes installation, account issues, and usage. It does not cover any customization or new feature requests. For requesting a new feature, please <a href="https://feedpack.xyz/board/mrquizer" target="_blank" class="hover:underline text-indigo-500">click this url.</a>`,
+          a: `You can send an email to support@mrquizer.com if you encounter any issues. Support includes installation, account issues, and usage. It does not cover any customization or new feature requests. For requesting a new feature, please <a href="https://feedpack.xyz/board/mrquizer" target="_blank" class="hover:underline text-blue-500">click this url.</a>`,
         },
         {
           q: "What constitutes a user in terms of pricing?",

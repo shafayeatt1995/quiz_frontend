@@ -39,8 +39,8 @@ export default {
           icon: LayoutDashboardIcon,
         },
         {
-          label: "Quiz",
-          to: { name: "dashboard-quiz" },
+          label: "Question",
+          to: { name: "dashboard-question" },
           icon: MessageCircleQuestionIcon,
         },
         {
@@ -56,6 +56,6 @@ export default {
 
 <style scoped>
 .sidebar-menu.router-link-exact-active {
-  @apply bg-custom-gradient text-white;
+  @apply bg-gray-800 text-primary-foreground shadow hover:bg-gray-700;
 }
 </style>
