@@ -14,7 +14,16 @@ export default {
     Toaster,
   },
   mounted() {
-    document.body.classList.add("scroll-smooth");
+    const { value } = useData();
+    value.isTablet = window.innerWidth < 1024;
+    value.isMobile = window.innerWidth < 768;
+    window.addEventListener("resize", (data) => {
+      value.isTablet = data.target.innerWidth < 1024;
+      value.isMobile = data.target.innerWidth < 768;
+    });
+  },
+  unmounted() {
+    window.removeEventListener("resize", () => {});
   },
 };
 </script>

@@ -73,7 +73,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground text-gray-800;
+    @apply bg-background text-foreground text-gray-800 scroll-smooth;
     font-family: "Red Hat Display", serif;
   }
   .bg-gradient {

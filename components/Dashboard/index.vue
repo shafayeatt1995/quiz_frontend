@@ -1,9 +1,9 @@
 <template>
-  <div
-    class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[250px_1fr]"
-  >
-    <div class="hidden border-r bg-muted/40 md:block">
-      <div class="flex h-full max-h-screen flex-col gap-2">
+  <div class="min-h-screen w-full flex">
+    <div
+      class="hidden border-r bg-muted/40 md:block md:max-h-screen md:overflow-y-auto md:fixed md:left-0 md:top-0 md:z-10 md:bottom-0 md:w-56"
+    >
+      <div class="flex h-full max-h-screen flex-col gap-2 overflow-y-auto">
         <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <NuxtLink
             :to="{ name: 'dashboard' }"
@@ -19,7 +19,7 @@
           </nav>
         </div>
         <div class="mt-auto p-4">
-          <Card>
+          <Card v-if="isFreeUser">
             <CardHeader class="p-2 pt-0 md:p-4">
               <CardTitle>Upgrade to Pro</CardTitle>
               <CardDescription>
@@ -40,9 +40,9 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col">
+    <div class="flex flex-col flex-1 md:pl-56">
       <header
-        class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 md:justify-end justify-between"
+        class="flex h-14 items-center gap-4 border-b bg-muted/40 backdrop-blur px-4 lg:h-[60px] lg:px-6 md:justify-end justify-between sticky top-0 z-10"
       >
         <NuxtLink
           :to="{ name: 'index' }"
@@ -130,11 +130,29 @@
 </template>
 
 <script>
-import { LayoutDashboardIcon, MenuIcon, LogOutIcon } from "lucide-vue-next";
+import {
+  LayoutDashboardIcon,
+  MenuIcon,
+  LogOutIcon,
+  ChevronsUpDownIcon,
+  SparklesIcon,
+  BadgeCheckIcon,
+  CreditCardIcon,
+  BellIcon,
+} from "lucide-vue-next";
 
 export default {
   name: "DashboardComponent",
-  components: { MenuIcon, LayoutDashboardIcon, LogOutIcon },
+  components: {
+    MenuIcon,
+    LayoutDashboardIcon,
+    LogOutIcon,
+    ChevronsUpDownIcon,
+    SparklesIcon,
+    BadgeCheckIcon,
+    CreditCardIcon,
+    BellIcon,
+  },
   data() {
     return { interval: null };
   },
@@ -146,6 +164,10 @@ export default {
     authUser() {
       const { authUser } = useAuth();
       return authUser.value;
+    },
+    isFreeUser() {
+      const { authUser } = useAuth();
+      return !!authUser.value?.isFreeUser;
     },
   },
   mounted() {

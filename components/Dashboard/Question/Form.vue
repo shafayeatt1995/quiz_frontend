@@ -249,9 +249,7 @@ import { toast } from "vue-sonner";
 import mammoth from "mammoth";
 import Tesseract from "tesseract.js";
 import * as pdfjsLib from "pdfjs-dist";
-import { useApi } from "@/composables/useApi";
 import { cn } from "@/lib/utils";
-import ErrorMesage from "@/components/ErrorMesage.vue";
 
 export default {
   name: "DashboardQuestionForm",
@@ -262,7 +260,6 @@ export default {
     PlusIcon,
     ChevronDownIcon,
     CheckIcon,
-    ErrorMesage,
   },
   data() {
     return {
@@ -431,12 +428,10 @@ export default {
             )
           ) {
             const { api } = useApi();
-            const data = await api.post2(
-              "/dashboard/question/generate",
-              this.form
-            );
+            await api.post2("/dashboard/question/generate", this.form);
             this.modal = false;
             toast.success("Question generated successfully");
+            this.$emit("refetch");
           }
         } else if (this.inputType === "Blog URL / Content url") {
           if (this.isValidURL) {

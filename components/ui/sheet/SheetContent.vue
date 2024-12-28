@@ -1,15 +1,15 @@
 <script setup>
-import { cn } from '@/lib/utils';
-import { X } from 'lucide-vue-next';
+import { cn } from "@/lib/utils";
+import { X } from "lucide-vue-next";
 import {
   DialogClose,
   DialogContent,
   DialogOverlay,
   DialogPortal,
   useForwardPropsEmits,
-} from 'radix-vue';
-import { computed } from 'vue';
-import { sheetVariants } from '.';
+} from "radix-vue";
+import { computed } from "vue";
+import { sheetVariants } from ".";
 
 defineOptions({
   inheritAttrs: false,
@@ -23,15 +23,16 @@ const props = defineProps({
   disableOutsidePointerEvents: { type: Boolean, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
+  hideClose: { type: Boolean, default: false },
 });
 
 const emits = defineEmits([
-  'escapeKeyDown',
-  'pointerDownOutside',
-  'focusOutside',
-  'interactOutside',
-  'openAutoFocus',
-  'closeAutoFocus',
+  "escapeKeyDown",
+  "pointerDownOutside",
+  "focusOutside",
+  "interactOutside",
+  "openAutoFocus",
+  "closeAutoFocus",
 ]);
 
 const delegatedProps = computed(() => {
@@ -56,6 +57,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
       <DialogClose
         class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+        v-if="!hideClose"
       >
         <X class="w-4 h-4 text-muted-foreground" />
       </DialogClose>
