@@ -28,7 +28,7 @@
               <DownloadIcon /> Export Answer Pdf
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem class="cursor-pointer">
+            <DropdownMenuItem class="cursor-pointer" @click="deleteQuestion">
               <Trash2Icon /> Trash
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -41,7 +41,6 @@
           @click="$emit('close')"
         >
           <XIcon class="h-3.5 w-3.5" />
-          <span class="sr-only">More</span>
         </Button>
       </div>
     </CardHeader>
@@ -113,6 +112,28 @@ export default {
     loading: Boolean,
     question: Object,
     modal: Boolean,
+  },
+  data() {
+    return {
+      blocked: false,
+    };
+  },
+  methods: {
+    async deleteQuestion() {
+      try {
+        if (this.blocked) return;
+        this.blocked = true;
+        if (confirm("Are you sure you want to delete this question?")) {
+          const { api } = useApi();
+          await api.delete("/dashboard/question/" + this.question._id);
+          this.$emit("refetch");
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.blocked = false;
+      }
+    },
   },
 };
 </script>

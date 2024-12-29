@@ -7,8 +7,8 @@ export const useLimit = () => {
       paddle: {
         monthlyName: "starter_monthly",
         yearlyName: "starter_yearly",
-        monthly: "pri_01jfjxq5n6bxeddz7s54f64trs",
-        yearly: "pri_01jfjxszwcggm9bcan4jzv55y9",
+        monthly: "pri_01jg9tgzspc7ccnw2aneaj1320",
+        yearly: "pri_01jg9tk8ccmg9bs2acp4vjsqya",
       },
       oem: 50,
       oemYear: 500,
@@ -31,8 +31,8 @@ export const useLimit = () => {
       paddle: {
         monthlyName: "growth_monthly",
         yearlyName: "growth_yearly",
-        monthly: "pri_01jfjxyfnjrkgjexstgnm4zjx4",
-        yearly: "pri_01jfjy17tpf4d3z7ahjk0vjxtg",
+        monthly: "pri_01jg9tmv0rcskgz8vsyp7hw8js",
+        yearly: "pri_01jg9tr63qhgp92dx513j2k866",
       },
       oem: 200,
       oemYear: 2000,
@@ -55,8 +55,8 @@ export const useLimit = () => {
       paddle: {
         monthlyName: "professional_monthly",
         yearlyName: "professional_yearly",
-        monthly: "pri_01jfjy3m34kw4m7be10d2ynwx5",
-        yearly: "pri_01jfjy4y2z790pjdehvvdn1tfm",
+        monthly: "pri_01jg9tstpv279vdzp7rfkpp7f3",
+        yearly: "pri_01jg9tvat2ndjyzs8jpxjbfnk4",
       },
       oem: 500,
       oemYear: 5000,

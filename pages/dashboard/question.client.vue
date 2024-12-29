@@ -74,6 +74,7 @@
           :question="question"
           modal
           @close="closeModal"
+          @refetch="refetch"
         />
       </SheetContent>
     </Sheet>
@@ -137,6 +138,7 @@ export default {
   },
   methods: {
     refetch() {
+      this.modal = false;
       if (this.page === 1) {
         this.fetchItems();
       } else {
@@ -177,6 +179,7 @@ export default {
         this.blocked = true;
         this.questionLoading = true;
         this.activeQuestion = i;
+        this.question = {};
         this.modal = true;
         const { api } = useApi();
         const { item } = await api.get(

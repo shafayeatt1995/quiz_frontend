@@ -39,6 +39,21 @@ export default {
           description:
             "Instantly generate compliance assessments from policy documents. Keep your team updated and compliant with automated quiz creation.",
         },
+        {
+          title: "Marketers & Content Creators",
+          description:
+            "Generate interactive quizzes for lead generation, audience engagement, and better customer insights. Perfect for boosting conversions and gathering data.",
+        },
+        {
+          title: "Corporate Trainers",
+          description:
+            "Effortlessly create training quizzes to assess employee knowledge and track progress. Streamline your training process with automated question generation.",
+        },
+        {
+          title: "Event Planners & Hosts",
+          description:
+            "Create fun, interactive quizzes for virtual or in-person events. Engage participants with dynamic quizzes that can be tailored to any event theme or audience.",
+        },
       ],
     };
   },

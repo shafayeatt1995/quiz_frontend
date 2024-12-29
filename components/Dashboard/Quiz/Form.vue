@@ -246,6 +246,9 @@ import {
   PlusIcon,
 } from "lucide-vue-next";
 import { toast } from "vue-sonner";
+import mammoth from "mammoth";
+import Tesseract from "tesseract.js";
+import * as pdfjsLib from "pdfjs-dist";
 import { cn } from "@/lib/utils";
 
 export default {
@@ -495,7 +498,6 @@ export default {
     },
     async extractTextFromPDF(file) {
       try {
-        const pdfjsLib = await import("pdfjs-dist");
         this.form.prompt = "";
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/js/pdf.worker.min.mjs";
         this.inputType = "Text / Topic";
@@ -532,14 +534,15 @@ export default {
     },
     async extractFromDOCX(file) {
       return new Promise((resolve, reject) => {
+        let extractedText = "";
         const fileReader = new FileReader();
 
         fileReader.onload = async (e) => {
           try {
             const arrayBuffer = e.target.result;
-            const { default: mammoth } = await import("mammoth");
             const { value } = await mammoth.extractRawText({ arrayBuffer });
-            resolve(value.trim());
+            extractedText = value.trim();
+            resolve(extractedText);
           } catch (error) {
             console.error("Error extracting text:", error);
             reject(error);
@@ -554,8 +557,7 @@ export default {
       });
     },
     async extractFromImage(file) {
-      const { recognize } = await import("tesseract.js");
-      const { data } = await recognize(file, "eng", {
+      const { data } = await Tesseract.recognize(file, "eng", {
         tessedit_char_whitelist:
           "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 @#$%&'()*+,./:;<>?[]^_`{|}~",
         preserve_interword_spaces: "1",
