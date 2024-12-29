@@ -12,23 +12,19 @@
 
 <script>
 import {
-  LineChartIcon,
-  PackageIcon,
-  UsersIcon,
-  ShoppingCartIcon,
   LayoutDashboardIcon,
   NotebookTextIcon,
   MessageCircleQuestionIcon,
+  BookOpenCheckIcon,
 } from "lucide-vue-next";
 
 export default {
   name: "DashboardSidebar",
   components: {
-    LineChartIcon,
-    PackageIcon,
-    UsersIcon,
-    ShoppingCartIcon,
     LayoutDashboardIcon,
+    NotebookTextIcon,
+    MessageCircleQuestionIcon,
+    BookOpenCheckIcon,
   },
   data() {
     return {
@@ -44,10 +40,15 @@ export default {
           icon: MessageCircleQuestionIcon,
         },
         {
-          label: "User manual",
-          to: { name: "index" },
-          icon: NotebookTextIcon,
+          label: "Quiz",
+          to: { name: "dashboard-quiz" },
+          icon: BookOpenCheckIcon,
         },
+        // {
+        //   label: "User manual",
+        //   to: { name: "index" },
+        //   icon: NotebookTextIcon,
+        // },
       ],
     };
   },

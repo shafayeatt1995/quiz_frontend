@@ -55,8 +55,12 @@
       </div>
       <div v-else-if="question?._id" class="space-y-4">
         <div v-for="(val, i) in question.questions" :key="i">
-          <p>{{ ++i }}. {{ val.q }}</p>
-          <div class="pl-4">
+          <div class="flex">
+            <p>{{ ++i }}.</p>
+
+            <p>{{ val.q }}</p>
+          </div>
+          <div class="pl-5">
             <p
               v-for="(o, k) in val.o"
               :key="k"
