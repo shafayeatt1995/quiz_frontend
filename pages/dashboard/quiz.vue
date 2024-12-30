@@ -6,8 +6,8 @@
         <Card>
           <CardHeader class="px-3">
             <CardTitle class="flex items-center justify-between gap-2">
-              <p>Questions</p>
-              <DashboardQuestionForm @refetch="refetch" />
+              <p>Quiz</p>
+              <DashboardQuizForm @refetch="refetch" />
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -16,31 +16,29 @@
               class="p-4 flex flex-col justify-center items-center min-h-60"
             >
               <BookOpenIcon :size="100" class="text-gray-600" />
-              <p>No question created</p>
+              <p>No quiz created</p>
             </div>
             <TableResponsive
               :fields="fields"
               :items="loading ? 10 : items"
               :skeleton="loading"
               body_clicked
-              :active="activeQuestion"
-              @bodyClicked="showQuestion"
+              :active="activeQuiz"
+              @bodyClicked="showQuiz"
             >
               <template #difficulty="{ item }">
                 <p class="capitalize">{{ item.difficulty }}</p>
               </template>
               <template #type="{ item }">
                 {{
-                  item.type === "mcq"
-                    ? "Multiple choice question"
-                    : "True/False"
+                  item.type === "mcq" ? "Multiple choice quiz" : "True/False"
                 }}
               </template>
             </TableResponsive>
             <div class="flex items-center justify-end space-x-2 py-4">
               <div class="flex-1 text-sm text-muted-foreground">
                 {{ (page - 1) * perPage + 1 }} to
-                {{ (page - 1) * perPage + items.length }} question showing
+                {{ (page - 1) * perPage + items.length }} quiz showing
               </div>
               <div class="flex items-center gap-4">
                 <Button
@@ -69,12 +67,12 @@
         class="w-full md:max-w-[550px] overflow-y-auto p-0"
         hideClose
       >
-        <DashboardQuestionViewer
-          :loading="questionLoading"
-          :question="question"
+        <!-- <DashboardQuizViewer
+          :loading="quizLoading"
+          :quiz="quiz"
           modal
           @close="closeModal"
-        />
+        /> -->
       </SheetContent>
     </Sheet>
   </Dashboard>
@@ -88,7 +86,7 @@ import {
 } from "lucide-vue-next";
 
 export default {
-  name: "QuestionPage",
+  name: "QuizPage",
   components: {
     ChevronRightIcon,
     ChevronLeftIcon,
@@ -99,11 +97,11 @@ export default {
       perPage: 20,
       blocked: false,
       loading: false,
-      questionLoading: false,
+      quizLoading: false,
       modal: false,
       items: [],
-      question: {},
-      activeQuestion: null,
+      quiz: {},
+      activeQuiz: null,
     };
   },
   computed: {
@@ -120,8 +118,8 @@ export default {
         },
         { key: "type", label: "Type", span: "minmax(220PX, 1fr)" },
         {
-          key: "questionCount",
-          label: "Questions Count",
+          key: "quizCount",
+          label: "Quiz Count",
           span: "minmax(120PX, 1fr)",
         },
       ];
@@ -159,7 +157,7 @@ export default {
         this.blocked = true;
         this.loading = true;
         const { api } = useApi();
-        const { items } = await api.get("/dashboard/question", {
+        const { items } = await api.get("/dashboard/quiz", {
           page: this.page,
           perPage: this.perPage,
         });
@@ -171,29 +169,27 @@ export default {
         this.loading = false;
       }
     },
-    async showQuestion(i) {
+    async showQuiz(i) {
       try {
         if (this.blocked) return;
         this.blocked = true;
-        this.questionLoading = true;
-        this.activeQuestion = i;
+        this.quizLoading = true;
+        this.activeQuiz = i;
         this.modal = true;
         const { api } = useApi();
-        const { item } = await api.get(
-          "/dashboard/question/" + this.items[i]._id
-        );
-        this.question = { ...this.items[i], ...item };
+        const { item } = await api.get("/dashboard/quiz/" + this.items[i]._id);
+        this.quiz = { ...this.items[i], ...item };
       } catch (error) {
         console.error(error);
       } finally {
         this.blocked = false;
-        this.questionLoading = false;
+        this.quizLoading = false;
       }
     },
     closeModal() {
       this.modal = false;
-      this.activeQuestion = null;
-      this.question = {};
+      this.activeQuiz = null;
+      this.quiz = {};
     },
   },
 };

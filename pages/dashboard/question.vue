@@ -18,47 +18,49 @@
               <BookOpenIcon :size="100" class="text-gray-600" />
               <p>No question created</p>
             </div>
-            <TableResponsive
-              :fields="fields"
-              :items="loading ? 10 : items"
-              :skeleton="loading"
-              body_clicked
-              :active="activeQuestion"
-              @bodyClicked="showQuestion"
-            >
-              <template #difficulty="{ item }">
-                <p class="capitalize">{{ item.difficulty }}</p>
-              </template>
-              <template #type="{ item }">
-                {{
-                  item.type === "mcq"
-                    ? "Multiple choice question"
-                    : "True/False"
-                }}
-              </template>
-            </TableResponsive>
-            <div class="flex items-center justify-end space-x-2 py-4">
-              <div class="flex-1 text-sm text-muted-foreground">
-                {{ (page - 1) * perPage + 1 }} to
-                {{ (page - 1) * perPage + items.length }} question showing
+            <template v-else>
+              <TableResponsive
+                :fields="fields"
+                :items="loading ? 10 : items"
+                :skeleton="loading"
+                body_clicked
+                :active="activeQuestion"
+                @bodyClicked="showQuestion"
+              >
+                <template #difficulty="{ item }">
+                  <p class="capitalize">{{ item.difficulty }}</p>
+                </template>
+                <template #type="{ item }">
+                  {{
+                    item.type === "mcq"
+                      ? "Multiple choice question"
+                      : "True/False"
+                  }}
+                </template>
+              </TableResponsive>
+              <div class="flex items-center justify-end space-x-2 py-4">
+                <div class="flex-1 text-sm text-muted-foreground">
+                  {{ (page - 1) * perPage + 1 }} to
+                  {{ (page - 1) * perPage + items.length }} question showing
+                </div>
+                <div class="flex items-center gap-4">
+                  <Button
+                    variant="outline"
+                    :disabled="page === 1"
+                    @click="loadMore(false)"
+                  >
+                    <ChevronLeftIcon /> Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    :disabled="items.length < perPage"
+                    @click="loadMore(true)"
+                  >
+                    Next <ChevronRightIcon
+                  /></Button>
+                </div>
               </div>
-              <div class="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  :disabled="page === 1"
-                  @click="loadMore(false)"
-                >
-                  <ChevronLeftIcon /> Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  :disabled="items.length < perPage"
-                  @click="loadMore(true)"
-                >
-                  Next <ChevronRightIcon
-                /></Button>
-              </div>
-            </div>
+            </template>
           </CardContent>
         </Card>
       </div>

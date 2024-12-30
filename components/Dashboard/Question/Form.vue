@@ -14,17 +14,84 @@
           <SheetTitle>Create new question</SheetTitle>
         </SheetHeader>
         <div class="space-y-2">
-          <div class="flex-1">
-            <Label for="difficulty">Question Name</Label>
-            <Input
-              type="text"
-              v-model="form.name"
-              placeholder="Enter question Name"
-            />
-            <ErrorMesage :error="errors" name="name" />
-          </div>
-          <div class="flex flex-col md:flex-row gap-4">
-            <div class="flex-1">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label for="difficulty">Question Name</Label>
+              <Input
+                type="text"
+                v-model="form.name"
+                placeholder="Enter question Name"
+              />
+              <ErrorMesage :error="errors" name="name" />
+            </div>
+            <div>
+              <Label for="questionCount"
+                >Question count
+                <span class="text-xs">
+                  ({{ authUser.questionCount.toLocaleString() }} left)
+                </span>
+              </Label>
+              <NumberField
+                id="questionCount"
+                :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
+                :min="25"
+                :modelValue="form.questionCount"
+                @update:modelValue="form.questionCount = $event"
+              >
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+              <ErrorMesage :error="errors" name="questionCount" />
+            </div>
+            <div>
+              <Label for="language">question language</Label>
+              <Popover v-model:open="open">
+                <PopoverTrigger as-child>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    :aria-expanded="open"
+                    class="w-full flex justify-between h-10"
+                  >
+                    {{ languages.find((lang) => lang === form.language) }}
+                    <ChevronDownIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-full p-0">
+                  <Command v-model="form.language">
+                    <CommandInput placeholder="Search language..." />
+                    <CommandEmpty>No language found.</CommandEmpty>
+                    <CommandList>
+                      <CommandGroup>
+                        <CommandItem
+                          v-for="lang in languages"
+                          :key="lang"
+                          :value="lang"
+                          @select="open = false"
+                        >
+                          <CheckIcon
+                            :class="
+                              cn(
+                                'mr-2 h-4 w-4',
+                                lang === form.language
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
+                              )
+                            "
+                          />
+                          {{ lang }}
+                        </CommandItem>
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <ErrorMesage :error="errors" name="language" />
+            </div>
+            <div>
               <Label for="difficulty">Difficulty level</Label>
               <Select
                 id="difficulty"
@@ -47,7 +114,7 @@
                 </SelectContent>
               </Select>
             </div>
-            <div class="flex-1">
+            <div>
               <Label for="questionType">Question type</Label>
               <Select
                 id="questionType"
@@ -70,73 +137,7 @@
                 </SelectContent>
               </Select>
             </div>
-          </div>
-          <div class="flex flex-col md:flex-row gap-4">
-            <div class="flex-1">
-              <!-- 
-              <Label for="language">question language</Label>
-              <Popover v-model:open="open">
-                <PopoverTrigger as-child>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    :aria-expanded="open"
-                    class="w-full flex justify-between h-10"
-                  >
-                    {{ languages.find((lang) => lang === language) }}
-                    <ChevronDownIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent class="w-full p-0">
-                  <Command v-model="language">
-                    <CommandInput placeholder="Search language..." />
-                    <CommandEmpty>No language found.</CommandEmpty>
-                    <CommandList>
-                      <CommandGroup>
-                        <CommandItem
-                          v-for="lang in languages"
-                          :key="lang"
-                          :value="lang"
-                          @select="open = false"
-                        >
-                          <CheckIcon
-                            :class="
-                              cn(
-                                'mr-2 h-4 w-4',
-                                lang === language ? 'opacity-100' : 'opacity-0'
-                              )
-                            "
-                          />
-                          {{ lang }}
-                        </CommandItem>
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              -->
-              <Label for="questionCount"
-                >Question count
-                <span class="text-xs">
-                  ({{ authUser.questionCount.toLocaleString() }} left)
-                </span>
-              </Label>
-              <NumberField
-                id="questionCount"
-                :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
-                :min="25"
-                :modelValue="form.questionCount"
-                @update:modelValue="form.questionCount = $event"
-              >
-                <NumberFieldContent>
-                  <NumberFieldDecrement />
-                  <NumberFieldInput />
-                  <NumberFieldIncrement />
-                </NumberFieldContent>
-              </NumberField>
-              <ErrorMesage :error="errors" name="questionCount" />
-            </div>
-            <div class="flex-1">
+            <div>
               <Label for="inputType">Select input type</Label>
               <Select
                 id="inputType"
@@ -263,6 +264,7 @@ export default {
       form: {
         name: "",
         difficulty: "Medium",
+        language: "English",
         prompt: "",
         questionType: "Multiple Choice questions",
         questionCount: 25,
@@ -276,14 +278,13 @@ export default {
       ],
       difficultyLevels: ["Easy", "Medium", "Hard"],
       questionTypes: ["Multiple Choice questions", "True or False"],
-      language: "English",
       languages: [
         "English",
         "Arabic",
         "Assamese",
         "Azerbaijani",
         "Bashkir",
-        "Bengali",
+        "Bangla",
         "Bosnian",
         "Bulgarian",
         "Burmese",
