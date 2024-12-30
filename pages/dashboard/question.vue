@@ -72,8 +72,7 @@
         hideClose
       >
         <DashboardQuestionViewer
-          :loading="questionLoading"
-          :question="question"
+          :item="items[activeQuestion]"
           modal
           @close="closeModal"
           @refetch="refetch"
@@ -105,7 +104,6 @@ export default {
       questionLoading: false,
       modal: false,
       items: [],
-      question: {},
       activeQuestion: null,
     };
   },
@@ -177,22 +175,10 @@ export default {
     },
     async showQuestion(i) {
       try {
-        if (this.blocked) return;
-        this.blocked = true;
-        this.questionLoading = true;
         this.activeQuestion = i;
-        this.question = {};
         this.modal = true;
-        const { api } = useApi();
-        const { item } = await api.get(
-          "/dashboard/question/" + this.items[i]._id
-        );
-        this.question = { ...this.items[i], ...item };
       } catch (error) {
         console.error(error);
-      } finally {
-        this.blocked = false;
-        this.questionLoading = false;
       }
     },
     closeModal() {

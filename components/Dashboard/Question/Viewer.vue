@@ -1,9 +1,10 @@
 <template>
   <Card class="overflow-hidden h-full flex flex-col">
-    <CardHeader class="flex flex-row bg-muted/50 px-4 py-6">
+    <CardHeader class="flex flex-row bg-muted/50 px-4 py-6 items-center gap-2">
       <div class="flex-1">
         <CardTitle class="flex items-center gap-2 text-lg">
-          {{ question?.name || "Questions" }}
+          <EditMode v-model="question.name" v-if="question?.name" />
+          <span v-else> Questions </span>
         </CardTitle>
       </div>
       <div class="ml-auto flex items-center gap-2">
@@ -30,18 +31,6 @@
             >
               <DownloadIcon /> Export Question & Answer
             </DropdownMenuItem>
-            <!-- <DropdownMenuItem class="cursor-pointer" @click="exportQuestionPdf">
-              <DownloadIcon /> Export Question Pdf
-            </DropdownMenuItem>
-            <DropdownMenuItem class="cursor-pointer" @click="exportAnswerPdf">
-              <DownloadIcon /> Export Answer Pdf
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              class="cursor-pointer"
-              @click="exportQuestionAnswerPdf"
-            >
-              <DownloadIcon /> Export Question & Answer Pdf
-            </DropdownMenuItem> -->
             <DropdownMenuSeparator />
             <DropdownMenuItem class="cursor-pointer" @click="deleteQuestion">
               <Trash2Icon /> Trash
@@ -50,7 +39,7 @@
         </DropdownMenu>
         <Button
           size="icon"
-          variant="outline"
+          variant="rose"
           class="h-8 w-8"
           v-if="modal"
           @click="$emit('close')"
@@ -69,19 +58,21 @@
       </div>
       <div v-else-if="question?._id" class="space-y-4">
         <div v-for="(val, i) in question.questions" :key="i">
-          <div class="flex">
+          <div class="flex items-center gap-1 mb-0.5">
             <p>{{ ++i }}.</p>
 
-            <p>{{ val.q }}</p>
+            <EditMode v-model="question.questions[i - 1].q" />
           </div>
-          <div class="pl-5">
-            <p
+          <div class="pl-5 space-y-0.5">
+            <div
               v-for="(o, k) in val.o"
               :key="k"
+              class="flex items-center gap-2"
               :class="k === val.a ? 'font-bold text-green-500' : ''"
             >
-              {{ String.fromCharCode(97 + k) }}) {{ o }}
-            </p>
+              {{ String.fromCharCode(97 + k) }})
+              <EditMode v-model="question.questions[i - 1].o[k]" />
+            </div>
           </div>
         </div>
       </div>
@@ -91,7 +82,7 @@
       </div>
     </CardContent>
     <CardFooter
-      class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"
+      class="flex flex-row justify-between items-center border-t bg-muted/50 px-6 py-3"
     >
       <div class="text-xs text-muted-foreground">
         Created
@@ -99,6 +90,10 @@
           question?.created_at ? $filters.normalDate(question?.created_at) : ""
         }}</time>
       </div>
+      <Button @click="updateQuestion" :disabled="!changed || updateLoading">
+        <Loader2Icon class="animate-spin" v-if="updateLoading" /> Update
+        Question</Button
+      >
     </CardFooter>
   </Card>
 </template>
@@ -112,6 +107,8 @@ import {
   Trash2Icon,
   XIcon,
 } from "lucide-vue-next";
+import EditMode from "@/components/EditMode.vue";
+import { toast } from "vue-sonner";
 
 export default {
   name: "DashboardQuestionViewer",
@@ -122,18 +119,53 @@ export default {
     BookOpenIcon,
     Loader2Icon,
     XIcon,
+    EditMode,
   },
   props: {
-    loading: Boolean,
-    question: Object,
     modal: Boolean,
+    item: Object,
   },
   data() {
     return {
       blocked: false,
+      loading: true,
+      trackQuestion: false,
+      changed: false,
+      updateLoading: false,
+      question: {},
     };
   },
+  watch: {
+    question: {
+      handler() {
+        if (!this.trackQuestion) {
+          this.trackQuestion = true;
+        } else {
+          this.changed = true;
+        }
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    this.fetchQuestion();
+  },
   methods: {
+    async fetchQuestion() {
+      try {
+        if (this.blocked) return;
+        this.blocked = true;
+        this.loading = true;
+        const { api } = useApi();
+        const { item } = await api.get("/dashboard/question/" + this.item._id);
+        this.question = { ...this.item, ...item };
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.blocked = false;
+        this.loading = false;
+      }
+    },
     async deleteQuestion() {
       try {
         if (this.blocked) return;
@@ -213,6 +245,7 @@ export default {
         console.error("Error generating document:", error);
       }
     },
+
     async exportQuestionDocs() {
       try {
         const { Document, Packer, Paragraph, TextRun } = await import("docx");
@@ -321,179 +354,19 @@ export default {
         console.error("Error generating document:", error);
       }
     },
-    async exportQuestionAnswerPdf() {
+    async updateQuestion() {
       try {
-        const { PDFDocument, rgb } = await import("pdf-lib");
-
-        const pdfDoc = await PDFDocument.create();
-        let page = pdfDoc.addPage([595, 842]); // A4 size: 595x842 points
-        const { width, height } = page.getSize();
-        let y = height - 50;
-
-        page.setFontSize(12);
-        page.drawText(`${this.question.name} - Questions & Answers`, {
-          x: 50,
-          y,
-          size: 16,
-          color: rgb(0, 0, 0),
-        });
-        y -= 30;
-
-        this.question.questions.forEach(({ q, o, a }, index) => {
-          page.drawText(`${index + 1}. ${q}`, {
-            x: 50,
-            y,
-            size: 12,
-            color: rgb(0, 0, 0),
-          });
-          y -= 20;
-
-          o.forEach((option, i) => {
-            page.drawText(`   ${String.fromCharCode(97 + i)}) ${option}`, {
-              x: 70,
-              y,
-              size: 12,
-              color: rgb(0, 0, 0),
-            });
-            y -= 15;
-          });
-          page.drawText(`Answer: ${String.fromCharCode(97 + a)}) ${o[a]}`, {
-            x: 70,
-            y,
-            size: 12,
-            color: rgb(0, 0, 1),
-          });
-
-          y -= 25; // Add spacing between questions
-          if (y < 50) {
-            page = pdfDoc.addPage([595, 842]);
-            y = height - 50;
-          }
-        });
-
-        const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${this.question.name}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        if (this.blocked) return;
+        this.blocked = true;
+        this.updateLoading = true;
+        const { api } = useApi();
+        await api.put("/dashboard/question", this.question);
+        toast.success("Question updated successfully");
       } catch (error) {
-        console.error("Error generating PDF:", error);
-      }
-    },
-    async exportQuestionPdf() {
-      try {
-        const { PDFDocument, rgb } = await import("pdf-lib");
-
-        const pdfDoc = await PDFDocument.create();
-        let page = pdfDoc.addPage([595, 842]); // A4 size: 595x842 points
-        const { width, height } = page.getSize();
-        let y = height - 50;
-
-        page.setFontSize(12);
-        page.drawText(`${this.question.name} - Questions`, {
-          x: 50,
-          y,
-          size: 16,
-          color: rgb(0, 0, 0),
-        });
-        y -= 30;
-
-        this.question.questions.forEach(({ q, o }, index) => {
-          page.drawText(`${index + 1}. ${q}`, {
-            x: 50,
-            y,
-            size: 12,
-            color: rgb(0, 0, 0),
-          });
-          y -= 20;
-
-          o.forEach((option, i) => {
-            page.drawText(`   ${String.fromCharCode(97 + i)}) ${option}`, {
-              x: 70,
-              y,
-              size: 12,
-              color: rgb(0, 0, 0),
-            });
-            y -= 15;
-          });
-
-          y -= 10; // Add spacing between questions
-          if (y < 50) {
-            page = pdfDoc.addPage([595, 842]);
-            y = height - 50;
-          }
-        });
-
-        const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${this.question.name}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } catch (error) {
-        console.error("Error generating PDF:", error);
-      }
-    },
-    async exportAnswerPdf() {
-      try {
-        const { PDFDocument, rgb } = await import("pdf-lib");
-
-        const pdfDoc = await PDFDocument.create();
-        let page = pdfDoc.addPage([595, 842]); // A4 size: 595x842 points
-        const { width, height } = page.getSize();
-        let y = height - 50;
-
-        page.setFontSize(12);
-        page.drawText(`${this.question.name} - Answers`, {
-          x: 50,
-          y,
-          size: 16,
-          color: rgb(0, 0, 0),
-        });
-        y -= 30;
-
-        this.question.questions.forEach(({ q, o, a }, index) => {
-          page.drawText(`${index + 1}. ${q}`, {
-            x: 50,
-            y,
-            size: 12,
-            color: rgb(0, 0, 0),
-          });
-          y -= 20;
-
-          page.drawText(`Answer: ${String.fromCharCode(97 + a)}) ${o[a]}`, {
-            x: 70,
-            y,
-            size: 12,
-            color: rgb(0, 0, 1),
-          });
-          y -= 15;
-
-          y -= 10; // Add spacing between questions
-          if (y < 50) {
-            page = pdfDoc.addPage([595, 842]);
-            y = height - 50;
-          }
-        });
-
-        const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${this.question.name}-answers.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } catch (error) {
-        console.error("Error generating PDF:", error);
+        console.error(error);
+      } finally {
+        this.blocked = false;
+        this.updateLoading = false;
       }
     },
   },

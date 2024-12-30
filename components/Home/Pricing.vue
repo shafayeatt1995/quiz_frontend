@@ -230,7 +230,6 @@ import RadioGroup from "@/components/ui/radio-group/RadioGroup.vue";
 import RadioGroupItem from "@/components/ui/radio-group/RadioGroupItem.vue";
 import eventBus from "@/lib/eventBus";
 import { CheckIcon, Loader2Icon, XIcon } from "lucide-vue-next";
-import { initializePaddle } from "@paddle/paddle-js";
 import { useLimit } from "@/composables/useLimit";
 
 export default {
@@ -251,15 +250,24 @@ export default {
     },
   },
   mounted() {
-    const { PADDLE_ENVIRONMENT, PADDLE_TOKEN } = useRuntimeConfig().public;
-    initializePaddle({
-      environment: PADDLE_ENVIRONMENT,
-      token: PADDLE_TOKEN,
-    }).then((paddleInstance) => {
-      if (paddleInstance) this.paddle = paddleInstance;
-    });
+    this.initPaddle();
   },
   methods: {
+    async initPaddle() {
+      try {
+        const { initializePaddle } = await import("@paddle/paddle-js");
+
+        const { PADDLE_ENVIRONMENT, PADDLE_TOKEN } = useRuntimeConfig().public;
+        initializePaddle({
+          environment: PADDLE_ENVIRONMENT,
+          token: PADDLE_TOKEN,
+        }).then((paddleInstance) => {
+          if (paddleInstance) this.paddle = paddleInstance;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async openUrl(i) {
       if (this.click) {
         try {

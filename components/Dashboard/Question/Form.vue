@@ -22,7 +22,7 @@
                 v-model="form.name"
                 placeholder="Enter question Name"
               />
-              <ErrorMesage :error="errors" name="name" />
+              <ErrorMessage :error="errors" name="name" />
             </div>
             <div>
               <Label for="questionCount"
@@ -44,7 +44,7 @@
                   <NumberFieldIncrement />
                 </NumberFieldContent>
               </NumberField>
-              <ErrorMesage :error="errors" name="questionCount" />
+              <ErrorMessage :error="errors" name="questionCount" />
             </div>
             <div>
               <Label for="language">question language</Label>
@@ -89,7 +89,7 @@
                   </Command>
                 </PopoverContent>
               </Popover>
-              <ErrorMesage :error="errors" name="language" />
+              <ErrorMessage :error="errors" name="language" />
             </div>
             <div>
               <Label for="difficulty">Difficulty level</Label>
@@ -165,7 +165,7 @@
             <Label
               for="characters"
               :class="form.prompt.length > countLimit ? 'text-red-500' : ''"
-              >Topic or Prompt: {{ form.prompt.length }}/{{ countLimit }}</Label
+              >Topic details: {{ form.prompt.length }}/{{ countLimit }}</Label
             >
             <label
               class="border-2 border-dashed rounded-md px-2 py-1 flex flex-col justify-center items-center gap-2 text-gray-600 bg-white cursor-pointer h-80 font-semibold"
@@ -182,11 +182,11 @@
               class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
               :class="form.prompt.length > countLimit ? 'border-red-500' : ''"
               rows="12"
-              placeholder="Enter Topic, Youtube URL, PDF, or Text to get a question Docx in seconds. use the bulb for suggestions."
+              placeholder="Enter Topic details to create questions"
               v-model="form.prompt"
             ></textarea>
             <Input v-else v-model="form.prompt" placeholder="Enter the url" />
-            <ErrorMesage :error="errors" name="prompt" />
+            <ErrorMessage :error="errors" name="prompt" />
 
             <div v-if="pdfLoading">
               <p>Processing pdf page {{ pdfProcessing }}/{{ pdfPage }}</p>
