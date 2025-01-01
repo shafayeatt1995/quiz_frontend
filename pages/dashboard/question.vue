@@ -16,7 +16,7 @@
               class="p-4 flex flex-col justify-center items-center min-h-60"
             >
               <BookOpenIcon :size="100" class="text-gray-600" />
-              <p>No question created</p>
+              <p>No question found</p>
             </div>
             <template v-else>
               <TableResponsive

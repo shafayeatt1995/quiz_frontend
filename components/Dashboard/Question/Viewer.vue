@@ -3,7 +3,11 @@
     <CardHeader class="flex flex-row bg-muted/50 px-4 py-6 items-center gap-2">
       <div class="flex-1">
         <CardTitle class="flex items-center gap-2 text-lg">
-          <EditMode v-model="question.name" v-if="question?.name" />
+          <template v-if="question?.name">
+            <EditMode v-model="question.name" />
+            <span>({{ question.questions.length }})</span>
+          </template>
+
           <span v-else> Questions </span>
         </CardTitle>
       </div>
@@ -58,10 +62,17 @@
       </div>
       <div v-else-if="question?._id" class="space-y-4">
         <div v-for="(val, i) in question.questions" :key="i">
-          <div class="flex items-center gap-1 mb-0.5">
-            <p>{{ ++i }}.</p>
-
-            <EditMode v-model="question.questions[i - 1].q" />
+          <div class="flex items-start gap-1 mb-0.5">
+            <p>{{ i + 1 }}.</p>
+            <EditMode v-model="question.questions[i].q" />
+            <Button
+              type="button"
+              class="size-8"
+              variant="rose"
+              @click="question.questions.splice(i, 1)"
+            >
+              <XIcon :size="16" />
+            </Button>
           </div>
           <div class="pl-5 space-y-0.5">
             <div
@@ -71,7 +82,61 @@
               :class="k === val.a ? 'font-bold text-green-500' : ''"
             >
               {{ String.fromCharCode(97 + k) }})
-              <EditMode v-model="question.questions[i - 1].o[k]" />
+              <EditMode v-model="question.questions[i].o[k]" />
+            </div>
+          </div>
+        </div>
+        <div class="border-t">
+          <h2 class="text-center text-2xl font-bold">
+            Custom question section
+          </h2>
+          <div>
+            <Label for="question">Question</Label>
+            <Input type="text" v-model="form.q" placeholder="Enter question" />
+          </div>
+          <div class="mt-2">
+            <Label for="options">Options</Label>
+            <div
+              class="flex items-center gap-2 mb-2"
+              v-for="(o, i) in form.o"
+              :key="i"
+            >
+              <Input
+                type="text"
+                v-model="form.o[i]"
+                placeholder="Enter option"
+              />
+
+              <Button
+                type="button"
+                class="size-8"
+                :variant="i === form.a ? 'green' : 'outline'"
+                @click="form.a = i"
+              >
+                <CheckIcon :size="16" />
+              </Button>
+              <Button
+                type="button"
+                class="size-8"
+                variant="rose"
+                @click="form.o.splice(i, 1)"
+              >
+                <XIcon :size="16" />
+              </Button>
+            </div>
+            <div class="flex items-center gap-2">
+              <Button
+                type="button"
+                @click="form.o.push('')"
+                variant="outline"
+                class="flex-1"
+              >
+                <PlusIcon /> Add options
+              </Button>
+              <Button type="button" @click="addQuestion" class="flex-1">
+                <CheckIcon />
+                Add question
+              </Button>
             </div>
           </div>
         </div>
@@ -101,13 +166,14 @@
 <script>
 import {
   BookOpenIcon,
+  CheckIcon,
   DownloadIcon,
   Loader2Icon,
   MoreVerticalIcon,
+  PlusIcon,
   Trash2Icon,
   XIcon,
 } from "lucide-vue-next";
-import EditMode from "@/components/EditMode.vue";
 import { toast } from "vue-sonner";
 
 export default {
@@ -119,7 +185,8 @@ export default {
     BookOpenIcon,
     Loader2Icon,
     XIcon,
-    EditMode,
+    PlusIcon,
+    CheckIcon,
   },
   props: {
     modal: Boolean,
@@ -133,6 +200,11 @@ export default {
       changed: false,
       updateLoading: false,
       question: {},
+      form: {
+        q: "",
+        o: [""],
+        a: 0,
+      },
     };
   },
   watch: {
@@ -245,7 +317,6 @@ export default {
         console.error("Error generating document:", error);
       }
     },
-
     async exportQuestionDocs() {
       try {
         const { Document, Packer, Paragraph, TextRun } = await import("docx");
@@ -367,6 +438,16 @@ export default {
       } finally {
         this.blocked = false;
         this.updateLoading = false;
+      }
+    },
+    addQuestion() {
+      console.log(this.form.o);
+      if (this.form.q.length < 1) {
+        toast.error("Question cannot be empty");
+      } else if (this.form.o.length < 2) {
+        toast.error("Options has at least 2");
+      } else {
+        this.question.questions.push(this.form);
       }
     },
   },

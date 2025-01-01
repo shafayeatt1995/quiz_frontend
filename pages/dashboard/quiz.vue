@@ -16,47 +16,51 @@
               class="p-4 flex flex-col justify-center items-center min-h-60"
             >
               <BookOpenIcon :size="100" class="text-gray-600" />
-              <p>No quiz created</p>
+              <p>No quiz found</p>
             </div>
-            <TableResponsive
-              :fields="fields"
-              :items="loading ? 10 : items"
-              :skeleton="loading"
-              body_clicked
-              :active="activeQuiz"
-              @bodyClicked="showQuiz"
-            >
-              <template #difficulty="{ item }">
-                <p class="capitalize">{{ item.difficulty }}</p>
-              </template>
-              <template #type="{ item }">
-                {{
-                  item.type === "mcq" ? "Multiple choice quiz" : "True/False"
-                }}
-              </template>
-            </TableResponsive>
-            <div class="flex items-center justify-end space-x-2 py-4">
-              <div class="flex-1 text-sm text-muted-foreground">
-                {{ (page - 1) * perPage + 1 }} to
-                {{ (page - 1) * perPage + items.length }} quiz showing
+            <template v-else>
+              <TableResponsive
+                :fields="fields"
+                :items="loading ? 10 : items"
+                :skeleton="loading"
+                body_clicked
+                :active="activeQuiz"
+                @bodyClicked="showQuiz"
+              >
+                <template #additional="{ item }">
+                  {{ item.additional.join(", ") }}
+                </template>
+                <template #question="{ item }">
+                  <div class="space-y-1">
+                    <p v-for="(val, i) in item.questions" :key="i">
+                      {{ val.name }}({{ val.questionCount }})
+                    </p>
+                  </div>
+                </template>
+              </TableResponsive>
+              <div class="flex items-center justify-end space-x-2 py-4">
+                <div class="flex-1 text-sm text-muted-foreground">
+                  {{ (page - 1) * perPage + 1 }} to
+                  {{ (page - 1) * perPage + items.length }} quiz showing
+                </div>
+                <div class="flex items-center gap-4">
+                  <Button
+                    variant="outline"
+                    :disabled="page === 1"
+                    @click="loadMore(false)"
+                  >
+                    <ChevronLeftIcon /> Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    :disabled="items.length < perPage"
+                    @click="loadMore(true)"
+                  >
+                    Next <ChevronRightIcon
+                  /></Button>
+                </div>
               </div>
-              <div class="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  :disabled="page === 1"
-                  @click="loadMore(false)"
-                >
-                  <ChevronLeftIcon /> Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  :disabled="items.length < perPage"
-                  @click="loadMore(true)"
-                >
-                  Next <ChevronRightIcon
-                /></Button>
-              </div>
-            </div>
+            </template>
           </CardContent>
         </Card>
       </div>
@@ -67,12 +71,12 @@
         class="w-full md:max-w-[550px] overflow-y-auto p-0"
         hideClose
       >
-        <!-- <DashboardQuizViewer
-          :loading="quizLoading"
-          :quiz="quiz"
+        <DashboardQuizViewer
+          :item="items[activeQuiz]"
           modal
           @close="closeModal"
-        /> -->
+          @refetch="refetch"
+        />
       </SheetContent>
     </Sheet>
   </Dashboard>
@@ -86,7 +90,7 @@ import {
 } from "lucide-vue-next";
 
 export default {
-  name: "QuizPage",
+  name: "DashboardQuiz",
   components: {
     ChevronRightIcon,
     ChevronLeftIcon,
@@ -94,13 +98,11 @@ export default {
   },
   data() {
     return {
-      perPage: 20,
-      blocked: false,
-      loading: false,
-      quizLoading: false,
       modal: false,
+      blocked: false,
+      loading: true,
       items: [],
-      quiz: {},
+      perPage: 20,
       activeQuiz: null,
     };
   },
@@ -112,45 +114,18 @@ export default {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
         {
-          key: "difficulty",
-          label: "Difficulty level",
+          key: "additional",
+          label: "Additional field",
           span: "minmax(100PX, 1fr)",
         },
-        { key: "type", label: "Type", span: "minmax(220PX, 1fr)" },
-        {
-          key: "quizCount",
-          label: "Quiz Count",
-          span: "minmax(120PX, 1fr)",
-        },
+        { key: "question", label: "Questions", span: "minmax(220PX, 1fr)" },
       ];
-    },
-  },
-  watch: {
-    "$route.query"() {
-      this.fetchItems();
     },
   },
   mounted() {
     this.fetchItems();
   },
   methods: {
-    refetch() {
-      if (this.page === 1) {
-        this.fetchItems();
-      } else {
-        this.$router.replace({
-          path: this.$route.path,
-          query: { ...this.$route.query, page: 1 },
-        });
-      }
-    },
-    loadMore(next) {
-      const page = this.page + (next ? 1 : -1);
-      this.$router.replace({
-        path: this.$route.path,
-        query: { ...this.$route.query, page },
-      });
-    },
     async fetchItems() {
       try {
         if (this.blocked) return;
@@ -169,27 +144,16 @@ export default {
         this.loading = false;
       }
     },
-    async showQuiz(i) {
-      try {
-        if (this.blocked) return;
-        this.blocked = true;
-        this.quizLoading = true;
-        this.activeQuiz = i;
-        this.modal = true;
-        const { api } = useApi();
-        const { item } = await api.get("/dashboard/quiz/" + this.items[i]._id);
-        this.quiz = { ...this.items[i], ...item };
-      } catch (error) {
-        console.error(error);
-      } finally {
-        this.blocked = false;
-        this.quizLoading = false;
-      }
+    showQuiz(i) {
+      this.activeQuiz = i;
+      this.modal = true;
+    },
+    async refetch() {
+      this.loading = true;
     },
     closeModal() {
       this.modal = false;
       this.activeQuiz = null;
-      this.quiz = {};
     },
   },
 };

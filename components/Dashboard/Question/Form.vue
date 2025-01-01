@@ -430,6 +430,8 @@ export default {
             this.modal = false;
             toast.success("Question generated successfully");
             this.$emit("refetch");
+            const { refreshToken } = useAuth();
+            await refreshToken();
           }
         } else if (this.inputType === "Blog URL / Content url") {
           if (this.isValidURL) {
