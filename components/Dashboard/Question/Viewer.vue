@@ -20,6 +20,9 @@
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" class="w-56">
+            <DropdownMenuItem class="cursor-pointer" @click="shareUrl">
+              <Share2Icon /> Share exam url
+            </DropdownMenuItem>
             <DropdownMenuItem
               class="cursor-pointer"
               @click="exportQuestionDocs"
@@ -87,7 +90,7 @@
           </div>
         </div>
         <div class="border-t">
-          <h2 class="text-center text-2xl font-bold">
+          <h2 class="text-center text-2xl font-bold mt-2">
             Custom question section
           </h2>
           <div>
@@ -161,6 +164,7 @@
       >
     </CardFooter>
   </Card>
+  <DashboardQuestionShareModal v-model="shareModal" />
 </template>
 
 <script>
@@ -171,6 +175,7 @@ import {
   Loader2Icon,
   MoreVerticalIcon,
   PlusIcon,
+  Share2Icon,
   Trash2Icon,
   XIcon,
 } from "lucide-vue-next";
@@ -187,6 +192,7 @@ export default {
     XIcon,
     PlusIcon,
     CheckIcon,
+    Share2Icon,
   },
   props: {
     modal: Boolean,
@@ -199,6 +205,7 @@ export default {
       trackQuestion: false,
       changed: false,
       updateLoading: false,
+      shareModal: false,
       question: {},
       form: {
         q: "",
@@ -449,6 +456,9 @@ export default {
       } else {
         this.question.questions.push(this.form);
       }
+    },
+    shareUrl() {
+      this.shareModal = true;
     },
   },
 };
