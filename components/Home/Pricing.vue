@@ -97,9 +97,7 @@
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Online exam in {{ yearly ? "12 months" : "month" }}
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">Online exam</td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"

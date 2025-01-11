@@ -45,10 +45,7 @@
             AI in Seconds
           </p>
           <p class="mt-10">
-            ©
-            <span class="underline">
-              {{ new Date().getFullYear() }} Mr. Quizer</span
-            >. All rights reserved.
+            ©{{ new Date().getFullYear() }} Mr. Quizer. All rights reserved.
           </p>
         </div>
       </div>

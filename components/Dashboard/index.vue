@@ -37,6 +37,26 @@
               </Button>
             </CardContent>
           </Card>
+          <div v-else>
+            <div class="flex justify-between text-sm">
+              <p>Questions</p>
+              <p>{{ authUser?.questionCount || 0 }}</p>
+            </div>
+            <div
+              class="w-full bg-gray-300 h-1 relative rounded-lg overflow-hidden mb-4"
+            >
+              <div
+                class="w-1/2 bg-gray-800 h-full absolute left-0 top-0 z-10"
+              ></div>
+            </div>
+            <Button
+              size="sm"
+              class="w-full"
+              @click="$router.push({ name: 'index', hash: '#pricing' })"
+            >
+              Upgrade
+            </Button>
+          </div>
         </div>
       </div>
     </div>

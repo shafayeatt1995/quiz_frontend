@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div v-if="modalMode">
     <div class="flex justify-end">
-      <Button class="w-full md:w-auto" @click="modal = true"
-        ><PlusIcon /> Create new question</Button
-      >
+      <Button class="w-full md:w-auto" @click="modal = true">
+        <PlusIcon /> Create new question
+      </Button>
     </div>
     <Sheet @update:open="modal = false" :open="modal">
       <SheetContent
@@ -181,7 +181,7 @@
               id="characters"
               class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
               :class="form.prompt.length > countLimit ? 'border-red-500' : ''"
-              rows="12"
+              rows="10"
               placeholder="Enter Topic details to create questions"
               v-model="form.prompt"
             ></textarea>
@@ -235,6 +235,222 @@
       </SheetContent>
     </Sheet>
   </div>
+
+  <div class="space-y-2" v-else>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div>
+        <Label for="difficulty">Question Name</Label>
+        <Input
+          type="text"
+          v-model="form.name"
+          placeholder="Enter question Name"
+        />
+        <ErrorMessage :error="errors" name="name" />
+      </div>
+      <div>
+        <Label for="questionCount"
+          >Question count
+          <span class="text-xs">
+            ({{ authUser.questionCount.toLocaleString() }} left)
+          </span>
+        </Label>
+        <NumberField
+          id="questionCount"
+          :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
+          :min="25"
+          :modelValue="form.questionCount"
+          @update:modelValue="form.questionCount = $event"
+        >
+          <NumberFieldContent>
+            <NumberFieldDecrement />
+            <NumberFieldInput />
+            <NumberFieldIncrement />
+          </NumberFieldContent>
+        </NumberField>
+        <ErrorMessage :error="errors" name="questionCount" />
+      </div>
+      <div>
+        <Label for="language">question language</Label>
+        <Popover v-model:open="open">
+          <PopoverTrigger as-child>
+            <Button
+              variant="outline"
+              role="combobox"
+              :aria-expanded="open"
+              class="w-full flex justify-between h-10"
+            >
+              {{ languages.find((lang) => lang === form.language) }}
+              <ChevronDownIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="w-full p-0">
+            <Command v-model="form.language">
+              <CommandInput placeholder="Search language..." />
+              <CommandEmpty>No language found.</CommandEmpty>
+              <CommandList>
+                <CommandGroup>
+                  <CommandItem
+                    v-for="lang in languages"
+                    :key="lang"
+                    :value="lang"
+                    @select="open = false"
+                  >
+                    <CheckIcon
+                      :class="
+                        cn(
+                          'mr-2 h-4 w-4',
+                          lang === form.language ? 'opacity-100' : 'opacity-0'
+                        )
+                      "
+                    />
+                    {{ lang }}
+                  </CommandItem>
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        <ErrorMessage :error="errors" name="language" />
+      </div>
+      <div>
+        <Label for="difficulty">Difficulty level</Label>
+        <Select
+          id="difficulty"
+          :modelValue="form.difficulty"
+          @update:modelValue="form.difficulty = $event"
+        >
+          <SelectTrigger class="w-full">
+            <SelectValue placeholder="Select difficulty level" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem
+                :value="type"
+                v-for="(type, i) in difficultyLevels"
+                :key="i"
+              >
+                {{ type }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+      <div>
+        <Label for="questionType">Question type</Label>
+        <Select
+          id="questionType"
+          :modelValue="form.questionType"
+          @update:modelValue="form.questionType = $event"
+        >
+          <SelectTrigger class="w-full">
+            <SelectValue placeholder="Select question type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem
+                :value="type"
+                v-for="(type, i) in questionTypes"
+                :key="i"
+              >
+                {{ type }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+      <div>
+        <Label for="inputType">Select input type</Label>
+        <Select
+          id="inputType"
+          :modelValue="inputType"
+          @update:modelValue="inputType = $event"
+        >
+          <SelectTrigger class="w-full">
+            <SelectValue placeholder="Select input type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem
+                :value="type"
+                v-for="(type, i) in inputTypes"
+                :key="i"
+              >
+                {{ type }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+    <div>
+      <Label
+        for="characters"
+        :class="form.prompt.length > countLimit ? 'text-red-500' : ''"
+        >Topic details: {{ form.prompt.length }}/{{ countLimit }}</Label
+      >
+      <label
+        class="border-2 border-dashed rounded-md px-2 py-1 flex flex-col justify-center items-center gap-2 text-gray-600 bg-white cursor-pointer h-80 font-semibold"
+        for="file-upload"
+        v-if="inputType === 'PDF / Document / TXT / Image'"
+      >
+        <FileUpIcon v-if="countExpire > 0" :size="100" />
+        <LockKeyholeIcon v-else :size="100" />
+        Upload file
+      </label>
+      <textarea
+        v-else-if="inputType === 'Text / Topic'"
+        id="characters"
+        class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
+        :class="form.prompt.length > countLimit ? 'border-red-500' : ''"
+        rows="8"
+        placeholder="Enter Topic details to create questions"
+        v-model="form.prompt"
+      ></textarea>
+      <Input v-else v-model="form.prompt" placeholder="Enter the url" />
+      <ErrorMessage :error="errors" name="prompt" />
+
+      <div v-if="pdfLoading">
+        <p>Processing pdf page {{ pdfProcessing }}/{{ pdfPage }}</p>
+        <div class="w-full h-2 bg-gray-200 rounded overflow-hidden">
+          <div
+            class="h-full bg-custom-gradient transition-all duration-1000 animate-pulse"
+            :style="{ width: (pdfProcessing / pdfPage) * 100 + '%' }"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between items-center mt-2">
+      <div class="flex items-center gap-2">
+        <label
+          class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
+          for="file-upload"
+        >
+          <FileUpIcon v-if="countExpire > 0" />
+          <LockKeyholeIcon v-else />
+          Upload file
+        </label>
+        <input
+          type="file"
+          id="file-upload"
+          class="hidden"
+          accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
+          @change="extractText"
+          :disabled="countExpire <= 0"
+        />
+      </div>
+      <Button
+        type="button"
+        @click="countExpire > 0 ? submit() : null"
+        :disabled="loading || countExpire <= 0"
+      >
+        <LockKeyholeIcon v-if="countExpire <= 0" />
+        <Loader2Icon class="animate-spin" v-if="loading" />
+        {{
+          inputType === "Text / Topic" ? "Generate question" : "Generate text"
+        }}
+      </Button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -259,6 +475,7 @@ export default {
     ChevronDownIcon,
     CheckIcon,
   },
+  props: { modalMode: Boolean },
   data() {
     return {
       form: {

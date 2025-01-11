@@ -7,7 +7,7 @@
           <CardHeader class="px-3">
             <CardTitle class="flex items-center justify-between gap-2">
               <p>Questions</p>
-              <DashboardQuestionForm @refetch="refetch" />
+              <DashboardQuestionForm @refetch="refetch" modalMode />
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -56,8 +56,9 @@
                     :disabled="items.length < perPage"
                     @click="loadMore(true)"
                   >
-                    Next <ChevronRightIcon
-                  /></Button>
+                    Next
+                    <ChevronRightIcon />
+                  </Button>
                 </div>
               </div>
             </template>
