@@ -1,15 +1,17 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <Button class="w-full md:w-auto" @click="modal = true"
-        ><PlusIcon /> Create new quiz</Button
-      >
+      <Button class="w-full md:w-auto" @click="modal = true">
+        <PlusIcon /> Create new quiz
+      </Button>
     </div>
     <Sheet @update:open="modal = false" :open="modal">
       <SheetContent side="right" class="w-full md:max-w-[550px] p-0">
         <div class="p-2 max-h-full h-full flex flex-col gap-2 overflow-y-auto">
           <SheetHeader>
-            <SheetTitle>Create new quiz</SheetTitle>
+            <SheetTitle
+              >{{ editMode ? "Update" : "Create new" }} quiz</SheetTitle
+            >
           </SheetHeader>
           <div class="flex flex-col gap-2 flex-1">
             <div class="col-span-2">
@@ -77,23 +79,27 @@
                     /></span>
                   </Badge>
                 </div>
-                <div class="flex justify-center mt-5" v-if="loading">
-                  <Loader2Icon class="animate-spin" />
-                </div>
-                <div class="grid grid-cols-2 gap-1 mt-2" v-else>
-                  <p
-                    v-for="(item, i) in questions"
-                    :key="i"
-                    class="hover:underline cursor-pointer"
-                    @click="addQuestions(item)"
-                  >
-                    {{ item.name }}
-                    <span class="text-sm">({{ item.questionCount }})</span>
-                  </p>
-                </div>
+                <template v-if="formQuestions">
+                  <div class="flex justify-center mt-5" v-if="loading">
+                    <Loader2Icon class="animate-spin" />
+                  </div>
+                  <div class="grid grid-cols-2 gap-1 mt-2" v-else>
+                    <p
+                      v-for="(item, i) in questions"
+                      :key="i"
+                      class="hover:underline cursor-pointer"
+                      @click="addQuestions(item)"
+                    >
+                      {{ item.name }}
+                      <span class="text-sm">({{ item.questionCount }})</span>
+                    </p>
+                  </div>
+                </template>
               </form>
               <div class="flex justify-end mt-5">
-                <Button @click="createQuiz">Create quiz</Button>
+                <Button @click="createQuiz"
+                  >{{ editMode ? "Update" : "Create" }} quiz</Button
+                >
               </div>
             </div>
           </div>
@@ -104,6 +110,7 @@
 </template>
 
 <script>
+import eventBus from "@/lib/eventBus";
 import {
   CheckIcon,
   PlusIcon,
@@ -120,6 +127,7 @@ export default {
       blocked: false,
       loading: false,
       modal: false,
+      editMode: false,
       form: { name: "", additional: [], questions: [] },
       additional: "",
       search: "",
@@ -127,10 +135,27 @@ export default {
       errors: {},
     };
   },
+  computed: {
+    formQuestions() {
+      return this.form.questions.length === 0 || false;
+    },
+  },
   watch: {
     modal(val) {
-      if (val) this.searchQuestion();
+      if (val) {
+        this.searchQuestion();
+      } else {
+        this.editMode = false;
+        this.form = { name: "", additional: [], questions: [] };
+      }
     },
+  },
+  mounted() {
+    eventBus.on("showQuiz", (item) => {
+      this.editMode = true;
+      this.form = item;
+      this.modal = true;
+    });
   },
   methods: {
     addAdditional() {
@@ -150,7 +175,7 @@ export default {
         });
         this.questions = items;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.blocked = false;
         this.loading = false;
@@ -172,7 +197,11 @@ export default {
         this.blocked = true;
         this.loading = true;
         const { api } = useApi();
-        await api.post("/dashboard/quiz", this.form);
+        if (this.editMode) {
+          await api.put("/dashboard/quiz", this.form);
+        } else {
+          await api.post("/dashboard/quiz", this.form);
+        }
         this.$emit("refetch");
         this.modal = false;
       } catch (error) {

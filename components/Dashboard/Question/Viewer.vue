@@ -20,8 +20,12 @@
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" class="w-56">
-            <DropdownMenuItem class="cursor-pointer" @click="shareUrl">
-              <Share2Icon /> Share exam url
+            <DropdownMenuItem
+              class="cursor-pointer"
+              @click="editMode = !editMode"
+            >
+              <FilePenLineIcon />
+              {{ editMode ? "Close Edit Mode" : "Edit Question" }}
             </DropdownMenuItem>
             <DropdownMenuItem
               class="cursor-pointer"
@@ -65,10 +69,9 @@
       </div>
       <div v-else-if="question?._id" class="space-y-4">
         <div v-for="(val, i) in question.questions" :key="i">
-          <div class="flex items-start gap-1 mb-0.5">
-            <p>{{ i + 1 }}.</p>
-            <EditMode v-model="question.questions[i].q" />
+          <div class="flex items-center gap-1 mb-0.5">
             <Button
+              v-if="editMode"
               type="button"
               class="size-8"
               variant="rose"
@@ -76,6 +79,8 @@
             >
               <XIcon :size="16" />
             </Button>
+            <p>{{ i + 1 }}.</p>
+            <EditMode v-model="question.questions[i].q" :showEdit="editMode" />
           </div>
           <div class="pl-5 space-y-0.5">
             <div
@@ -84,12 +89,17 @@
               class="flex items-center gap-2"
               :class="k === val.a ? 'font-bold text-green-500' : ''"
             >
-              {{ String.fromCharCode(97 + k) }})
-              <EditMode v-model="question.questions[i].o[k]" />
+              <span class="capitalize">
+                {{ String.fromCharCode(97 + k) }})
+              </span>
+              <EditMode
+                v-model="question.questions[i].o[k]"
+                :showEdit="editMode"
+              />
             </div>
           </div>
         </div>
-        <div class="border-t">
+        <div class="border-t" v-if="editMode">
           <h2 class="text-center text-2xl font-bold mt-2">
             Custom question section
           </h2>
@@ -158,13 +168,17 @@
           question?.created_at ? $filters.normalDate(question?.created_at) : ""
         }}</time>
       </div>
-      <Button @click="updateQuestion" :disabled="!changed || updateLoading">
-        <Loader2Icon class="animate-spin" v-if="updateLoading" /> Update
-        Question</Button
-      >
+      <div class="flex items-center gap-2" v-if="editMode">
+        <Button @click="updateQuestion" :disabled="!changed || updateLoading">
+          <Loader2Icon class="animate-spin" v-if="updateLoading" /> Update
+          Question
+        </Button>
+        <Button @click="editMode = false">
+          <Loader2Icon class="animate-spin" v-if="updateLoading" /> Clear Edit
+        </Button>
+      </div>
     </CardFooter>
   </Card>
-  <DashboardQuestionShareModal v-model="shareModal" />
 </template>
 
 <script>
@@ -172,10 +186,10 @@ import {
   BookOpenIcon,
   CheckIcon,
   DownloadIcon,
+  FilePenLineIcon,
   Loader2Icon,
   MoreVerticalIcon,
   PlusIcon,
-  Share2Icon,
   Trash2Icon,
   XIcon,
 } from "lucide-vue-next";
@@ -192,7 +206,7 @@ export default {
     XIcon,
     PlusIcon,
     CheckIcon,
-    Share2Icon,
+    FilePenLineIcon,
   },
   props: {
     modal: Boolean,
@@ -205,7 +219,7 @@ export default {
       trackQuestion: false,
       changed: false,
       updateLoading: false,
-      shareModal: false,
+      editMode: false,
       question: {},
       form: {
         q: "",
@@ -448,7 +462,6 @@ export default {
       }
     },
     addQuestion() {
-      console.log(this.form.o);
       if (this.form.q.length < 1) {
         toast.error("Question cannot be empty");
       } else if (this.form.o.length < 2) {
@@ -456,9 +469,6 @@ export default {
       } else {
         this.question.questions.push(this.form);
       }
-    },
-    shareUrl() {
-      this.shareModal = true;
     },
   },
 };

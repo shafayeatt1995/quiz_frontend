@@ -10,14 +10,27 @@
       <XIcon />
     </Button>
   </form>
-  <component :is="tag" v-else @click="setEdit">{{ modelValue }}</component>
+  <div class="flex gap-1 items-center" v-else>
+    <component :is="tag" @click="setEdit" class="w-full">{{
+      modelValue
+    }}</component>
+    <Button
+      v-if="showEdit"
+      type="button"
+      class="size-8"
+      @click="setEdit"
+      variant="outline"
+    >
+      <FilePenLineIcon />
+    </Button>
+  </div>
 </template>
 
 <script>
-import { CheckIcon, XIcon } from "lucide-vue-next";
+import { CheckIcon, FilePenLineIcon, XIcon } from "lucide-vue-next";
 
 export default {
-  components: { CheckIcon, XIcon },
+  components: { CheckIcon, XIcon, FilePenLineIcon },
   props: {
     tag: {
       type: String,
@@ -26,6 +39,10 @@ export default {
     modelValue: {
       type: String,
       default: "",
+    },
+    showEdit: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -46,11 +63,13 @@ export default {
   methods: {
     setEdit() {
       try {
-        this.edit = true;
-        this.reset = this.val;
-        this.$nextTick(() => {
-          this.$refs.inp.$el.focus();
-        });
+        if (this.showEdit) {
+          this.edit = true;
+          this.reset = this.val;
+          this.$nextTick(() => {
+            this.$refs.inp.$el.focus();
+          });
+        }
       } catch (error) {
         console.error(error);
       }

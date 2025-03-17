@@ -39,11 +39,11 @@ export default {
           to: { name: "dashboard-question" },
           icon: MessageCircleQuestionIcon,
         },
-        // {
-        //   label: "Quiz",
-        //   to: { name: "dashboard-quiz" },
-        //   icon: BookOpenCheckIcon,
-        // },
+        {
+          label: "Quiz",
+          to: { name: "dashboard-quiz" },
+          icon: BookOpenCheckIcon,
+        },
         // {
         //   label: "User manual",
         //   to: { name: "index" },
