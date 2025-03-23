@@ -1,6 +1,6 @@
 <script setup>
 import { cn } from '@/lib/utils';
-import { SelectLabel } from 'radix-vue';
+import { SelectLabel } from 'reka-ui';
 
 const props = defineProps({
   for: { type: String, required: false },

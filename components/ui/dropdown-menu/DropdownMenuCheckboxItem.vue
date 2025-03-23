@@ -5,18 +5,18 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuItemIndicator,
   useForwardPropsEmits,
-} from 'radix-vue';
+} from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({
-  checked: { type: [Boolean, String], required: false },
+  modelValue: { type: [Boolean, String], required: false },
   disabled: { type: Boolean, required: false },
   textValue: { type: String, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   class: { type: null, required: false },
 });
-const emits = defineEmits(['select', 'update:checked']);
+const emits = defineEmits(['select', 'update:modelValue']);
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;

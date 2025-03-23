@@ -5,7 +5,7 @@ import {
   SelectPortal,
   SelectViewport,
   useForwardPropsEmits,
-} from 'radix-vue';
+} from 'reka-ui';
 import { computed } from 'vue';
 import { SelectScrollDownButton, SelectScrollUpButton } from '.';
 
@@ -27,8 +27,11 @@ const props = defineProps({
   arrowPadding: { type: Number, required: false },
   sticky: { type: String, required: false },
   hideWhenDetached: { type: Boolean, required: false },
+  positionStrategy: { type: String, required: false },
   updatePositionStrategy: { type: String, required: false },
+  disableUpdateOnLayoutShift: { type: Boolean, required: false },
   prioritizePosition: { type: Boolean, required: false },
+  reference: { type: null, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   class: { type: null, required: false },
@@ -67,7 +70,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
           cn(
             'p-1',
             position === 'popper' &&
-              'h-[--radix-select-trigger-height] w-full min-w-[--radix-select-trigger-width]',
+              'h-[--reka-select-trigger-height] w-full min-w-[--reka-select-trigger-width]',
           )
         "
       >

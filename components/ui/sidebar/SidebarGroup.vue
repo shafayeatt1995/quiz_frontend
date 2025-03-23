@@ -7,7 +7,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <caption :class="cn('mt-4 text-sm text-muted-foreground', props.class)">
+  <div
+    data-sidebar="group"
+    :class="cn('relative flex w-full min-w-0 flex-col p-2', props.class)"
+  >
     <slot />
-  </caption>
+  </div>
 </template>

@@ -3,40 +3,13 @@
     <h1 class="md:text-7xl text-4xl font-bold text-center max-w-3xl mx-auto">
       Create Quiz with AI from any text
     </h1>
-    <p class="text-center md:text-base text-sm px-10">
+    <p class="text-center md:text-base text-sm px-10 mt-5">
       Create quizzes from any topic, YouTube URL, PDF, or text in less than 10
       seconds
     </p>
 
     <form class="max-w-2xl mx-auto mt-10">
-      <label for="characters" class="text-gray-600 text-sm"
-        >Character count: 0/20000</label
-      >
-      <textarea
-        id="characters"
-        class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
-        rows="7"
-        placeholder="Enter Topic, Youtube URL, PDF, or Text to get a Quiz Docx in seconds. use the bulb for suggestions."
-      ></textarea>
-      <div class="flex justify-between items-center mt-2">
-        <div class="flex items-center gap-2">
-          <label
-            class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
-            for="file-upload"
-          >
-            <FileUpIcon /> Upload file
-          </label>
-          <input
-            type="file"
-            id="file-upload"
-            class="hidden"
-            accept=".pdf&.doc&.docx&.text&.jpg&.png&.jpeg&.svg&.webp"
-          />
-
-          <button aria-label="Get Suggestions"><LightbulbIcon /></button>
-        </div>
-        <Button type="submit">Generate quiz</Button>
-      </div>
+      <DashboardQuestionForm homeMode />
       <p class="text-center mt-4 text-sm">
         236 quizzes created in last 7 days.
       </p>
@@ -52,6 +25,7 @@
 </template>
 
 <script>
+import { useUtils } from "@/composables/useUtils";
 import { FileUpIcon, LightbulbIcon } from "lucide-vue-next";
 
 export default {

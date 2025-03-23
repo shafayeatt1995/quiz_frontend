@@ -71,6 +71,7 @@
                           :key="lang"
                           :value="lang"
                           @select="open = false"
+                          class="cursor-pointer"
                         >
                           <CheckIcon
                             :class="
@@ -237,7 +238,7 @@
   </div>
 
   <div class="space-y-2" v-else>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" v-if="!homeMode">
       <div>
         <Label for="difficulty">Question Name</Label>
         <Input
@@ -403,7 +404,11 @@
         class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
         :class="form.prompt.length > countLimit ? 'border-red-500' : ''"
         rows="8"
-        placeholder="Enter Topic details to create questions"
+        :placeholder="
+          homeMode
+            ? 'Enter Topic, Youtube URL, PDF, or Text to get a Quiz Docx in seconds. use the bulb for suggestions.'
+            : 'Enter Topic details to create questions'
+        "
         v-model="form.prompt"
       ></textarea>
       <Input v-else v-model="form.prompt" placeholder="Enter the url" />
@@ -425,7 +430,7 @@
           class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
           for="file-upload"
         >
-          <FileUpIcon v-if="countExpire > 0" />
+          <FileUpIcon v-if="countExpire > 0 || homeMode" />
           <LockKeyholeIcon v-else />
           Upload file
         </label>
@@ -435,10 +440,27 @@
           class="hidden"
           accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
           @change="extractText"
-          :disabled="countExpire <= 0"
+          :disabled="homeMode ? false : countExpire <= 0"
         />
+        <button aria-label="Get Suggestions" v-if="homeMode">
+          <LightbulbIcon />
+        </button>
       </div>
       <Button
+        type="button"
+        v-if="homeMode"
+        @click="generate"
+        :disabled="loading"
+      >
+        <Loader2Icon class="animate-spin" v-if="loading" />
+        {{
+          inputType === "Text / Topic"
+            ? `Generate ${homeMode ? "quiz" : "question"}`
+            : "Generate text"
+        }}
+      </Button>
+      <Button
+        v-else
         type="button"
         @click="countExpire > 0 ? submit() : null"
         :disabled="loading || countExpire <= 0"
@@ -446,7 +468,7 @@
         <LockKeyholeIcon v-if="countExpire <= 0" />
         <Loader2Icon class="animate-spin" v-if="loading" />
         {{
-          inputType === "Text / Topic" ? "Generate question" : "Generate text"
+          inputType === "Text / Topic" ? `Generate question` : "Generate text"
         }}
       </Button>
     </div>
@@ -458,12 +480,14 @@ import {
   CheckIcon,
   ChevronDownIcon,
   FileUpIcon,
+  LightbulbIcon,
   Loader2Icon,
   LockKeyholeIcon,
   PlusIcon,
 } from "lucide-vue-next";
 import { toast } from "vue-sonner";
 import { cn } from "@/lib/utils";
+import eventBus from "@/lib/eventBus";
 
 export default {
   name: "DashboardQuestionForm",
@@ -474,8 +498,9 @@ export default {
     PlusIcon,
     ChevronDownIcon,
     CheckIcon,
+    LightbulbIcon,
   },
-  props: { modalMode: Boolean },
+  props: { modalMode: Boolean, homeMode: Boolean },
   data() {
     return {
       form: {
@@ -483,7 +508,7 @@ export default {
         difficulty: "Medium",
         language: "English",
         prompt: "",
-        questionType: "Multiple Choice questions",
+        questionType: "Multiple choice questions",
         questionCount: 25,
       },
       inputType: "Text / Topic",
@@ -494,7 +519,7 @@ export default {
         "Youtube URL",
       ],
       difficultyLevels: ["Easy", "Medium", "Hard"],
-      questionTypes: ["Multiple Choice questions", "True or False"],
+      questionTypes: ["Multiple choice questions", "True or False", "Mixed"],
       languages: [
         "English",
         "Arabic",
@@ -614,12 +639,14 @@ export default {
       }
     },
     countExpire() {
-      return this.authUser.questionCount || 0;
+      return this.authUser?.questionCount || 0;
     },
     maxQuestionCount() {
-      return this.authUser.questionCount;
+      return this.authUser?.questionCount || 0;
     },
     countLimit() {
+      if (this.homeMode) return 20000;
+
       if (this.authUser.isAdmin) return 20000;
       else if (this.authUser.isProUser) return 20000;
       else if (this.authUser.isGroUser) return 10000;
@@ -627,6 +654,9 @@ export default {
       else if (this.authUser.isFreeUser) return 100;
       return 0;
     },
+  },
+  mounted() {
+    this.preset();
   },
   methods: {
     cn,
@@ -680,8 +710,10 @@ export default {
     },
     async extractText(event) {
       try {
-        if (this.countExpire <= 0 || this.click || !event.target.files[0])
-          return;
+        if (!this.homeMode) {
+          if (this.countExpire <= 0 || this.click || !event.target.files[0])
+            return;
+        }
         this.click = true;
         this.loading = true;
 
@@ -809,6 +841,33 @@ export default {
         this.inputType = "Text / Topic";
       } catch (error) {
         console.error("Error fetching transcript:", error);
+      }
+    },
+    generate() {
+      if (this.homeMode) {
+        if (this.authUser) {
+          this.$router.push({
+            name: "dashboard",
+            query: { prompt: this.form.prompt },
+          });
+        } else {
+          eventBus.emit("loginModal");
+        }
+      } else if (this.authUser) {
+        this.$router.push({
+          name: "dashboard",
+          query: { prompt: this.form.prompt },
+        });
+      } else {
+        toast.error("Please login first");
+      }
+    },
+    preset() {
+      const { prompt, ...query } = this.$route.query;
+      if (prompt) {
+        this.form.prompt = prompt;
+        this.inputType = "Text / Topic";
+        this.$router.replace({ query });
       }
     },
   },

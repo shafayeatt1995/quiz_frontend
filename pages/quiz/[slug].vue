@@ -24,11 +24,9 @@ export default {
         this.loading = true;
         const { api } = useApi();
         const { item } = await api.get(`/quiz/${this.$route.params.slug}`);
-        console.log(item);
         if (item) {
           this.item = item;
           this.questions = item.questions.map(({ o, q }) => ({ o, q }));
-          console.log(item.questions.map(({ o, q }) => ({ o, q })));
         }
       } catch (error) {
         console.error(error);

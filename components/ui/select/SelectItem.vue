@@ -6,11 +6,11 @@ import {
   SelectItemIndicator,
   SelectItemText,
   useForwardProps,
-} from 'radix-vue';
+} from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({
-  value: { type: String, required: true },
+  value: { type: null, required: true },
   disabled: { type: Boolean, required: false },
   textValue: { type: String, required: false },
   asChild: { type: Boolean, required: false },

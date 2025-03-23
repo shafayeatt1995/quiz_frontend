@@ -88,12 +88,21 @@ export const useUtils = () => {
       return { perPage, page: items.length / perPage + 1 };
     },
 
-    cookieParse(cookie = document.cookie) {
-      return cookie.split(";").reduce((acc, cookie) => {
-        const [name, value] = cookie.split("=").map((item) => item.trim());
-        acc[name] = decodeURIComponent(value);
-        return acc;
-      }, {});
+    cookieParse(
+      cookie = typeof window === "undefined"
+        ? useRequestHeaders(["cookie"])?.cookie
+        : document.cookie
+    ) {
+      try {
+        return cookie.split(";").reduce((acc, cookie) => {
+          const [name, value] = cookie.split("=").map((item) => item.trim());
+          acc[name] = decodeURIComponent(value);
+          return acc;
+        }, {});
+      } catch (error) {
+        console.error("Failed to parse cookies:", error);
+        return {};
+      }
     },
 
     setCookie(name, value, options = {}) {
@@ -117,8 +126,13 @@ export const useUtils = () => {
     },
 
     getCookie(name) {
-      const cookies = cookieParse();
-      return cookies[name];
+      try {
+        const cookies = cookieParse();
+        return cookies[name];
+      } catch (error) {
+        console.error("Failed to parse cookies:", error);
+        return null;
+      }
     },
 
     removeCookie(name) {

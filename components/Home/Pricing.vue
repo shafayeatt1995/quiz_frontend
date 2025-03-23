@@ -4,16 +4,18 @@
       <h2 class="md:text-4xl text-3xl font-bold">
         Straightforward, affordable pricing
       </h2>
-      <p class="text-gray-500 mt-2">
-        No subscriptions, no stress😃. Enjoy with one-time payments😎.
-      </p>
     </div>
     <div class="overflow-x-auto mt-12">
       <table class="w-full border border-collapse min-w-[980px]">
         <thead>
           <tr>
-            <th class="p-4 text-left border max-w-[150px]">
-              <RadioGroup
+            <th class="p-4 text-left border max-w-[160px]">
+              <p class="font-normal">
+                No subscriptions, no stress😃.
+                <br />
+                Enjoy with one-time payments😎.
+              </p>
+              <!-- <RadioGroup
                 @update:modelValue="yearly = $event"
                 :modelValue="yearly"
               >
@@ -25,7 +27,7 @@
                   <RadioGroupItem id="yearly" :value="true" />
                   <label for="yearly" class="text-sm">Yearly Bundle</label>
                 </div>
-              </RadioGroup>
+              </RadioGroup> -->
             </th>
             <th
               class="p-4 text-center border whitespace-nowrap max-w-[150px]"
@@ -33,9 +35,9 @@
               :key="i"
             >
               <p class="text-xl">{{ price.name }}</p>
-              <p class="font-bold text-2xl">
+              <p class="font-bold text-2xl" v-if="price.name !== 'Enterprise'">
                 ${{ yearly ? price.yearlyPrice : price.monthlyPrice }}
-                <span class="text-xs text-gray-500 font-medium"
+                <!-- <span class="text-xs text-gray-500 font-medium"
                   >/{{
                     price.name === "Pay per use"
                       ? "Per quiz"
@@ -43,57 +45,43 @@
                       ? "Year"
                       : "Month"
                   }}</span
-                >
+                > -->
               </p>
               <Button
                 type="button"
-                class="w-full"
+                class="w-full mt-2"
                 @click="openUrl(i)"
                 :disabled="loading === i"
               >
                 <Loader2Icon class="animate-spin" v-if="loading === i" />
 
-                Choose Plan
+                {{ price.name === "Enterprise" ? "Contact Us" : "Choose Plan" }}
               </Button>
 
-              <p
+              <!-- <p
                 @click="yearly = !yearly"
                 class="text-xs mt-3 font-normal cursor-pointer hover:underline"
               >
                 {{ yearly ? "View monthly bundle" : "Save with yearly bundle" }}
-              </p>
+              </p> -->
             </th>
           </tr>
         </thead>
 
-        <tbody class="border text-sm">
+        <tbody class="border">
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Generate quiz questions
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">Generate questions</td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
-              Up to
+              {{ price.name === "Enterprise" ? "" : "Up to" }}
               {{
                 yearly
                   ? price.gqqYear.toLocaleString()
                   : price.gqq.toLocaleString()
               }}
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Input character Limit
-            </td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              {{ price.icl.toLocaleString() }}
             </td>
           </tr>
           <tr>
@@ -106,6 +94,18 @@
               <p class="flex items-center justify-center">
                 {{ yearly ? price.oemYear : price.oem }}
               </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Input character Limit
+            </td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              {{ price.icl.toLocaleString() }}
             </td>
           </tr>
           <tr>

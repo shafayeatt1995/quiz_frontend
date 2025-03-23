@@ -11,30 +11,29 @@
     "sitemap": "node scripts/sitemap.js"
   },
   "dependencies": {
-    "@nuxt/fonts": "0.10.3",
-    "@nuxt/image": "1.8.1",
-    "@nuxtjs/color-mode": "3.5.2",
+    "@nuxt/fonts": "0.11.0",
+    "@nuxt/image": "1.9.0",
     "@paddle/paddle-js": "^1.3.3",
-    "@vueuse/core": "^12.2.0",
+    "@vueuse/core": "^13.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "docx": "^9.1.0",
-    "lucide-vue-next": "^0.468.0",
+    "lucide-vue-next": "^0.482.0",
     "mammoth": "^1.8.0",
-    "nuxt": "^3.14.1592",
+    "nuxt": "^3.16.0",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.9.155",
-    "radix-vue": "^1.9.11",
-    "tailwind-merge": "^2.5.5",
+    "reka-ui": "^2.1.0",
+    "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "tesseract.js": "^5.1.1",
-    "vue": "latest",
-    "vue-router": "latest",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
     "vue-sonner": "^1.3.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "6.12.2",
-    "shadcn-nuxt": "^0.11.3"
+    "@nuxtjs/tailwindcss": "6.13.2",
+    "shadcn-nuxt": "1.0.3"
   }
 }

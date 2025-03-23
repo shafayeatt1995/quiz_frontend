@@ -7,7 +7,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <tbody :class="cn('[&_tr:last-child]:border-0', props.class)">
+  <li
+    data-sidebar="menu-item"
+    :class="cn('group/menu-item relative', props.class)"
+  >
     <slot />
-  </tbody>
+  </li>
 </template>

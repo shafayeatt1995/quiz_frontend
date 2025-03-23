@@ -4,7 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuPortal,
   useForwardPropsEmits,
-} from 'radix-vue';
+} from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -20,8 +20,11 @@ const props = defineProps({
   arrowPadding: { type: Number, required: false },
   sticky: { type: String, required: false },
   hideWhenDetached: { type: Boolean, required: false },
+  positionStrategy: { type: String, required: false },
   updatePositionStrategy: { type: String, required: false },
+  disableUpdateOnLayoutShift: { type: Boolean, required: false },
   prioritizePosition: { type: Boolean, required: false },
+  reference: { type: null, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   class: { type: null, required: false },

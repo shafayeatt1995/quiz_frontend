@@ -65,17 +65,11 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: [
-    "@nuxtjs/tailwindcss",
-    "shadcn-nuxt",
-    "@nuxtjs/color-mode",
-    "@nuxt/image",
-    "@nuxt/fonts",
-  ],
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@nuxt/fonts", "shadcn-nuxt"],
+  shadcn: { prefix: "", componentDir: "./components/ui" },
   routeRules: {
     "*": { prerender: true },
   },
   css: ["~/assets/css/tailwind.css"],
-  shadcn: { prefix: "", componentDir: "./components/ui" },
   image: { quality: 80, format: ["webp"] },
 });

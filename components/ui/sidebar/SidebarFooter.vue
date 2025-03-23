@@ -7,11 +7,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <span
-    :class="
-      cn('ml-auto text-xs tracking-widest text-muted-foreground', props.class)
-    "
+  <div
+    data-sidebar="footer"
+    :class="cn('flex flex-col gap-2 p-2', props.class)"
   >
     <slot />
-  </span>
+  </div>
 </template>

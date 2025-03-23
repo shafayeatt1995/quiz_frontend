@@ -1,6 +1,6 @@
 <script setup>
 import { cn } from '@/lib/utils';
-import { AvatarRoot } from 'radix-vue';
+import { AvatarRoot } from 'reka-ui';
 import { avatarVariant } from '.';
 
 const props = defineProps({

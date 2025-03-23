@@ -7,14 +7,16 @@ const props = defineProps({
 </script>
 
 <template>
-  <th
+  <ul
+    data-sidebar="menu-badge"
     :class="
       cn(
-        'h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
+        'mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5',
+        'group-data-[collapsible=icon]:hidden',
         props.class,
       )
     "
   >
     <slot />
-  </th>
+  </ul>
 </template>

@@ -7,9 +7,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="relative w-full overflow-auto">
-    <table :class="cn('w-full caption-bottom text-sm', props.class)">
-      <slot />
-    </table>
-  </div>
+  <ul
+    data-sidebar="menu"
+    :class="cn('flex w-full min-w-0 flex-col gap-1', props.class)"
+  >
+    <slot />
+  </ul>
 </template>

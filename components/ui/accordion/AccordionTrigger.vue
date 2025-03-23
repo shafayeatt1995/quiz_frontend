@@ -1,7 +1,7 @@
 <script setup>
 import { cn } from '@/lib/utils';
 import { ChevronDown } from 'lucide-vue-next';
-import { AccordionHeader, AccordionTrigger } from 'radix-vue';
+import { AccordionHeader, AccordionTrigger } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

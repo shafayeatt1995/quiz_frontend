@@ -1,6 +1,6 @@
 <script setup>
 import { cn } from '@/lib/utils';
-import { AccordionContent } from 'radix-vue';
+import { AccordionContent } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

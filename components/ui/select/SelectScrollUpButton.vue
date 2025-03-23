@@ -1,7 +1,7 @@
 <script setup>
 import { cn } from '@/lib/utils';
 import { ChevronUp } from 'lucide-vue-next';
-import { SelectScrollUpButton, useForwardProps } from 'radix-vue';
+import { SelectScrollUpButton, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

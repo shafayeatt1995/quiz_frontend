@@ -1,6 +1,6 @@
 <script setup>
 import { cn } from '@/lib/utils';
-import { PopoverContent, PopoverPortal, useForwardPropsEmits } from 'radix-vue';
+import { PopoverContent, PopoverPortal, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 
 defineOptions({
@@ -9,7 +9,6 @@ defineOptions({
 
 const props = defineProps({
   forceMount: { type: Boolean, required: false },
-  trapFocus: { type: Boolean, required: false },
   side: { type: null, required: false },
   sideOffset: { type: Number, required: false, default: 4 },
   align: { type: null, required: false, default: 'center' },
@@ -20,8 +19,11 @@ const props = defineProps({
   arrowPadding: { type: Number, required: false },
   sticky: { type: String, required: false },
   hideWhenDetached: { type: Boolean, required: false },
+  positionStrategy: { type: String, required: false },
   updatePositionStrategy: { type: String, required: false },
+  disableUpdateOnLayoutShift: { type: Boolean, required: false },
   prioritizePosition: { type: Boolean, required: false },
+  reference: { type: null, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   disableOutsidePointerEvents: { type: Boolean, required: false },

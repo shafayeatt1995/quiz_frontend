@@ -1,6 +1,6 @@
 <script setup>
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { useForwardPropsEmits } from 'radix-vue';
+import { useForwardPropsEmits } from 'reka-ui';
 import Command from './Command.vue';
 
 const props = defineProps({

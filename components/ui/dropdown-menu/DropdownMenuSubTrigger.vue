@@ -1,7 +1,7 @@
 <script setup>
 import { cn } from '@/lib/utils';
 import { ChevronRight } from 'lucide-vue-next';
-import { DropdownMenuSubTrigger, useForwardProps } from 'radix-vue';
+import { DropdownMenuSubTrigger, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

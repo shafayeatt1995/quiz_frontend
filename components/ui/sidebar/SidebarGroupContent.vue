@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <thead :class="cn('[&_tr]:border-b', props.class)">
+  <div data-sidebar="group-content" :class="cn('w-full text-sm', props.class)">
     <slot />
-  </thead>
+  </div>
 </template>

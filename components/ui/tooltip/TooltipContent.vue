@@ -1,6 +1,6 @@
 <script setup>
 import { cn } from '@/lib/utils';
-import { TooltipContent, TooltipPortal, useForwardPropsEmits } from 'radix-vue';
+import { TooltipContent, TooltipPortal, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 
 defineOptions({
@@ -22,6 +22,8 @@ const props = defineProps({
   arrowPadding: { type: Number, required: false },
   sticky: { type: String, required: false },
   hideWhenDetached: { type: Boolean, required: false },
+  positionStrategy: { type: String, required: false },
+  updatePositionStrategy: { type: String, required: false },
   class: { type: null, required: false },
 });
 

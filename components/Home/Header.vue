@@ -38,9 +38,9 @@
         <DropdownMenu v-if="loggedIn">
           <DropdownMenuTrigger asChild>
             <Avatar class="cursor-pointer">
-              <AvatarImage :src="authUser.avatar" :alt="authUser.name" />
+              <AvatarImage :src="authUser?.avatar" :alt="authUser?.name" />
               <AvatarFallback class="text-base">{{
-                authUser.name
+                authUser?.name
                   .split(" ")
                   .map((i) => i[0].toUpperCase())
                   .join("")
