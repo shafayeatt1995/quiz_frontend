@@ -10,9 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 export default {
   name: "DefaultLayout",
-  components: {
-    Toaster,
-  },
+  components: { Toaster },
   mounted() {
     const { value } = useData();
     value.isTablet = window.innerWidth < 1024;
