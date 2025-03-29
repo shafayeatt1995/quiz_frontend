@@ -54,18 +54,24 @@
             </form>
             <div>
               <form class="col-span-2" @submit.prevent="searchQuestion">
-                <Label for="difficulty">Search Questions</Label>
-                <div class="flex gap-1">
-                  <Input
-                    type="text"
-                    v-model="search"
-                    placeholder="Enter search keyword"
-                  />
-                  <Button type="submit" class="size-10"><SearchIcon /></Button>
-                </div>
+                <template v-if="form.questions.length === 0">
+                  <Label for="search">Search Questions</Label>
+                  <div class="flex gap-1">
+                    <Input
+                      type="text"
+                      v-model="search"
+                      placeholder="Enter search keyword"
+                      id="search"
+                    />
+                    <Button type="submit" class="size-10"
+                      ><SearchIcon
+                    /></Button>
+                  </div>
+                </template>
                 <ErrorMessage :error="errors" name="questions" />
 
-                <div class="flex flex-wrap mt-2 gap-2">
+                <p class="text-lg font-semibold mt-2">Questions set</p>
+                <div class="flex flex-wrap gap-2">
                   <Badge
                     v-for="(item, i) in form.questions"
                     :key="i"
@@ -83,7 +89,7 @@
                   <div class="flex justify-center mt-5" v-if="loading">
                     <Loader2Icon class="animate-spin" />
                   </div>
-                  <div class="grid grid-cols-2 gap-1 mt-2" v-else>
+                  <div class="grid grid-cols-2 gap-1" v-else>
                     <p
                       v-for="(item, i) in questions"
                       :key="i"
@@ -91,7 +97,9 @@
                       @click="addQuestions(item)"
                     >
                       {{ item.name }}
-                      <span class="text-sm">({{ item.questionCount }})</span>
+                      <span class="text-xs"
+                        >({{ item.questionCount }} Questions)</span
+                      >
                     </p>
                   </div>
                 </template>

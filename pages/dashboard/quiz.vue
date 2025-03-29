@@ -27,6 +27,11 @@
                 <template #additional="{ item }">
                   {{ item.additional.join(", ") }}
                 </template>
+                <template #status="{ item }">
+                  <Badge :variant="item.active ? 'green' : 'rose'">
+                    {{ item.active ? "Active" : "Inactive" }}
+                  </Badge>
+                </template>
                 <template #question="{ item }">
                   <div class="space-y-1">
                     <p v-for="(val, i) in item.questions" :key="i">
@@ -50,24 +55,24 @@
                         <span class="sr-only">More</span>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" class="w-28">
+                    <DropdownMenuContent align="end" class="w-42">
                       <DropdownMenuItem
                         class="cursor-pointer"
                         @click="shareUrl(index)"
                       >
-                        <Share2Icon /> Exam url
+                        <CopyIcon /> Copy quiz URL
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         class="cursor-pointer"
                         @click="showQuiz(index)"
                       >
-                        <PencilIcon /> Edit
+                        <PencilIcon /> Edit quiz
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         class="cursor-pointer"
                         @click="deleteQuiz(index)"
                       >
-                        <Trash2Icon /> Delete
+                        <Trash2Icon /> Delete quiz
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -110,9 +115,9 @@ import {
   BookOpenIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CopyIcon,
   MoreVerticalIcon,
   PencilIcon,
-  Share2Icon,
   Trash2Icon,
 } from "lucide-vue-next";
 import { toast } from "vue-sonner";
@@ -126,7 +131,7 @@ export default {
     MoreVerticalIcon,
     PencilIcon,
     Trash2Icon,
-    Share2Icon,
+    CopyIcon,
   },
   data() {
     return {
@@ -144,6 +149,7 @@ export default {
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
+        { key: "status", label: "Status", span: "minmax(100PX, 1fr)" },
         {
           key: "additional",
           label: "Additional field",
@@ -212,10 +218,10 @@ export default {
     async shareUrl(i) {
       try {
         const origin = window.location.origin;
-        const { slug } = this.items[i];
-        const url = `${origin}/quiz/${slug}`;
+        const { id } = this.items[i];
+        const url = `${origin}/quiz/${id}`;
         await copyToClipboard(url);
-        toast.success("Copied to clipboard");
+        toast.success("Quiz URL copied to clipboard");
       } catch (error) {
         console.error(error);
       }

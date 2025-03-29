@@ -5,7 +5,7 @@
     </div>
     <Accordion
       type="single"
-      class="w-full grid grid-cols-2 gap-x-10 gap-y-2"
+      class="w-full grid lg:grid-cols-2 gap-x-10 gap-y-2"
       collapsible
     >
       <AccordionItem v-for="(qna, i) in qnas" :key="i" :value="qna.a">

@@ -39,16 +39,14 @@
           </Card>
           <div v-else>
             <div class="flex justify-between text-sm">
-              <p>Questions</p>
+              <p>Questions left</p>
               <p>{{ authUser?.questionCount || 0 }}</p>
             </div>
-            <div
-              class="w-full bg-gray-300 h-1 relative rounded-lg overflow-hidden mb-4 mt-2"
-            >
-              <div
-                class="w-1/2 bg-gray-800 h-full absolute left-0 top-0 z-10"
-              ></div>
+            <div class="flex justify-between text-sm">
+              <p>Quizzes left</p>
+              <p>{{ authUser?.quizCount || 0 }}</p>
             </div>
+            <hr class="my-2" />
             <Button
               size="sm"
               class="w-full"

@@ -34,7 +34,7 @@
               <NumberField
                 id="questionCount"
                 :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
-                :min="25"
+                :min="10"
                 :modelValue="form.questionCount"
                 @update:modelValue="form.questionCount = $event"
               >
@@ -258,7 +258,7 @@
         <NumberField
           id="questionCount"
           :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
-          :min="25"
+          :min="10"
           :modelValue="form.questionCount"
           @update:modelValue="form.questionCount = $event"
         >
@@ -509,7 +509,7 @@ export default {
         language: "English",
         prompt: "",
         questionType: "Multiple choice questions",
-        questionCount: 25,
+        questionCount: 10,
       },
       inputType: "Text / Topic",
       inputTypes: [

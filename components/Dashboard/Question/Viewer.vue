@@ -70,6 +70,8 @@
       <div v-else-if="question?._id" class="space-y-4">
         <div v-for="(val, i) in question.questions" :key="i">
           <div class="flex items-center gap-1 mb-0.5">
+            <p>{{ i + 1 }}.</p>
+            <EditMode v-model="question.questions[i].q" :showEdit="editMode" />
             <Button
               v-if="editMode"
               type="button"
@@ -77,12 +79,10 @@
               variant="rose"
               @click="question.questions.splice(i, 1)"
             >
-              <XIcon :size="16" />
+              <Trash2Icon />
             </Button>
-            <p>{{ i + 1 }}.</p>
-            <EditMode v-model="question.questions[i].q" :showEdit="editMode" />
           </div>
-          <div class="pl-5 space-y-0.5">
+          <div class="pl-5 space-y-0.5 pt-2">
             <div
               v-for="(o, k) in val.o"
               :key="k"
@@ -96,6 +96,23 @@
                 v-model="question.questions[i].o[k]"
                 :showEdit="editMode"
               />
+              <TooltipProvider v-if="editMode">
+                <Tooltip>
+                  <TooltipTrigger as-child>
+                    <Button
+                      type="button"
+                      class="size-8"
+                      :variant="k === val.a ? 'green' : 'outline'"
+                      @click="question.questions[i].a = k"
+                    >
+                      <CheckIcon :size="16" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Make it correct answer</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
         </div>

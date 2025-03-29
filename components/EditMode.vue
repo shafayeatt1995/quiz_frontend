@@ -14,15 +14,23 @@
     <component :is="tag" @click="setEdit" class="w-full">{{
       modelValue
     }}</component>
-    <Button
-      v-if="showEdit"
-      type="button"
-      class="size-8"
-      @click="setEdit"
-      variant="outline"
-    >
-      <FilePenLineIcon />
-    </Button>
+    <TooltipProvider v-if="showEdit">
+      <Tooltip>
+        <TooltipTrigger as-child>
+          <Button
+            type="button"
+            class="size-8"
+            @click="setEdit"
+            variant="outline"
+          >
+            <FilePenLineIcon />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Edit</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   </div>
 </template>
 
