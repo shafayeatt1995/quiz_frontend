@@ -26,6 +26,11 @@ export const useAuth = () => {
   };
   const userLoggedIn = async () => {
     try {
+      console.log(
+        typeof window === "undefined"
+          ? "Ami server"
+          : "Ami user logged in client"
+      );
       if (!authUser.value) {
         let cookie = null;
         if (typeof window !== "undefined") {
@@ -35,7 +40,9 @@ export const useAuth = () => {
         }
         if (cookie && cookieParse(cookie)?.sessionToken) {
           const data = await api.get("/auth/user");
-          console.log(typeof window === "undefined" ? data : "client");
+          console.log(
+            typeof window === "undefined" ? data : "ami user logged in client"
+          );
           setUser(data.user);
         }
       }
