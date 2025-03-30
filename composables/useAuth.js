@@ -35,6 +35,7 @@ export const useAuth = () => {
         }
         if (cookie && cookieParse(cookie)?.sessionToken) {
           const data = await api.get("/auth/user");
+          console.log(typeof window === "undefined" ? data : "client");
           setUser(data.user);
         }
       }
