@@ -19,7 +19,7 @@
           </nav>
         </div>
         <div class="mt-auto p-4">
-          <Card v-if="isFreeUser">
+          <!-- <Card v-if="isFreeUser">
             <CardHeader class="p-2 pt-0 md:p-4">
               <CardTitle>Upgrade to Pro</CardTitle>
               <CardDescription>
@@ -36,8 +36,8 @@
                 Upgrade
               </Button>
             </CardContent>
-          </Card>
-          <div v-else>
+          </Card> -->
+          <div>
             <div class="flex justify-between text-sm">
               <p>Questions left</p>
               <p>{{ authUser?.questionCount || 0 }}</p>
