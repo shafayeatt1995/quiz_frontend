@@ -423,6 +423,10 @@
           ></div>
         </div>
       </div>
+      <p class="text-center text-sm mt-2" v-if="loading">
+        The process of generating questions can take approximately 30 to 60
+        seconds.
+      </p>
     </div>
     <div class="flex justify-between items-center mt-2">
       <div class="flex items-center gap-2">
@@ -628,7 +632,7 @@ export default {
       return authUser.value;
     },
     isFreeUser() {
-      return !!this.authUser.isFreeUser;
+      return this.authUser.package === "free";
     },
     isValidURL() {
       try {
@@ -646,13 +650,11 @@ export default {
     },
     countLimit() {
       if (this.homeMode) return 20000;
-
-      if (this.authUser.isAdmin) return 20000;
-      else if (this.authUser.isProUser) return 20000;
-      else if (this.authUser.isGroUser) return 10000;
-      else if (this.authUser.isBasicUser) return 5000;
-      else if (this.authUser.isFreeUser) return 100;
-      return 0;
+      else if (this.authUser.isAdmin) return 20000;
+      else if (this.authUser.package === "professional") return 20000;
+      else if (this.authUser.package === "growth") return 10000;
+      else if (this.authUser.package === "basic") return 5000;
+      return 100;
     },
   },
   mounted() {

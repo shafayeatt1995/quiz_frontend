@@ -184,8 +184,7 @@ export default {
       return authUser.value;
     },
     isFreeUser() {
-      const { authUser } = useAuth();
-      return !!authUser.value?.isFreeUser;
+      return this.authUser.package === "free";
     },
   },
   mounted() {

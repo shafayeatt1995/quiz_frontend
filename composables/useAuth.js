@@ -13,6 +13,17 @@ export const useAuth = () => {
       setCookie("sessionToken", data.token, { expires: 7 });
     } catch (err) {}
   };
+  const anikerLogin = async (body) => {
+    try {
+      const data = await api.post("/auth/aniker-login", body);
+      setUser(data.user);
+      setCookie("sessionToken", data.token, { expires: 7 });
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
   const userLoggedIn = async () => {
     try {
       if (!authUser.value) {
@@ -53,5 +64,6 @@ export const useAuth = () => {
     authUser,
     loggedIn,
     refreshToken,
+    anikerLogin,
   };
 };
