@@ -185,7 +185,6 @@ export default {
           }
         );
 
-        console.log(this.form.additionalFields, additionalFields);
         this.modal = true;
       } catch (error) {
         console.error(error);

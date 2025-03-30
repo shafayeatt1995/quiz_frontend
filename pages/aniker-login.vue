@@ -34,7 +34,6 @@ export default {
         this.blocked = true;
         const { anikerLogin } = useAuth();
         const status = await anikerLogin(this.form);
-        console.log(status);
         if (status) this.$router.push("/dashboard");
       } catch (error) {
         console.error(error);
