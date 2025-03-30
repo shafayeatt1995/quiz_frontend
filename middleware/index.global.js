@@ -4,8 +4,8 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
   const authExactUrls = ["/admin"];
   const authStartsWithRoutes = ["/dashboard"];
 
-  const { userLoggedIn, authUser } = useAuth();
-  await userLoggedIn();
+  const { fetchUser, authUser } = useAuth();
+  await fetchUser();
 
   const isExactRoute = authExactUrls.includes(path);
   const isStartsRoute = authStartsWithRoutes.some((route) =>

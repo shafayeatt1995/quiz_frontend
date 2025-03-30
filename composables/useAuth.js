@@ -24,7 +24,7 @@ export const useAuth = () => {
       return false;
     }
   };
-  const userLoggedIn = async () => {
+  const fetchUser = async () => {
     try {
       if (!authUser.value) {
         let cookie = null;
@@ -61,7 +61,7 @@ export const useAuth = () => {
   };
   return {
     login,
-    userLoggedIn,
+    fetchUser,
     logout,
     authUser,
     loggedIn,
