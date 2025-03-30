@@ -678,6 +678,7 @@ export default {
             await api.post2("/dashboard/question/generate", this.form);
             this.modal = false;
             toast.success("Question generated successfully");
+            this.$router.push("/dashboard/question");
             this.$emit("refetch");
             const { refreshToken } = useAuth();
             await refreshToken();
