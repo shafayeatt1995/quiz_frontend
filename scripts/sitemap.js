@@ -28,7 +28,6 @@ ${allRoutes
   )
   .join("")}
 </urlset>`;
-
   const filePath = join(
     join(fileURLToPath(import.meta.url), ".."),
     "../public/sitemap.xml"
