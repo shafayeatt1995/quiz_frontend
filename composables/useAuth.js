@@ -39,8 +39,10 @@ export const useAuth = () => {
           setUser(data.user);
         }
       }
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
   const logout = (redirect = "/") => {
