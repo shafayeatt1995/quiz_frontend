@@ -413,6 +413,16 @@
       ></textarea>
       <Input v-else v-model="form.prompt" placeholder="Enter the url" />
       <ErrorMessage :error="errors" name="prompt" />
+      <p
+        class="text-center text-red-500 mt-2 text-sm"
+        v-if="form.prompt.length > countLimit"
+      >
+        Free account has 100 character limit. Please
+        <NuxtLink to="/#pricing" class="underline font-semibold"
+          >upgrade</NuxtLink
+        >
+        your account for full access.
+      </p>
 
       <div v-if="pdfLoading">
         <p>Processing pdf page {{ pdfProcessing }}/{{ pdfPage }}</p>
