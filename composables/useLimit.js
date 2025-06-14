@@ -1,8 +1,8 @@
 export const useLimit = () => {
   return {
     basic: {
-      name: "Basic Plan",
-      monthlyPrice: 9,
+      name: "Monthly Plan",
+      monthlyPrice: 2,
       yearlyPrice: 89,
       paddle: {
         monthlyName: "basic",
@@ -10,8 +10,8 @@ export const useLimit = () => {
         monthly: "pri_01jg9tgzspc7ccnw2aneaj1320",
         yearly: "pri_01jg9tk8ccmg9bs2acp4vjsqya",
       },
-      oem: 50,
-      oemYear: 500,
+      oem: "No Limit",
+      oemYear: "No Limit",
       gqq: 2500,
       gqqYear: 25000,
       icl: 5000,
@@ -23,10 +23,11 @@ export const useLimit = () => {
       ptq: true,
       apq: true,
       mls: true,
+      pe: "No Limit",
     },
     growth: {
-      name: "Growth Plan",
-      monthlyPrice: 29,
+      name: "6 Month Plan",
+      monthlyPrice: 10.99,
       yearlyPrice: 289,
       paddle: {
         monthlyName: "growth",
@@ -34,8 +35,8 @@ export const useLimit = () => {
         monthly: "pri_01jg9tmv0rcskgz8vsyp7hw8js",
         yearly: "pri_01jg9tr63qhgp92dx513j2k866",
       },
-      oem: 200,
-      oemYear: 2000,
+      oem: "No Limit",
+      oemYear: "No Limit",
       gqq: 10000,
       gqqYear: 100000,
       icl: 10000,
@@ -47,10 +48,11 @@ export const useLimit = () => {
       ptq: true,
       apq: true,
       mls: true,
+      pe: "No Limit",
     },
     professional: {
-      name: "Professional Plan",
-      monthlyPrice: 59,
+      name: "Yearly Plan",
+      monthlyPrice: 19.99,
       yearlyPrice: 589,
       paddle: {
         monthlyName: "professional",
@@ -58,8 +60,8 @@ export const useLimit = () => {
         monthly: "pri_01jg9tstpv279vdzp7rfkpp7f3",
         yearly: "pri_01jg9tvat2ndjyzs8jpxjbfnk4",
       },
-      oem: 500,
-      oemYear: 5000,
+      oem: "No Limit",
+      oemYear: "No Limit",
       gqq: 25000,
       gqqYear: 250000,
       icl: 20000,
@@ -71,6 +73,7 @@ export const useLimit = () => {
       ptq: true,
       apq: true,
       mls: true,
+      pe: "No Limit",
     },
     enterprise: {
       name: "Free Trial",
@@ -82,13 +85,14 @@ export const useLimit = () => {
       gqqYear: "Not Allowed",
       icl: 100,
       sl: "Not Allowed",
-      dqq: true,
+      dqq: false,
       ttq: true,
       utq: true,
       ytq: true,
       ptq: true,
       apq: true,
       mls: true,
+      pe: "No Limit",
     },
   };
 };

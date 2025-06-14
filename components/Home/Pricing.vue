@@ -15,19 +15,6 @@
                 <br />
                 Enjoy with one-time payments😎.
               </p>
-              <!-- <RadioGroup
-                @update:modelValue="yearly = $event"
-                :modelValue="yearly"
-              >
-                <div class="flex items-center space-x-2">
-                  <RadioGroupItem id="monthly" :value="false" />
-                  <label for="monthly" class="text-sm">Monthly Bundle</label>
-                </div>
-                <div class="flex items-center space-x-2">
-                  <RadioGroupItem id="yearly" :value="true" />
-                  <label for="yearly" class="text-sm">Yearly Bundle</label>
-                </div>
-              </RadioGroup> -->
             </th>
             <th
               class="p-4 text-center border whitespace-nowrap max-w-[150px]"
@@ -35,18 +22,7 @@
               :key="i"
             >
               <p class="text-xl">{{ price.name }}</p>
-              <p class="font-bold text-2xl" v-if="price.name !== 'Enterprise'">
-                ${{ yearly ? price.yearlyPrice : price.monthlyPrice }}
-                <!-- <span class="text-xs text-gray-500 font-medium"
-                  >/{{
-                    price.name === "Pay per use"
-                      ? "Per quiz"
-                      : yearly
-                      ? "Year"
-                      : "Month"
-                  }}</span
-                > -->
-              </p>
+              <p class="font-bold text-2xl">${{ price.monthlyPrice }}</p>
               <Button
                 type="button"
                 class="w-full mt-2"
@@ -57,35 +33,29 @@
 
                 {{ price.name === "Enterprise" ? "Contact Us" : "Choose Plan" }}
               </Button>
-
-              <!-- <p
-                @click="yearly = !yearly"
-                class="text-xs mt-3 font-normal cursor-pointer hover:underline"
-              >
-                {{ yearly ? "View monthly bundle" : "Save with yearly bundle" }}
-              </p> -->
             </th>
           </tr>
         </thead>
 
         <tbody class="border">
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Generate questions</td>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Practice Exam for my self
+            </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
               :key="i"
             >
-              {{ price.name === "Enterprise" ? "" : "Up to" }}
-              {{
-                yearly
-                  ? price.gqqYear.toLocaleString()
-                  : price.gqq.toLocaleString()
-              }}
+              <p class="flex items-center justify-center">
+                {{ price.pe }}
+              </p>
             </td>
           </tr>
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Online exam</td>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Create online exam for your student
+            </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
@@ -94,18 +64,6 @@
               <p class="flex items-center justify-center">
                 {{ yearly ? price.oemYear : price.oem }}
               </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Input character Limit
-            </td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              {{ price.icl.toLocaleString() }}
             </td>
           </tr>
           <tr>
@@ -124,7 +82,7 @@
           </tr>
           <tr>
             <td class="px-4 py-3 border max-w-[150px]">
-              Download quiz question
+              Download quiz question in PDF, Doc format
             </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
