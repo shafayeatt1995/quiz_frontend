@@ -20,6 +20,10 @@
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" class="w-56">
+            <DropdownMenuItem class="cursor-pointer" @click="importMode = true">
+              <FolderInputIcon />
+              Import Question from AI
+            </DropdownMenuItem>
             <DropdownMenuItem
               class="cursor-pointer"
               @click="editMode = !editMode"
@@ -67,7 +71,7 @@
         <Loader2Icon class="animate-spin text-gray-600" :size="50" />
         <p>Fetching question</p>
       </div>
-      <div v-else-if="question?._id" class="space-y-4">
+      <div v-else-if="question?.questions?.length" class="space-y-4">
         <div v-for="(val, i) in question.questions" :key="i">
           <div class="flex items-center gap-1 mb-0.5">
             <p>{{ i + 1 }}.</p>
@@ -176,23 +180,41 @@
         <p>No question selected</p>
       </div>
     </CardContent>
-    <CardFooter
-      class="flex flex-row justify-between items-center border-t bg-muted/50 px-6 py-3"
-    >
-      <div class="text-xs text-muted-foreground">
-        Created
-        <time dateTime="2023-11-23">{{
-          question?.created_at ? $filters.normalDate(question?.created_at) : ""
-        }}</time>
-      </div>
-      <div class="flex items-center gap-2" v-if="editMode">
-        <Button @click="updateQuestion" :disabled="!changed || updateLoading">
-          <Loader2Icon class="animate-spin" v-if="updateLoading" /> Update
-          Question
+    <CardFooter class="flex flex-col border-t bg-muted/50 px-6 py-3">
+      <form
+        v-if="importMode"
+        class="w-full flex gap-1 mb-2"
+        @submit.prevent="importQuestion"
+      >
+        <Input v-model="bulkQuestions" placeholder="Paste AI content here" />
+        <Button type="submit"><FolderInputIcon />Import</Button>
+        <Button
+          type="button"
+          class="size-10"
+          variant="rose"
+          @click="importMode = false"
+        >
+          <XIcon :size="16" />
         </Button>
-        <Button @click="editMode = false">
-          <Loader2Icon class="animate-spin" v-if="updateLoading" /> Clear Edit
-        </Button>
+      </form>
+      <div class="flex flex-row justify-between items-center w-full">
+        <div class="text-xs text-muted-foreground">
+          Created
+          <time dateTime="2023-11-23">{{
+            question?.created_at
+              ? $filters.normalDate(question?.created_at)
+              : ""
+          }}</time>
+        </div>
+        <div class="flex items-center gap-2" v-if="editMode">
+          <Button @click="submitQuestion" :disabled="!changed || updateLoading">
+            <Loader2Icon class="animate-spin" v-if="updateLoading" />
+            {{ question?._id ? "Update" : "Create" }} Questions
+          </Button>
+          <Button @click="editMode = false">
+            <Loader2Icon class="animate-spin" v-if="updateLoading" /> Clear Edit
+          </Button>
+        </div>
       </div>
     </CardFooter>
   </Card>
@@ -204,6 +226,7 @@ import {
   CheckIcon,
   DownloadIcon,
   FilePenLineIcon,
+  FolderInputIcon,
   Loader2Icon,
   MoreVerticalIcon,
   PlusIcon,
@@ -224,6 +247,7 @@ export default {
     PlusIcon,
     CheckIcon,
     FilePenLineIcon,
+    FolderInputIcon,
   },
   props: {
     modal: Boolean,
@@ -243,6 +267,8 @@ export default {
         o: [""],
         a: 0,
       },
+      importMode: false,
+      bulkQuestions: "",
     };
   },
   watch: {
@@ -266,9 +292,17 @@ export default {
         if (this.blocked) return;
         this.blocked = true;
         this.loading = true;
-        const { api } = useApi();
-        const { item } = await api.get("/dashboard/question/" + this.item._id);
-        this.question = { ...this.item, ...item };
+        if (this.item._id) {
+          const { api } = useApi();
+          const { item } = await api.get(
+            "/dashboard/question/" + this.item._id
+          );
+          this.question = { ...this.item, ...item };
+        } else {
+          this.importMode = true;
+          this.question = { ...this.item, questions: [] };
+        }
+        this.editMode = true;
       } catch (error) {
         console.error(error);
       } finally {
@@ -463,7 +497,7 @@ export default {
         console.error("Error generating document:", error);
       }
     },
-    async updateQuestion() {
+    async submitQuestion() {
       try {
         if (this.blocked) return;
         this.blocked = true;
@@ -471,6 +505,7 @@ export default {
         const { api } = useApi();
         await api.put("/dashboard/question", this.question);
         toast.success("Question updated successfully");
+        this.$emit("refetch");
       } catch (error) {
         console.error(error);
       } finally {
@@ -485,6 +520,36 @@ export default {
         toast.error("Options has at least 2");
       } else {
         this.question.questions.push(this.form);
+      }
+    },
+    importQuestion() {
+      try {
+        const bulkQuestions = JSON.parse(this.bulkQuestions);
+        if (!Array.isArray(bulkQuestions)) {
+          toast.error("Invalid json format. It should be a array of objects");
+          return;
+        }
+        const isValid = bulkQuestions.every(
+          (q) =>
+            typeof q.q === "string" &&
+            Array.isArray(q.o) &&
+            q.o.length > 1 &&
+            typeof q.a === "number" &&
+            q.a >= 0 &&
+            q.a < q.o.length
+        );
+        if (!isValid) {
+          toast.error("Invalid format. Use correct json format");
+          return;
+        }
+
+        this.question.questions = bulkQuestions;
+        this.importMode = false;
+        this.bulkQuestions = "";
+        this.editMode = true;
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to import questions");
       }
     },
   },

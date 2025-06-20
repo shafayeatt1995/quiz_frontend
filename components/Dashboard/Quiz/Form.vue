@@ -77,7 +77,7 @@
                     :key="i"
                     class="flex items-center gap-1"
                   >
-                    {{ item.name }} ({{ item.questionCount }})
+                    {{ item.name }}
                     <span
                       class="cursor-pointer"
                       @click="form.questions.splice(i, 1)"
@@ -97,9 +97,6 @@
                       @click="addQuestions(item)"
                     >
                       {{ item.name }}
-                      <span class="text-xs"
-                        >({{ item.questionCount }} Questions)</span
-                      >
                     </p>
                   </div>
                 </template>

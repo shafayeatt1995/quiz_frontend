@@ -38,15 +38,6 @@
             </CardContent>
           </Card> -->
           <div>
-            <div class="flex justify-between text-sm">
-              <p>Questions left</p>
-              <p>{{ authUser?.questionCount || 0 }}</p>
-            </div>
-            <div class="flex justify-between text-sm">
-              <p>Quizzes left</p>
-              <p>{{ authUser?.quizCount || 0 }}</p>
-            </div>
-            <hr class="my-2" />
             <Button
               size="sm"
               class="w-full"
@@ -60,7 +51,7 @@
     </div>
     <div class="flex flex-col flex-1 md:pl-56">
       <header
-        class="flex h-14 items-center gap-4 border-b bg-muted/40 backdrop-blur px-4 lg:h-[60px] lg:px-6 md:justify-end justify-between sticky top-0 z-10"
+        class="flex h-14 items-center gap-4 border-b bg-muted/40 backdrop-blur px-4 lg:h-[60px] lg:px-6 md:justify-end justify-between sticky top-0 z-30"
       >
         <NuxtLink
           :to="{ name: 'index' }"
@@ -118,12 +109,6 @@
             <DropdownMenuContent class="w-52" align="end">
               <DropdownMenuLabel>
                 <p>{{ authUser.name }}</p>
-                <p class="font-normal mt-1">
-                  Question left: {{ authUser.questionCount }}
-                </p>
-                <p class="font-normal mt-1">
-                  Exam left: {{ authUser.examCount }}
-                </p>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem :to="{ name: 'dashboard' }">

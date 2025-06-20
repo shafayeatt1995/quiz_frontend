@@ -3,7 +3,7 @@
     <div
       class="bg-white shadow-md rounded-xl py-4 md:px-4 px-2 max-w-3xl mx-auto"
     >
-      <DashboardQuestionForm @refetch="refetch" />
+      <!-- <DashboardQuestionForm @refetch="refetch" /> -->
     </div>
   </Dashboard>
 </template>

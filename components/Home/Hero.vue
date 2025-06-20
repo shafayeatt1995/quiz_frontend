@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { useUtils } from "@/composables/useUtils";
 import { FileUpIcon, LightbulbIcon } from "lucide-vue-next";
 
 export default {

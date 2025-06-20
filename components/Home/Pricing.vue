@@ -4,6 +4,7 @@
       <h2 class="md:text-4xl text-3xl font-bold">
         Straightforward, affordable pricing
       </h2>
+      <p class="mt-2">Free for Students & Self-Learners</p>
     </div>
     <div class="overflow-x-auto mt-12">
       <table class="w-full border border-collapse min-w-[980px]">

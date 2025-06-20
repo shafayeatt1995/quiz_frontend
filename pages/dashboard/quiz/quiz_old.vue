@@ -35,7 +35,7 @@
                 <template #question="{ item }">
                   <div class="space-y-1">
                     <p v-for="(val, i) in item.questions" :key="i">
-                      {{ val.name }}({{ val.questionCount }})
+                      {{ val.name }}
                     </p>
                   </div>
                 </template>

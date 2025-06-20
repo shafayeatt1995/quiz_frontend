@@ -70,6 +70,7 @@
 
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
     --background: 224 71.4% 4.1%;
 
@@ -142,28 +143,35 @@
     scroll-behavior: smooth;
     @apply border-border;
   }
+
   body {
     font-family: "Red Hat Display", serif;
     @apply bg-background text-foreground;
   }
+
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.5s ease;
   }
+
   .fade-enter-from,
   .fade-leave-to {
     opacity: 0;
   }
+
   .slideUp-enter-active {
     transition: transform 0.5s ease-in, opacity 0.5s ease-in;
   }
+
   .slideUp-leave-active {
     transition: transform 0.5s ease-out, opacity 0.5s ease-out;
   }
+
   .slideUp-leave-to {
     transform: translateY(10px);
     opacity: 0;
   }
+
   .slideUp-enter-from {
     transform: translateY(-10px);
     opacity: 0;

@@ -25,15 +25,10 @@
               <ErrorMessage :error="errors" name="name" />
             </div>
             <div>
-              <Label for="questionCount"
-                >Question count
-                <span class="text-xs">
-                  ({{ authUser.questionCount.toLocaleString() }} left)
-                </span>
-              </Label>
+              <Label for="questionCount">Question count </Label>
               <NumberField
                 id="questionCount"
-                :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
+                :max="100"
                 :min="10"
                 :modelValue="form.questionCount"
                 @update:modelValue="form.questionCount = $event"
@@ -173,8 +168,7 @@
               for="file-upload"
               v-if="inputType === 'PDF / Document / TXT / Image'"
             >
-              <FileUpIcon v-if="countExpire > 0" :size="100" />
-              <LockKeyholeIcon v-else :size="100" />
+              <FileUpIcon :size="100" />
               Upload file
             </label>
             <textarea
@@ -205,8 +199,7 @@
                 class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
                 for="file-upload"
               >
-                <FileUpIcon v-if="countExpire > 0" />
-                <LockKeyholeIcon v-else />
+                <FileUpIcon />
                 Upload file
               </label>
               <input
@@ -215,19 +208,13 @@
                 class="hidden"
                 accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
                 @change="extractText"
-                :disabled="countExpire <= 0"
               />
             </div>
-            <Button
-              type="button"
-              @click="countExpire > 0 ? submit() : null"
-              :disabled="loading || countExpire <= 0"
-            >
-              <LockKeyholeIcon v-if="countExpire <= 0" />
+            <Button type="button" @click="submit()">
               <Loader2Icon class="animate-spin" v-if="loading" />
               {{
                 inputType === "Text / Topic"
-                  ? "Generate question"
+                  ? "Generate Prompt"
                   : "Generate text"
               }}
             </Button>
@@ -249,15 +236,10 @@
         <ErrorMessage :error="errors" name="name" />
       </div>
       <div>
-        <Label for="questionCount"
-          >Question count
-          <span class="text-xs">
-            ({{ authUser.questionCount.toLocaleString() }} left)
-          </span>
-        </Label>
+        <Label for="questionCount">Question count </Label>
         <NumberField
           id="questionCount"
-          :max="maxQuestionCount > 100 ? 100 : maxQuestionCount"
+          :max="100"
           :min="10"
           :modelValue="form.questionCount"
           @update:modelValue="form.questionCount = $event"
@@ -394,8 +376,7 @@
         for="file-upload"
         v-if="inputType === 'PDF / Document / TXT / Image'"
       >
-        <FileUpIcon v-if="countExpire > 0" :size="100" />
-        <LockKeyholeIcon v-else :size="100" />
+        <FileUpIcon :size="100" />
         Upload file
       </label>
       <textarea
@@ -444,8 +425,7 @@
           class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
           for="file-upload"
         >
-          <FileUpIcon v-if="countExpire > 0 || homeMode" />
-          <LockKeyholeIcon v-else />
+          <FileUpIcon />
           Upload file
         </label>
         <input
@@ -454,9 +434,8 @@
           class="hidden"
           accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
           @change="extractText"
-          :disabled="homeMode ? false : countExpire <= 0"
         />
-        <button aria-label="Get Suggestions" v-if="homeMode">
+        <button aria-label="Get Suggestions">
           <LightbulbIcon />
         </button>
       </div>
@@ -473,16 +452,14 @@
             : "Generate text"
         }}
       </Button>
-      <Button
-        v-else
-        type="button"
-        @click="countExpire > 0 ? submit() : null"
-        :disabled="loading || countExpire <= 0"
-      >
-        <LockKeyholeIcon v-if="countExpire <= 0" />
+      <Button v-else type="button" @click="submit">
         <Loader2Icon class="animate-spin" v-if="loading" />
         {{
-          inputType === "Text / Topic" ? `Generate question` : "Generate text"
+          inputType === "Text / Topic"
+            ? showingPrompt
+              ? "Generate Question"
+              : "Generate Prompt"
+            : "Generate text"
         }}
       </Button>
     </div>
@@ -523,7 +500,7 @@ export default {
         language: "English",
         prompt: "",
         questionType: "Multiple choice questions",
-        questionCount: 10,
+        questionCount: 50,
       },
       inputType: "Text / Topic",
       inputTypes: [
@@ -633,6 +610,7 @@ export default {
       pdfLoading: false,
       modal: false,
       open: false,
+      showingPrompt: false,
       errors: {},
     };
   },
@@ -651,12 +629,6 @@ export default {
       } catch (e) {
         return false;
       }
-    },
-    countExpire() {
-      return this.authUser?.questionCount || 0;
-    },
-    maxQuestionCount() {
-      return this.authUser?.questionCount || 0;
     },
     countLimit() {
       if (this.homeMode) return 20000;
@@ -679,6 +651,10 @@ export default {
         this.loading = true;
         this.errors = {};
         if (this.inputType === "Text / Topic") {
+          if (!this.showingPrompt) {
+            this.showingPrompt = true;
+            return;
+          }
           if (
             confirm(
               "Are you sure you want to generate a Question from this text?"
@@ -724,8 +700,7 @@ export default {
     async extractText(event) {
       try {
         if (!this.homeMode) {
-          if (this.countExpire <= 0 || this.click || !event.target.files[0])
-            return;
+          if (this.click || !event.target.files[0]) return;
         }
         this.click = true;
         this.loading = true;
