@@ -1,6 +1,6 @@
 <template>
   <div class="h-3"></div>
-  <header class="mx-2 lg:mx-0 sticky top-3 z-50">
+  <header class="mx-2 lg:mx-0">
     <div
       class="container mx-auto flex items-center gap-4 px-5 py-3 justify-between border rounded-full shadow backdrop-blur-lg"
     >
@@ -11,22 +11,6 @@
         <img src="/logo.svg" alt="logo" class="size-8" /> {{ appName }}
       </NuxtLink>
       <nav class="font-medium flex flex-row items-center md:gap-5 gap-3">
-        <Sheet class="md:hidden" :open="open" @update:open="open = !open">
-          <SheetTrigger as-child>
-            <Button variant="outline" size="icon" class="shrink-0 md:hidden">
-              <MenuIcon class="h-5 w-5" />
-              <span class="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <nav class="flex flex-col gap-5 text-lg font-medium">
-              <NuxtLink :to="{ name: 'index', hash: '#pricing' }">
-                Pricing
-              </NuxtLink>
-              <NuxtLink :to="{ name: 'index', hash: '#faq' }"> FAQ </NuxtLink>
-            </nav>
-          </SheetContent>
-        </Sheet>
         <NuxtLink
           :to="{ name: 'index', hash: '#pricing' }"
           class="hidden md:block"
@@ -36,6 +20,33 @@
         <NuxtLink :to="{ name: 'index', hash: '#faq' }" class="hidden md:block">
           FAQ
         </NuxtLink>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon" class="md:hidden">
+              <MenuIcon class="h-5 w-5" />
+              <span class="sr-only">Toggle navigation menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <NuxtLink
+                :to="{ name: 'index', hash: '#pricing' }"
+                class="flex gap-2 w-full"
+              >
+                Pricing
+              </NuxtLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <NuxtLink
+                :to="{ name: 'index', hash: '#faq' }"
+                class="flex gap-2 w-full"
+              >
+                FAQ
+              </NuxtLink>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <DropdownMenu v-if="loggedIn">
           <DropdownMenuTrigger asChild>
             <Avatar class="cursor-pointer">
