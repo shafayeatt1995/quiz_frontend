@@ -51,9 +51,7 @@
 
         <tbody class="border">
           <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Practice Exam for my self
-            </td>
+            <td class="px-4 py-3 border max-w-[150px]">Practice Exam</td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
               v-for="(price, i) in pricing"
@@ -88,7 +86,7 @@
               :key="i"
             >
               <p class="flex items-center justify-center">
-                {{ yearly ? price.oemYear : price.oem }}
+                {{ price.sl }}
               </p>
             </td>
           </tr>
@@ -102,7 +100,7 @@
               :key="i"
             >
               <p class="flex items-center justify-center">
-                {{ price.sl }}
+                {{ price.oes }}
               </p>
             </td>
           </tr>
@@ -221,7 +219,6 @@ export default {
     return {
       click: true,
       loading: null,
-      yearly: false,
       paddle: null,
     };
   },
@@ -239,13 +236,12 @@ export default {
       try {
         const { initializePaddle } = await import("@paddle/paddle-js");
 
-        const { PADDLE_ENVIRONMENT, PADDLE_TOKEN } = useRuntimeConfig().public;
-        initializePaddle({
+        const { PADDLE_TOKEN, PADDLE_ENVIRONMENT } = useRuntimeConfig().public;
+        this.paddle = await initializePaddle({
           environment: PADDLE_ENVIRONMENT,
           token: PADDLE_TOKEN,
-        }).then((paddleInstance) => {
-          if (paddleInstance) this.paddle = paddleInstance;
         });
+        console.log(this.paddle);
       } catch (error) {
         console.error(error);
       }
@@ -258,12 +254,15 @@ export default {
           const { authUser } = useAuth();
           if (authUser.value) {
             const pack = this.pricing[i];
-            if (pack.name === "Free trial") {
+            if (pack.name === "Free Trial") {
               this.$router.push({ name: "dashboard" });
             } else {
-              const { BASE_URL } = useRuntimeConfig().public;
-              const { monthly, yearly, monthlyName, yearlyName } = pack.paddle;
-              const priceId = this.yearly ? yearly : monthly;
+              const { PADDLE_ENVIRONMENT, BASE_URL } =
+                useRuntimeConfig().public;
+              const { packName, liveKey, sandboxKey } = pack.paddle;
+
+              const priceId =
+                PADDLE_ENVIRONMENT === "sandbox" ? sandboxKey : liveKey;
 
               this.paddle.Checkout.open({
                 settings: {
@@ -278,15 +277,15 @@ export default {
                     "saved_payment_methods",
                   ],
                   displayMode: "overlay",
-                  successUrl: `${BASE_URL}/payment/success`,
+                  // successUrl: `${BASE_URL}/payment/success`,
                   variant: "one-page",
                 },
-                items: [{ quantity: 1, priceId }],
+                items: [{ priceId }],
                 customer: { email: authUser.value.email },
                 customData: {
                   userID: authUser.value._id,
-                  package: this.yearly ? yearlyName : monthlyName,
-                  period: this.yearly ? "yearly" : "monthly",
+                  userEmail: authUser.value.email,
+                  package: packName,
                 },
               });
             }

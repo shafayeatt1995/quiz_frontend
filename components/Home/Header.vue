@@ -1,6 +1,6 @@
 <template>
   <div class="h-3"></div>
-  <header class="mx-2 lg:mx-0">
+  <header class="mx-2 lg:mx-0 sticky top-3 z-50">
     <div
       class="container mx-auto flex items-center gap-4 px-5 py-3 justify-between border rounded-full shadow backdrop-blur-lg"
     >
