@@ -43,7 +43,7 @@
               >
                 <Loader2Icon class="animate-spin" v-if="loading === i" />
 
-                {{ price.name === "Enterprise" ? "Contact Us" : "Choose Plan" }}
+                Choose Plan
               </Button>
             </th>
           </tr>
