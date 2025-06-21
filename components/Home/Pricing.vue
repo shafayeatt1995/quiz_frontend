@@ -55,7 +55,21 @@
           </tr>
           <tr>
             <td class="px-4 py-3 border max-w-[150px]">
-              Create online exam for your student
+              Deep research with Exam question
+            </td>
+            <td
+              class="px-4 py-3 text-center border max-w-[150px]"
+              v-for="(price, i) in pricing"
+              :key="i"
+            >
+              <p class="flex items-center justify-center">
+                {{ price.dr }}
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 border max-w-[150px]">
+              Arrange online exam for your student
             </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"
@@ -83,7 +97,7 @@
           </tr>
           <tr>
             <td class="px-4 py-3 border max-w-[150px]">
-              Download quiz question in PDF, Doc format
+              Download quiz in PDF, Doc format
             </td>
             <td
               class="px-4 py-3 text-center border max-w-[150px]"

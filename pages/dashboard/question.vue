@@ -48,9 +48,16 @@
                         <DropdownMenuItem @click="showQuestion(i)">
                           <PencilIcon /> Edit Question
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          ><ListTodoIcon /> Create a new quiz</DropdownMenuItem
-                        >
+                        <DropdownMenuItem>
+                          <NuxtLink
+                            :to="{
+                              name: 'dashboard-quiz',
+                              query: { questionID: item._id },
+                            }"
+                          >
+                            <ListTodoIcon /> Create a new quiz
+                          </NuxtLink>
+                        </DropdownMenuItem>
                         <DropdownMenuItem @click="showExamModal(item)">
                           <BookOpenCheckIcon /> Take a test exam
                         </DropdownMenuItem>

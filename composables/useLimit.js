@@ -2,7 +2,7 @@ export const useLimit = () => {
   return {
     basic: {
       name: "Monthly Plan",
-      monthlyPrice: 2,
+      monthlyPrice: 5,
       yearlyPrice: 89,
       paddle: {
         monthlyName: "basic",
@@ -24,10 +24,11 @@ export const useLimit = () => {
       apq: true,
       mls: true,
       pe: "Unlimited",
+      dr: "Unlimited",
     },
     growth: {
       name: "6 Month Plan",
-      monthlyPrice: 10.99,
+      monthlyPrice: 29,
       yearlyPrice: 289,
       paddle: {
         monthlyName: "growth",
@@ -49,10 +50,11 @@ export const useLimit = () => {
       apq: true,
       mls: true,
       pe: "Unlimited",
+      dr: "Unlimited",
     },
     professional: {
       name: "Yearly Plan",
-      monthlyPrice: 19.99,
+      monthlyPrice: 49,
       yearlyPrice: 589,
       paddle: {
         monthlyName: "professional",
@@ -74,9 +76,10 @@ export const useLimit = () => {
       apq: true,
       mls: true,
       pe: "Unlimited",
+      dr: "Unlimited",
     },
     enterprise: {
-      name: "Free Trial",
+      name: "Free",
       monthlyPrice: 0,
       yearlyPrice: 0,
       oem: "Not Allowed",
@@ -92,7 +95,8 @@ export const useLimit = () => {
       ptq: true,
       apq: true,
       mls: true,
-      pe: "Unlimited",
+      pe: "5 exam everyday",
+      dr: "Limited",
     },
   };
 };
