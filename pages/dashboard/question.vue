@@ -55,9 +55,9 @@
                           <BookOpenCheckIcon /> Take a test exam
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          ><Trash2Icon /> Delete Question</DropdownMenuItem
-                        >
+                        <DropdownMenuItem @click="deleteQuestion(i)">
+                          <Trash2Icon /> Delete Question
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                     <p class="font-bold text-2xl">{{ item.name }}</p>
@@ -849,6 +849,17 @@ export default {
         params: { id: this.examQuestion._id },
         query: this.examForm,
       });
+    },
+    async deleteQuestion(index) {
+      try {
+        const { api } = useApi();
+        await api.delete(`/dashboard/question/${this.items[index]._id}`);
+        this.items.splice(index, 1);
+        toast.success("Question deleted successfully");
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to delete question");
+      }
     },
   },
 };
