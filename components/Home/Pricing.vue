@@ -22,8 +22,19 @@
               v-for="(price, i) in pricing"
               :key="i"
             >
-              <p class="text-xl">{{ price.name }}</p>
-              <p class="font-bold text-2xl">${{ price.monthlyPrice }}</p>
+              <p class="text-xl font-semibold">{{ price.name }}</p>
+              <p class="font-bold text-2xl mt-1">${{ price.monthlyPrice }}</p>
+              <p class="text-sm text-gray-500 mt-1">
+                {{ price.quizCoins }} Coins
+              </p>
+              <p class="text-xs text-gray-400">
+                ~{{ price.perCoin }} per response
+              </p>
+              <p class="text-green-600 text-sm mt-1 h-5">
+                <span v-if="price.bonus"
+                  >🎁 +{{ price.bonus }} Bonus Coins</span
+                >
+              </p>
               <Button
                 type="button"
                 class="w-full mt-2"

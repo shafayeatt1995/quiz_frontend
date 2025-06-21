@@ -1,7 +1,8 @@
 <template>
-  <div class="bg-white border-b">
-    <header
-      class="container mx-auto flex items-center gap-4 p-2 justify-between"
+  <div class="h-3"></div>
+  <header class="mx-2 lg:mx-0 sticky top-3 z-50">
+    <div
+      class="container mx-auto flex items-center gap-4 px-5 py-3 justify-between border rounded-full shadow backdrop-blur-lg"
     >
       <NuxtLink
         :to="{ name: 'index' }"
@@ -63,8 +64,8 @@
 
         <Button @click="loginModal" v-if="!loggedIn"> Login </Button>
       </nav>
-    </header>
-  </div>
+    </div>
+  </header>
 </template>
 
 <script>
