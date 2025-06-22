@@ -2,7 +2,7 @@
   <div style="background-image: url('/images/bg.svg')">
     <slot />
     <SocialLogin />
-    <Toaster position="bottom-center" :expand="false" closeButton richColors />
+    <Toaster position="bottom-right" :expand="false" closeButton richColors />
   </div>
 </template>
 <script>

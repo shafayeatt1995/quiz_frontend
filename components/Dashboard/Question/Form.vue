@@ -970,9 +970,13 @@ export default {
           toast.error("Invalid AI JSON content");
         }
       } else {
-        this.content = "";
-        this.setPrompt();
-        this.showPrompt = true;
+        if (this.form.prompt.length > 0) {
+          this.content = "";
+          this.setPrompt();
+          this.showPrompt = true;
+        } else {
+          toast.error("Please enter a topic");
+        }
       }
     },
     setPrompt() {
