@@ -419,6 +419,60 @@
         seconds.
       </p>
     </div>
+    <div class="my-3 mt-2" v-if="showPrompt">
+      <div class="relative mb-2">
+        <Input
+          class="pr-14"
+          placeholder="Enter Topic details to create questions"
+          v-model="prompt"
+        />
+        <div class="top-0 right-0 absolute">
+          <TooltipProvider :open="true">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  @click.prevent="copyPrompt"
+                  variant="outline"
+                  type="button"
+                  ><CopyIcon
+                /></Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Copy & generate with AI</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      </div>
+      <Input
+        class="pr-14"
+        placeholder="Enter JSON output from AI"
+        v-model="content"
+      />
+      <div class="flex justify-around mt-2 items-center">
+        <a :href="chatgptUrl" target="_blank">
+          <img src="/images/icon/chatgpt.svg" alt="chatgpt" class="size-20" />
+        </a>
+        <a href="https://gemini.google.com/app" target="_blank">
+          <img src="/images/icon/gemini.svg" alt="gemini" class="size-20" />
+        </a>
+        <a href="https://chat.deepseek.com" target="_blank">
+          <img src="/images/icon/deepseek.svg" alt="deepseek" class="size-20" />
+        </a>
+        <a href="https://copilot.microsoft.com" target="_blank">
+          <img
+            src="/images/icon/microsoft.svg"
+            alt="microsoft"
+            class="size-20"
+          />
+        </a>
+      </div>
+      <p class="text-sm text-gray-600 px-12 mt-2 text-center">
+        Note: Copy the prompt, paste it into any AI platform, then copy the
+        output and paste it here. Ensure the full JSON output is pasted.
+        Finally, click the Generate button.
+      </p>
+    </div>
     <div class="flex justify-between items-center mt-2">
       <div class="flex items-center gap-2">
         <label
@@ -464,12 +518,59 @@
       </Button>
     </div>
   </div>
+  <Dialog v-model:open="examModal">
+    <DialogContent class="sm:max-w-[425px]">
+      <DialogHeader>
+        <DialogTitle>Test exam</DialogTitle>
+      </DialogHeader>
+      <div class="space-y-3">
+        <div>
+          <Label for="time" class="text-right"> Exam time (Minute) </Label>
+          <Input id="time" v-model="examForm.time" class="col-span-3" />
+        </div>
+        <div class="flex justify-between items-center">
+          <Label for="instantAnswer"
+            >Instant show answer [{{
+              examForm.instantAnswer ? "Active" : "Inactive"
+            }}]</Label
+          >
+          <Switch id="instantAnswer" v-model="examForm.instantAnswer" />
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <Label for="negativeMarkingStatus" class="text-right">
+              Negative marking [{{
+                examForm.negativeMarkingStatus ? "Active" : "Inactive"
+              }}]
+            </Label>
+            <Checkbox
+              id="negativeMarkingStatus"
+              v-model="examForm.negativeMarkingStatus"
+            />
+          </div>
+          <Input
+            id="negativeMarking"
+            v-model="examForm.negativeMarking"
+            class="col-span-3"
+            :disabled="!examForm.negativeMarkingStatus"
+          />
+        </div>
+      </div>
+      <DialogFooter>
+        <Button @click="startExam(item)">
+          <ArrowRightIcon /> Start Exam
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
 </template>
 
 <script>
 import {
+  ArrowRightIcon,
   CheckIcon,
   ChevronDownIcon,
+  CopyIcon,
   FileUpIcon,
   LightbulbIcon,
   Loader2Icon,
@@ -478,7 +579,7 @@ import {
 } from "lucide-vue-next";
 import { toast } from "vue-sonner";
 import { cn } from "@/lib/utils";
-import eventBus from "@/lib/eventBus";
+import { isValidJSON } from "@/lib";
 
 export default {
   name: "DashboardQuestionForm",
@@ -490,6 +591,8 @@ export default {
     ChevronDownIcon,
     CheckIcon,
     LightbulbIcon,
+    CopyIcon,
+    ArrowRightIcon,
   },
   props: { modalMode: Boolean, homeMode: Boolean },
   data() {
@@ -612,6 +715,16 @@ export default {
       open: false,
       showingPrompt: false,
       errors: {},
+      showPrompt: false,
+      prompt: "",
+      content: "",
+      examModal: false,
+      examForm: {
+        time: 25,
+        instantAnswer: false,
+        negativeMarkingStatus: false,
+        negativeMarking: 0,
+      },
     };
   },
   computed: {
@@ -637,6 +750,24 @@ export default {
       else if (this.authUser.package === "growth") return 10000;
       else if (this.authUser.package === "basic") return 5000;
       return 100;
+    },
+    chatgptUrl() {
+      return `https://chat.openai.com/?prompt=${encodeURIComponent(
+        this.prompt
+      )}`;
+    },
+  },
+  watch: {
+    "form.prompt"() {
+      this.setPrompt();
+    },
+    content(val) {
+      try {
+        if (JSON.parse(val))
+          toast.success("You are ready to generate questions");
+      } catch (e) {
+        toast.error("Invalid JSON content");
+      }
     },
   },
   mounted() {
@@ -832,23 +963,47 @@ export default {
       }
     },
     generate() {
-      if (this.homeMode) {
-        if (this.authUser) {
-          this.$router.push({
-            name: "dashboard",
-            query: { prompt: this.form.prompt },
-          });
+      if (this.showPrompt) {
+        if (isValidJSON(this.content)) {
+          this.examModal = true;
         } else {
-          eventBus.emit("loginModal");
+          toast.error("Invalid AI JSON content");
         }
-      } else if (this.authUser) {
-        this.$router.push({
-          name: "dashboard",
-          query: { prompt: this.form.prompt },
-        });
       } else {
-        toast.error("Please login first");
+        this.content = "";
+        this.setPrompt();
+        this.showPrompt = true;
       }
+    },
+    setPrompt() {
+      this.prompt = `Create ${
+        this.form.questionCount
+      } unique questions with the following specifications:
+          - Difficulty level: ${this.form.difficulty}
+          - Question type: ${
+            this.form.questionType === "True or False"
+              ? "True/False"
+              : this.form.questionType === "Multiple choice questions"
+              ? "Multiple Choice"
+              : "True/False and Multiple Choice both"
+          }
+          - Question language: ${this.form.language}
+          - Topic: ${this.form.prompt}
+          - Provide only relevant, meaningful, and factually correct questions.
+          - Output format: strictly as an array of JSON objects with this structure:
+            [
+              {
+                "q": "Your question text here",
+                "o": [${
+                  this.form.questionType === "True or False"
+                    ? '"True", "False"'
+                    : '"Option1", "Option2", "Option3", "Option4"'
+                }],
+                "a": correctOptionIndex
+              }
+            ]
+          - Ensure the questions are well-structured, unambiguous, and aligned with the provided topic.
+          - Return only the JSON array, with no extra text, explanations, or formatting.`;
     },
     preset() {
       const { prompt, ...query } = this.$route.query;
@@ -858,6 +1013,22 @@ export default {
         this.$router.replace({ query });
       }
     },
+    copyPrompt() {
+      try {
+        navigator.clipboard.writeText(this.prompt);
+        toast.success("Prompt copied to clipboard");
+      } catch (error) {
+        console.error("Failed to copy prompt:", error);
+      }
+    },
+    startExam() {
+      this.$router.push({
+        name: "test-exam",
+        query: { ...this.examForm, question: this.content },
+      });
+    },
   },
 };
 </script>
+
+393394

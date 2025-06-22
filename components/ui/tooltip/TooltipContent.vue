@@ -1,7 +1,7 @@
 <script setup>
-import { cn } from '@/lib/utils';
-import { TooltipContent, TooltipPortal, useForwardPropsEmits } from 'reka-ui';
-import { computed } from 'vue';
+import { reactiveOmit } from "@vueuse/core";
+import { TooltipContent, TooltipPortal, useForwardPropsEmits } from "reka-ui";
+import { cn } from "@/lib/utils";
 
 defineOptions({
   inheritAttrs: false,
@@ -11,7 +11,7 @@ const props = defineProps({
   forceMount: { type: Boolean, required: false },
   ariaLabel: { type: String, required: false },
   asChild: { type: Boolean, required: false },
-  as: { type: null, required: false },
+  as: { type: [String, Object, Function], required: false },
   side: { type: null, required: false },
   sideOffset: { type: Number, required: false, default: 4 },
   align: { type: null, required: false },
@@ -27,13 +27,9 @@ const props = defineProps({
   class: { type: null, required: false },
 });
 
-const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside']);
+const emits = defineEmits(["escapeKeyDown", "pointerDownOutside"]);
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props;
-
-  return delegated;
-});
+const delegatedProps = reactiveOmit(props, "class");
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
 </script>
