@@ -241,7 +241,6 @@ export default {
           environment: PADDLE_ENVIRONMENT,
           token: PADDLE_TOKEN,
         });
-        console.log(this.paddle);
       } catch (error) {
         console.error(error);
       }
