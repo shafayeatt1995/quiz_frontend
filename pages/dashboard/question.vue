@@ -807,9 +807,11 @@ export default {
         if (!this.form.prompt.trim())
           this.errors.prompt = { msg: "Please enter question topic" };
         if (!this.form.prompt.trim() || !this.form.name.trim()) return;
-        this.prompt = `Create ${
-          this.form.questionCount
-        } unique questions with the following specifications:
+        this.prompt = `You are a professional AI trained specifically in quiz generation. Act as an expert quiz creation engine capable of crafting high-quality, factually correct, and topic-aligned questions with precision and clarity.
+
+      Create exactly ${
+        this.form.questionCount
+      } unique questions with the following specifications:
           - Difficulty level: ${this.form.difficulty}
           - Question type: ${
             this.form.questionType === "True or False"
@@ -824,17 +826,18 @@ export default {
           - Output format: strictly as an array of JSON objects with this structure:
             [
               {
-                "q": "Your question text here",
+                "sn": "Serial number, start from 1"
+                "q": "Question text here",
                 "o": [${
                   this.form.questionType === "True or False"
                     ? '"True", "False"'
                     : '"Option1", "Option2", "Option3", "Option4"'
                 }],
-                "a": correctOptionIndex
+                "a": correct Option Index
               }
             ]
           - Ensure the questions are well-structured, unambiguous, and aligned with the provided topic.
-          - Return only the JSON array, with no extra text, explanations, or formatting.`;
+          - Return only the JSON array, and no extra text, explanations, or formatting.`;
         this.showPrompt = true;
       }
     },

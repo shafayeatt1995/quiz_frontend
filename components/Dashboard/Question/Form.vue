@@ -398,11 +398,8 @@
         class="text-center text-red-500 mt-2 text-sm"
         v-if="form.prompt.length > countLimit"
       >
-        Free account has 100 character limit. Please
-        <NuxtLink to="/#pricing" class="underline font-semibold"
-          >upgrade</NuxtLink
-        >
-        your account for full access.
+        For Best Results, Keep Your Text Under {{ countLimit }} Characters –
+        Longer Topics May Affect AI Accuracy.
       </p>
 
       <div v-if="pdfLoading">
@@ -744,12 +741,7 @@ export default {
       }
     },
     countLimit() {
-      if (this.homeMode) return 20000;
-      else if (this.authUser.isAdmin) return 20000;
-      else if (this.authUser.package === "professional") return 20000;
-      else if (this.authUser.package === "growth") return 10000;
-      else if (this.authUser.package === "basic") return 5000;
-      return 100;
+      return 2000;
     },
     chatgptUrl() {
       return `https://chat.openai.com/?prompt=${encodeURIComponent(
@@ -980,7 +972,9 @@ export default {
       }
     },
     setPrompt() {
-      this.prompt = `Create ${
+      this.prompt = `You are a professional AI trained specifically in quiz generation. Act as an expert quiz creation engine capable of crafting high-quality, factually correct, and topic-aligned questions with precision and clarity.
+
+      Create exactly ${
         this.form.questionCount
       } unique questions with the following specifications:
           - Difficulty level: ${this.form.difficulty}
@@ -997,17 +991,18 @@ export default {
           - Output format: strictly as an array of JSON objects with this structure:
             [
               {
-                "q": "Your question text here",
+                "sn": "Serial number, start from 1"
+                "q": "Question text here",
                 "o": [${
                   this.form.questionType === "True or False"
                     ? '"True", "False"'
                     : '"Option1", "Option2", "Option3", "Option4"'
                 }],
-                "a": correctOptionIndex
+                "a": correct Option Index
               }
             ]
           - Ensure the questions are well-structured, unambiguous, and aligned with the provided topic.
-          - Return only the JSON array, with no extra text, explanations, or formatting.`;
+          - Return only the JSON array, and no extra text, explanations, or formatting.`;
     },
     preset() {
       const { prompt, ...query } = this.$route.query;
