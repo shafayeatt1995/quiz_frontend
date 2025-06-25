@@ -13,7 +13,7 @@
     <form class="max-w-2xl mx-auto mt-10">
       <DashboardQuestionForm homeMode />
       <p class="text-center mt-4 text-sm">
-        Over 12,000 quizzes generated globally.
+        We are generating daily 12,000+ quizzes globally.
       </p>
     </form>
     <div class="mt-10 flex justify-center">

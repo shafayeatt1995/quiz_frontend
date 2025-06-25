@@ -470,13 +470,15 @@
         Finally, click the Generate button.
       </p>
     </div>
-    <div class="flex justify-between items-center mt-2">
-      <div class="flex items-center gap-2">
+    <div
+      class="flex justify-between items-center mt-2 flex-col md:flex-row gap-2"
+    >
+      <div class="flex items-center gap-2 w-full">
         <label
-          class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
+          class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 bg-white cursor-pointer w-full md:w-auto justify-center text-sm items-center py-2"
           for="file-upload"
         >
-          <FileUpIcon />
+          <FileUpIcon :size="20" />
           Upload file
         </label>
         <input
@@ -486,15 +488,21 @@
           accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
           @change="extractText"
         />
-        <button aria-label="Get Suggestions">
-          <LightbulbIcon />
-        </button>
+        <Button
+          @click="tutorialModal = true"
+          type="button"
+          variant="outline"
+          class="w-full md:w-auto"
+        >
+          <YoutubeIcon :size="30" /> User Guide
+        </Button>
       </div>
       <Button
         type="button"
         v-if="homeMode"
         @click="generate"
         :disabled="loading"
+        class="w-full md:w-auto"
       >
         <Loader2Icon class="animate-spin" v-if="loading" />
         {{
@@ -503,7 +511,7 @@
             : "Generate text"
         }}
       </Button>
-      <Button v-else type="button" @click="submit">
+      <Button v-else type="button" @click="submit" class="w-full md:w-auto">
         <Loader2Icon class="animate-spin" v-if="loading" />
         {{
           inputType === "Text / Topic"
@@ -560,6 +568,26 @@
       </DialogFooter>
     </DialogContent>
   </Dialog>
+  <Dialog v-model:open="tutorialModal">
+    <DialogContent class="bg-transparent border-0 max-w-5xl">
+      <DialogHeader>
+        <DialogClose
+          class="text-white cursor-pointer absolute top-2 right-3 z-10"
+        >
+          <XIcon />
+        </DialogClose>
+      </DialogHeader>
+      <iframe
+        src="https://www.youtube.com/embed/8yfIknKmN0w?si=Gra3i-SvP5jAKSFP"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        class="w-full h-56 md:h-[600px]"
+      ></iframe>
+    </DialogContent>
+  </Dialog>
 </template>
 
 <script>
@@ -573,6 +601,8 @@ import {
   Loader2Icon,
   LockKeyholeIcon,
   PlusIcon,
+  XIcon,
+  YoutubeIcon,
 } from "lucide-vue-next";
 import { toast } from "vue-sonner";
 import { cn } from "@/lib/utils";
@@ -590,6 +620,8 @@ export default {
     LightbulbIcon,
     CopyIcon,
     ArrowRightIcon,
+    XIcon,
+    YoutubeIcon,
   },
   props: { modalMode: Boolean, homeMode: Boolean },
   data() {
@@ -722,6 +754,7 @@ export default {
         negativeMarkingStatus: false,
         negativeMarking: 0,
       },
+      tutorialModal: false,
     };
   },
   computed: {

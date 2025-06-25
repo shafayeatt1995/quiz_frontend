@@ -3,7 +3,7 @@
     <h2 class="md:text-4xl text-3xl font-bold text-center">
       Features of Mr. Quizer
     </h2>
-    <div class="grid lg:grid-cols-3 gap-5 mt-5">
+    <div class="grid xl:grid-cols-4 lg:grid-cols-2 gap-5 mt-5">
       <div
         v-for="(option, i) in options"
         :key="i"
@@ -27,24 +27,14 @@ export default {
     return {
       options: [
         {
-          title: "One Click Quiz Generator",
-          description:
-            "Paste JSON from ChatGPT → click “Generate” → get a fully formatted, interactive quiz.",
-        },
-        {
-          title: "Quiz Download & Export",
-          description:
-            "Export quizzes as PDF or DOCX to share, print, or study offline.",
-        },
-        {
           title: "Live Exam Hosting",
           description:
             "Host live exams with real-time results and analytics. Perfect for online assessments and exams.",
         },
         {
-          title: "Pay As You Go Credits",
+          title: "Quiz Download & Export",
           description:
-            "No subscription required. Use affordable QuizCoins only when others take your exam.",
+            "Export quizzes as PDF or DOCX to share, print, or study offline.",
         },
         {
           title: "Multi Language Support",
