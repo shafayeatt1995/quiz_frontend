@@ -1,18 +1,19 @@
 <template>
   <div class="container mx-auto py-12 px-2">
     <h1 class="md:text-7xl text-4xl font-bold text-center max-w-3xl mx-auto">
-      Create Quiz with AI for free from any text
+      Create Quiz with AI for Free From Any Text
     </h1>
-    <p class="text-center md:text-base text-sm px-10 mt-5">
+    <p class="text-center md:text-base text-sm w-full mx-auto mt-5">
       <!-- Create quizzes from any topic, YouTube URL, PDF, or text in less than 10
       seconds -->
-      Effortless Quiz Creation – Free AI Tool That Transforms Any Text into Quiz
+      Generate quizzes from Text, PDF, YouTube video, or URLs — FREE to start,
+      No card required.
     </p>
 
     <form class="max-w-2xl mx-auto mt-10">
       <DashboardQuestionForm homeMode />
       <p class="text-center mt-4 text-sm">
-        236 quizzes created in last 7 days.
+        Over 12,000 quizzes generated globally.
       </p>
     </form>
     <div class="mt-10 flex justify-center">

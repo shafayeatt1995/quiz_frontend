@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto py-12 px-2">
     <h2 class="md:text-4xl text-3xl font-bold text-center">
-      How to create AI Quiz
+      How Mr. Quizer Create Quiz
     </h2>
     <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5 mt-5">
       <div

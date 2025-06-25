@@ -1,206 +1,120 @@
 <template>
   <div class="container mx-auto py-12 px-2" id="pricing">
     <div class="text-center">
-      <h2 class="md:text-4xl text-3xl font-bold">
-        Straightforward, affordable pricing
-      </h2>
-      <p class="mt-2">Free for Students & Self-Learners</p>
+      <h2 class="md:text-4xl text-3xl font-bold">Pricing Plan</h2>
+      <p class="mt-2">
+        Affordable plans designed to support every learner’s journey.
+      </p>
     </div>
-    <div class="overflow-x-auto mt-12">
-      <table class="w-full border border-collapse min-w-[980px]">
-        <thead>
-          <tr>
-            <th class="p-4 text-left border max-w-[160px]">
-              <p class="font-normal">
-                No subscriptions, no stress😃.
-                <br />
-                Enjoy with one-time payments😎.
-              </p>
-            </th>
-            <th
-              class="p-4 text-center border whitespace-nowrap max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <p class="text-xl font-semibold">{{ price.name }}</p>
-              <p class="font-bold text-2xl mt-1">${{ price.monthlyPrice }}</p>
-              <p class="text-sm text-gray-500 mt-1">
-                {{ price.quizCoins }} Coins
-              </p>
-              <p class="text-xs text-gray-400">
-                ~{{ price.perCoin }} per response
-              </p>
-              <p class="text-green-600 text-sm mt-1 h-5">
-                <span v-if="price.bonus"
-                  >🎁 +{{ price.bonus }} Bonus Coins</span
-                >
-              </p>
-              <Button
-                type="button"
-                class="w-full mt-2"
-                @click="openUrl(i)"
-                :disabled="loading === i"
-              >
-                <Loader2Icon class="animate-spin" v-if="loading === i" />
+    <div class="grid lg:grid-cols-3 items-center gap-y-5 mt-12">
+      <!-- Free Plan -->
+      <div
+        class="bg-white border border-gray-300 shadow-sm rounded-3xl p-8 sm:p-10"
+      >
+        <div>
+          <h3 class="text-slate-900 text-4xl font-semibold">Free Plan</h3>
+        </div>
 
-                Choose Plan
-              </Button>
-            </th>
-          </tr>
-        </thead>
+        <div class="mt-8">
+          <h4 class="text-slate-900 text-lg font-semibold">
+            Try Mr. Quizer for free — no credit card required.
+          </h4>
 
-        <tbody class="border">
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Practice Exam</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <p class="flex items-center justify-center">
-                {{ price.pe }}
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Deep research with Exam question
-            </td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <p class="flex items-center justify-center">
-                {{ price.dr }}
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Arrange online exam for your student
-            </td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <p class="flex items-center justify-center">
-                {{ price.sl }}
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Online exam Student limit
-            </td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <p class="flex items-center justify-center">
-                {{ price.oes }}
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Download quiz in PDF, Doc format
-            </td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.dqq" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Text to Quiz</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.ttq" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">URL to Quiz</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.utq" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">YouTube to Quiz</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.ytq" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">PDF to Quiz</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.ptq" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">
-              Multi Languages Support
-            </td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.mls" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 border max-w-[150px]">Access Previous Quiz</td>
-            <td
-              class="px-4 py-3 text-center border max-w-[150px]"
-              v-for="(price, i) in pricing"
-              :key="i"
-            >
-              <div class="flex justify-center items-center">
-                <CheckIcon v-if="price.apq" class="text-green-500" />
-                <XIcon v-else class="text-rose-500" />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <ul class="mt-6 space-y-5 text-[15px] text-slate-600 font-medium">
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> 20 Quiz Runs
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Can't share quiz with
+              Public
+            </li>
+          </ul>
+
+          <Button type="button" class="w-full mt-8" @click="signin">
+            Get Started Free
+          </Button>
+        </div>
+      </div>
+
+      <!-- Pro Plan -->
+      <div
+        class="bg-gray-900 border border-gray-900 shadow-2xl rounded-3xl p-8 sm:p-10 relative"
+      >
+        <div>
+          <h3 class="text-white text-4xl font-semibold">
+            $10
+            <sub class="text-slate-300 text-[15px]">/ per year</sub>
+          </h3>
+        </div>
+
+        <div class="mt-8">
+          <h4 class="text-white text-lg font-semibold">
+            Ideal for educators, coaches, and solo creators.
+          </h4>
+
+          <ul class="mt-6 space-y-5 text-[15px] text-slate-300 font-medium">
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Unlimited Quiz Runs
+              (Fair Use)
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Priority Email Support
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Early Access to New
+              Features
+            </li>
+          </ul>
+
+          <Button
+            type="button"
+            variant="outline"
+            class="w-full mt-8"
+            @click="openUrl('month')"
+            :disabled="loading === 'month'"
+          >
+            <Loader2Icon class="mr-1 animate-spin" v-if="loading === 'month'" />
+
+            Upgrade to Pro
+          </Button>
+        </div>
+      </div>
+
+      <div
+        class="bg-white border border-gray-300 shadow-md rounded-3xl p-8 sm:p-10"
+      >
+        <div>
+          <h3 class="text-slate-900 text-4xl font-semibold">
+            $99
+            <sub class="text-gray-600 text-[15px]">/ per year</sub>
+          </h3>
+        </div>
+
+        <div class="mt-8">
+          <h4 class="text-slate-900 text-lg font-semibold">
+            Best for institutions managing multiple users.
+          </h4>
+
+          <ul class="mt-6 space-y-5 text-[15px] text-slate-600 font-medium">
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> All pro Plan features
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> 2 months free
+            </li>
+          </ul>
+
+          <Button
+            type="button"
+            class="w-full mt-8"
+            @click="openUrl('year')"
+            :disabled="loading === 'year'"
+          >
+            <Loader2Icon class="mr-1 animate-spin" v-if="loading === 'year'" />
+            Upgrade to Pro
+          </Button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -227,6 +141,9 @@ export default {
       const data = useLimit();
       return Object.values(data).filter((val) => typeof val === "object");
     },
+    loggedIn() {
+      return useAuth().loggedIn;
+    },
   },
   mounted() {
     this.initPaddle();
@@ -252,42 +169,41 @@ export default {
           this.loading = i;
           const { authUser } = useAuth();
           if (authUser.value) {
-            const pack = this.pricing[i];
-            if (pack.name === "Free Trial") {
-              this.$router.push({ name: "dashboard" });
-            } else {
-              const { PADDLE_ENVIRONMENT, BASE_URL } =
-                useRuntimeConfig().public;
-              const { packName, liveKey, sandboxKey } = pack.paddle;
+            const { PADDLE_ENVIRONMENT, BASE_URL } = useRuntimeConfig().public;
+            const pack = i;
+            const liveKey = i === "month" ? "" : "";
+            const sandboxKey =
+              i === "month"
+                ? "pri_01jfjxq5n6bxeddz7s54f64trs"
+                : "pri_01jfjxszwcggm9bcan4jzv55y9";
 
-              const priceId =
-                PADDLE_ENVIRONMENT === "sandbox" ? sandboxKey : liveKey;
+            const priceId =
+              PADDLE_ENVIRONMENT === "sandbox" ? sandboxKey : liveKey;
 
-              this.paddle.Checkout.open({
-                settings: {
-                  allowedPaymentMethods: [
-                    "alipay",
-                    "apple_pay",
-                    "bancontact",
-                    "card",
-                    "google_pay",
-                    "ideal",
-                    "paypal",
-                    "saved_payment_methods",
-                  ],
-                  displayMode: "overlay",
-                  // successUrl: `${BASE_URL}/payment/success`,
-                  variant: "one-page",
-                },
-                items: [{ priceId }],
-                customer: { email: authUser.value.email },
-                customData: {
-                  userID: authUser.value._id,
-                  userEmail: authUser.value.email,
-                  package: packName,
-                },
-              });
-            }
+            this.paddle.Checkout.open({
+              settings: {
+                allowedPaymentMethods: [
+                  "alipay",
+                  "apple_pay",
+                  "bancontact",
+                  "card",
+                  "google_pay",
+                  "ideal",
+                  "paypal",
+                  "saved_payment_methods",
+                ],
+                displayMode: "overlay",
+                successUrl: `${BASE_URL}/payment/success`,
+                variant: "one-page",
+              },
+              items: [{ priceId }],
+              customer: { email: authUser.value.email },
+              customData: {
+                userID: authUser.value._id,
+                userEmail: authUser.value.email,
+                package: pack,
+              },
+            });
           } else {
             eventBus.emit("loginModal");
           }
@@ -300,6 +216,11 @@ export default {
           }, 5000);
         }
       }
+    },
+    signin() {
+      this.loggedIn
+        ? this.$router.push({ name: "dashboard" })
+        : eventBus.emit("loginModal");
     },
   },
 };

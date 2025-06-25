@@ -5,8 +5,7 @@
   />
   <Home>
     <div class="max-w-2xl mx-auto py-12 px-2">
-      <Button @click="$router.go(-1)"><Undo2Icon />Back</Button>
-      <h1 class="md:text-4xl text-3xl font-bold mt-5">Terms and Conditions</h1>
+      <h1 class="md:text-4xl text-3xl font-bold">Terms and Conditions</h1>
       <div v-for="(content, i) in contents" :key="i">
         <h2 class="text-2xl font-bold mt-5">{{ ++i }}. {{ content.title }}</h2>
         <div class="pl-2">
@@ -23,11 +22,8 @@
 </template>
 
 <script>
-import { Undo2Icon } from "lucide-vue-next";
-
 export default {
   name: "terms",
-  components: { Undo2Icon },
   data() {
     return {
       contents: [

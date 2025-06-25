@@ -464,7 +464,7 @@
           />
         </a>
       </div>
-      <p class="text-sm text-gray-600 px-12 mt-2 text-center">
+      <p class="text-xs md:text-sm text-gray-600 md:px-12 mt-2 text-center">
         Note: Copy the prompt, paste it into any AI platform, then copy the
         output and paste it here. Ensure the full JSON output is pasted.
         Finally, click the Generate button.
@@ -600,7 +600,7 @@ export default {
         language: "English",
         prompt: "",
         questionType: "Multiple choice questions",
-        questionCount: 50,
+        questionCount: 10,
       },
       inputType: "Text / Topic",
       inputTypes: [

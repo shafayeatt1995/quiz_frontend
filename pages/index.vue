@@ -2,11 +2,13 @@
   <MetaHead />
   <Home>
     <HomeHero />
-    <!-- <HomeCompanies /> -->
+    <HomeHow />
+    <HomeTools />
     <HomeUsages />
     <HomeProfessional />
     <HomePricing />
     <HomeFaq />
+    <HomeTrial />
   </Home>
 </template>
 <script>

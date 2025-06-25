@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto py-12 px-2" id="faq">
     <div class="text-center mb-2">
-      <h2 class="md:text-4xl text-3xl font-bold">Frequently asked questions</h2>
+      <h2 class="md:text-4xl text-3xl font-bold">Frequently Asked Questions</h2>
     </div>
     <Accordion
       type="single"

@@ -10,16 +10,23 @@
       >
         <img src="/logo.svg" alt="logo" class="size-8" /> {{ appName }}
       </NuxtLink>
-      <nav class="font-medium flex flex-row items-center md:gap-5 gap-3">
+      <nav
+        class="font-medium flex-row items-center md:gap-5 gap-5 hidden md:flex"
+      >
+        <NuxtLink to="/" class="hover:underline"> Home </NuxtLink>
         <NuxtLink
           :to="{ name: 'index', hash: '#pricing' }"
-          class="hidden md:block"
+          class="hover:underline"
         >
           Pricing
         </NuxtLink>
-        <NuxtLink :to="{ name: 'index', hash: '#faq' }" class="hidden md:block">
+        <NuxtLink :to="{ name: 'index', hash: '#faq' }" class="hover:underline">
           FAQ
         </NuxtLink>
+        <NuxtLink to="/contact" class="hover:underline"> Contact </NuxtLink>
+        <NuxtLink to="/about" class="hover:underline"> About </NuxtLink>
+      </nav>
+      <div class="flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" class="md:hidden">
@@ -28,6 +35,9 @@
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <NuxtLink to="/" class="flex gap-2 w-full"> Home </NuxtLink>
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <NuxtLink
                 :to="{ name: 'index', hash: '#pricing' }"
@@ -43,6 +53,14 @@
               >
                 FAQ
               </NuxtLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <NuxtLink to="/contact" class="flex gap-2 w-full">
+                Contact
+              </NuxtLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <NuxtLink to="/about" class="flex gap-2 w-full"> About </NuxtLink>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -73,8 +91,8 @@
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button @click="loginModal" v-if="!loggedIn"> Login </Button>
-      </nav>
+        <Button @click="loginModal" v-else> Sign In </Button>
+      </div>
     </div>
   </header>
 </template>
