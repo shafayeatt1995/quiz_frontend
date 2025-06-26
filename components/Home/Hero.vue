@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-12 px-2">
+  <div class="container mx-auto py-12 px-2 md:px-0">
     <h1 class="md:text-7xl text-4xl font-bold text-center max-w-3xl mx-auto">
       Create Quiz with AI for Free From Any Text
     </h1>

@@ -24,13 +24,13 @@
               <FolderInputIcon />
               Import Question from AI
             </DropdownMenuItem>
-            <DropdownMenuItem
+            <!-- <DropdownMenuItem
               class="cursor-pointer"
               @click="editMode = !editMode"
             >
               <FilePenLineIcon />
               {{ editMode ? "Close Edit Mode" : "Edit Question" }}
-            </DropdownMenuItem>
+            </DropdownMenuItem> -->
             <DropdownMenuItem
               class="cursor-pointer"
               @click="exportQuestionDocs"
@@ -72,6 +72,10 @@
         <p>Fetching question</p>
       </div>
       <div v-else-if="question?.questions?.length" class="space-y-4">
+        <div class="flex justify-between mt-2">
+          <Label for="edit-mode">Edit Mode</Label>
+          <Switch id="edit-mode" v-model="editMode" />
+        </div>
         <div v-for="(val, i) in question.questions" :key="i">
           <div class="flex items-center gap-1 mb-0.5">
             <p>{{ i + 1 }}.</p>
@@ -93,6 +97,12 @@
               class="flex items-center gap-2"
               :class="k === val.a ? 'font-bold text-green-500' : ''"
             >
+              <input
+                type="radio"
+                v-model="question.questions[i].a"
+                :value="k"
+                v-if="editMode"
+              />
               <span class="capitalize">
                 {{ String.fromCharCode(97 + k) }})
               </span>
@@ -100,7 +110,7 @@
                 v-model="question.questions[i].o[k]"
                 :showEdit="editMode"
               />
-              <TooltipProvider v-if="editMode">
+              <!-- <TooltipProvider v-if="editMode">
                 <Tooltip>
                   <TooltipTrigger as-child>
                     <Button
@@ -116,7 +126,7 @@
                     <p>Make it correct answer</p>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
+              </TooltipProvider> -->
             </div>
           </div>
         </div>

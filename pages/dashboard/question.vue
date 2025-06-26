@@ -54,8 +54,9 @@
                               name: 'dashboard-quiz',
                               query: { questionID: item._id },
                             }"
+                            class="flex gap-1 items-center"
                           >
-                            <ListTodoIcon /> Create a new quiz
+                            <ListTodoIcon :size="18" /> Create a new quiz
                           </NuxtLink>
                         </DropdownMenuItem>
                         <DropdownMenuItem @click="showExamModal(item)">
