@@ -992,6 +992,7 @@ export default {
         if (isValidJSON(this.content)) {
           this.examModal = true;
         } else {
+          this.tutorialModal = true;
           toast.error("Invalid AI JSON content");
         }
       } else {

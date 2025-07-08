@@ -22,7 +22,8 @@
 
           <ul class="mt-6 space-y-5 text-[15px] text-slate-600 font-medium">
             <li class="flex items-center">
-              <CheckIcon class="mr-3 text-green-500" /> 20 Quiz Runs
+              <CheckIcon class="mr-3 text-green-500" /> Unlimited Quiz Runs
+              (Fair Use)
             </li>
             <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Can't share quiz with
@@ -56,6 +57,10 @@
             <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Unlimited Quiz Runs
               (Fair Use)
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Share with public and
+              take exam
             </li>
             <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Priority Email Support
