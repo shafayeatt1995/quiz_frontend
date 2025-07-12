@@ -30,12 +30,15 @@
               AI.
             </li>
             <li class="flex items-center">
-              <CheckIcon class="mr-3 text-green-500" /> Can't share quiz with
-              Public
+              <CheckIcon class="mr-3 text-green-500" /> Share quiz with Public
             </li>
             <li class="flex items-center">
-              <CheckIcon class="mr-3 text-green-500" /> Can't add custom
-              question and edit quiz
+              <CheckIcon class="mr-3 text-green-500" /> Add custom question and
+              edit quiz
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Download Question and
+              answer in Doc & PDF
             </li>
           </ul>
 
@@ -63,27 +66,29 @@
 
           <ul class="mt-6 space-y-5 text-[15px] text-slate-300 font-medium">
             <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Arrange online exam
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Priority Email Support
+            </li>
+            <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Unlimited Quiz Runs
               (Fair Use)
-            </li>
-            <li class="flex items-center">
-              <CheckIcon class="mr-3 text-green-500" /> Share with public and
-              take exam
-            </li>
-            <li class="flex items-center">
-              <CheckIcon class="mr-3 text-green-500" /> Add custom question and
-              edit quiz
             </li>
             <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Get Detailed answer from
               AI.
             </li>
             <li class="flex items-center">
-              <CheckIcon class="mr-3 text-green-500" /> Priority Email Support
+              <CheckIcon class="mr-3 text-green-500" /> Share quiz with public
             </li>
             <li class="flex items-center">
-              <CheckIcon class="mr-3 text-green-500" /> Early Access to New
-              Features
+              <CheckIcon class="mr-3 text-green-500" /> Add custom question and
+              edit quiz
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Download Question and
+              answer in Doc & PDF
             </li>
           </ul>
 
@@ -123,6 +128,8 @@
             <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> 2 months free
             </li>
+            <li class="flex items-center h-11"></li>
+            <li class="flex items-center h-11"></li>
           </ul>
 
           <Button

@@ -19,4 +19,5 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
   if (isExactRoute || isStartsRoute) {
     if (!authUser.value) return navigateTo("/");
   }
+  if (path === "/dashboard") return navigateTo("/dashboard/quiz");
 });

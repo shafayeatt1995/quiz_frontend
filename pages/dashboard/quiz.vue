@@ -6,10 +6,10 @@
         <Card>
           <CardHeader class="px-3">
             <CardTitle class="flex items-center justify-between gap-2">
-              <p>Questions</p>
+              <p>Quiz</p>
               <Button @click="createModal = true">
                 <PlusIcon />
-                Create new question
+                Create new quiz
               </Button>
             </CardTitle>
           </CardHeader>
@@ -19,7 +19,7 @@
               class="p-4 flex flex-col justify-center items-center min-h-60"
             >
               <BookOpenIcon :size="100" class="text-gray-600" />
-              <p>No question found</p>
+              <p>No quiz found</p>
             </div>
             <template v-else>
               <div
@@ -46,7 +46,7 @@
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem @click="showQuestion(i)">
-                          <PencilIcon /> Edit Question
+                          <PencilIcon /> Edit Quiz
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           <NuxtLink
@@ -64,7 +64,7 @@
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem @click="deleteQuestion(i)">
-                          <Trash2Icon /> Delete Question
+                          <Trash2Icon /> Delete Quiz
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -78,7 +78,7 @@
               <div class="flex items-center justify-end space-x-2 py-4">
                 <div class="flex-1 text-sm text-muted-foreground">
                   {{ (page - 1) * perPage + 1 }} to
-                  {{ (page - 1) * perPage + items.length }} question showing
+                  {{ (page - 1) * perPage + items.length }} quiz showing
                 </div>
                 <div class="flex items-center gap-4">
                   <Button
@@ -129,7 +129,7 @@
           >
             <div class="flex-1">
               <CardTitle class="flex items-center gap-2 text-lg">
-                <p>Questions</p>
+                <p>Quiz</p>
               </CardTitle>
             </div>
             <div class="ml-auto flex items-center gap-2">
@@ -146,11 +146,11 @@
           <CardContent class="p-2 flex-1 overflow-y-auto">
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <Label for="difficulty">Question Name</Label>
+                <Label for="difficulty">Quiz Name</Label>
                 <Input
                   type="text"
                   v-model="form.name"
-                  placeholder="Enter question Name"
+                  placeholder="Enter quiz Name"
                 />
                 <ErrorMessage :error="errors" name="name" />
               </div>

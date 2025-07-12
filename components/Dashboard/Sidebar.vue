@@ -29,16 +29,16 @@ export default {
   data() {
     return {
       urls: [
-        {
-          label: "Dashboard",
-          to: { name: "dashboard" },
-          icon: LayoutDashboardIcon,
-        },
-        {
-          label: "Question",
-          to: { name: "dashboard-question" },
-          icon: MessageCircleQuestionIcon,
-        },
+        // {
+        //   label: "Dashboard",
+        //   to: { name: "dashboard" },
+        //   icon: LayoutDashboardIcon,
+        // },
+        // {
+        //   label: "Question",
+        //   to: { name: "dashboard-question" },
+        //   icon: MessageCircleQuestionIcon,
+        // },
         {
           label: "Quiz",
           to: { name: "dashboard-quiz" },
