@@ -455,7 +455,7 @@
         placeholder="Enter output from AI"
         v-model="content"
       />
-      <p v-if="!errorOutput" class="text-rose-500 text-sm">
+      <p v-if="errorOutput" class="text-rose-500 text-sm">
         1. For creating unlimited free quizzes, Copy the prompt above.
         <br />
         2. Click on any AI platform and paste the prompt.
