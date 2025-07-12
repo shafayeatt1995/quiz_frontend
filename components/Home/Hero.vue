@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto py-12 px-2 md:px-0">
     <h1 class="md:text-7xl text-4xl font-bold text-center max-w-3xl mx-auto">
-      Create Quiz with AI for Free From Any Text
+      Create Unlimited Free Quiz From Any Text
     </h1>
     <p class="text-center md:text-base text-sm w-full mx-auto mt-5">
       <!-- Create quizzes from any topic, YouTube URL, PDF, or text in less than 10

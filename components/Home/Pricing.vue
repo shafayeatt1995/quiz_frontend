@@ -44,7 +44,7 @@
         <div>
           <h3 class="text-white text-4xl font-semibold">
             $10
-            <sub class="text-slate-300 text-[15px]">/ per year</sub>
+            <sub class="text-slate-300 text-[15px]">/ per month</sub>
           </h3>
         </div>
 

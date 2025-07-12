@@ -3,7 +3,7 @@
     <div class="bg-primary/5 py-16 px-6">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-3xl md:text-6xl font-bold text-gray-900">
-          Get Free 20 Quizzes Today
+          Get Unlimited Quizzes Today
         </h2>
         <p class="mt-4 text-gray-600 text-lg px-20">
           Explore the power of AI-generated quizzes. Start for free — no credit

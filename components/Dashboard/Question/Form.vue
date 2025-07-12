@@ -417,35 +417,59 @@
       </p>
     </div>
     <div class="my-3 mt-2" v-if="showPrompt">
-      <div class="relative mb-2">
-        <Input
-          class="pr-14"
-          placeholder="Enter Topic details to create questions"
-          v-model="prompt"
-        />
-        <div class="top-0 right-0 absolute">
-          <TooltipProvider :open="true">
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  @click.prevent="copyPrompt"
-                  variant="outline"
-                  type="button"
-                  ><CopyIcon
-                /></Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Copy & generate with AI</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+      <div>
+        <Label for="prompt"
+          >Prompt for AI
+          <span class="text-xs"
+            >(ChatGPT / Gemini / DeepSeek / Microsoft)</span
+          ></Label
+        >
+        <div class="relative mb-2">
+          <Input
+            class="pr-14"
+            placeholder="Enter Topic details to create questions"
+            v-model="prompt"
+          />
+          <div class="top-0 right-0 absolute">
+            <TooltipProvider :open="true">
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    @click.prevent="copyPrompt"
+                    variant="outline"
+                    type="button"
+                    ><CopyIcon
+                  /></Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Copy & generate with AI</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       </div>
+      <Label for="content">AI output </Label>
       <Input
         class="pr-14"
-        placeholder="Enter JSON output from AI"
+        placeholder="Enter output from AI"
         v-model="content"
       />
+      <p v-if="!errorOutput" class="text-rose-500 text-sm">
+        1. For creating unlimited free quizzes, Copy the prompt above.
+        <br />
+        2. Click on any AI platform and paste the prompt.
+        <br />
+        3. Copy the AI generated output.
+        <br />
+        4. Paste the AI output and click generate.
+        <br />
+        5. Don't understand how to use,
+        <span class="font-bold cursor-pointer" @click="tutorialModal = true"
+          >click here</span
+        >
+        to see the tutorial.
+      </p>
       <div class="flex justify-around mt-2 items-center">
         <a :href="chatgptUrl" target="_blank">
           <img src="/images/icon/chatgpt.svg" alt="chatgpt" class="size-20" />
@@ -464,11 +488,6 @@
           />
         </a>
       </div>
-      <p class="text-xs md:text-sm text-gray-600 md:px-12 mt-2 text-center">
-        Note: Copy the prompt, paste it into any AI platform, then copy the
-        output and paste it here. Ensure the full JSON output is pasted.
-        Finally, click the Generate button.
-      </p>
     </div>
     <div
       class="flex justify-between items-center mt-2 flex-col md:flex-row gap-2"
@@ -755,6 +774,7 @@ export default {
         negativeMarking: 0,
       },
       tutorialModal: false,
+      errorOutput: false,
     };
   },
   computed: {
@@ -992,8 +1012,7 @@ export default {
         if (isValidJSON(this.content)) {
           this.examModal = true;
         } else {
-          this.tutorialModal = true;
-          toast.error("Invalid AI JSON content");
+          this.errorOutput = true;
         }
       } else {
         if (this.form.prompt.length > 0) {
@@ -1049,7 +1068,7 @@ export default {
     copyPrompt() {
       try {
         navigator.clipboard.writeText(this.prompt);
-        toast.success("Prompt copied to clipboard");
+        toast.success("Prompt copied to clipboard. Click any AI platform.");
       } catch (error) {
         console.error("Failed to copy prompt:", error);
       }
