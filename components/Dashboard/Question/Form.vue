@@ -449,7 +449,7 @@
           </div>
         </div>
       </div>
-      <Label for="content">AI output </Label>
+      <Label for="content">AI content </Label>
       <Input
         class="pr-14"
         placeholder="Enter output from AI"
@@ -460,11 +460,9 @@
         <br />
         2. Click on any AI platform and paste the prompt.
         <br />
-        3. Copy the AI generated output.
+        3. Copy the AI generated content and paste it in the AI content field.
         <br />
-        4. Paste the AI output and click generate.
-        <br />
-        5. Don't understand how to use,
+        Don't understand how to use,
         <span class="font-bold cursor-pointer" @click="tutorialModal = true"
           >click here</span
         >
