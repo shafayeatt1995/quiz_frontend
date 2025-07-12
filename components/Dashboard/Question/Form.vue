@@ -1013,6 +1013,9 @@ export default {
           this.examModal = true;
         } else {
           this.errorOutput = true;
+          toast.error(
+            "Invalid AI output. Please read the instructions carefully."
+          );
         }
       } else {
         if (this.form.prompt.length > 0) {

@@ -26,8 +26,16 @@
               (Fair Use)
             </li>
             <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Get Detailed answer from
+              AI.
+            </li>
+            <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Can't share quiz with
               Public
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Can't add custom
+              question and edit quiz
             </li>
           </ul>
 
@@ -61,6 +69,14 @@
             <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Share with public and
               take exam
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Add custom question and
+              edit quiz
+            </li>
+            <li class="flex items-center">
+              <CheckIcon class="mr-3 text-green-500" /> Get Detailed answer from
+              AI.
             </li>
             <li class="flex items-center">
               <CheckIcon class="mr-3 text-green-500" /> Priority Email Support
