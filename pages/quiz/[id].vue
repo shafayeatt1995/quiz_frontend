@@ -139,6 +139,7 @@ export default {
   },
   mounted() {
     this.fetchItem();
+    console.log(this.$route.query);
   },
   methods: {
     async fetchItem() {
@@ -147,7 +148,10 @@ export default {
         this.blocked = true;
         this.loading = true;
         const { api } = useApi();
-        const { item } = await api.get(`/quiz/${this.$route.params.id}`);
+        const { item } = await api.post(`/quiz`, {
+          id: this.$route.params._id,
+        });
+        console.log(item);
         if (item) {
           this.item = item;
           this.form.additionalFields = item.additional.reduce(

@@ -217,8 +217,9 @@ export default {
   },
   methods: {
     setData() {
+      const { decode } = useUtils();
       const { time, negativeMarkingStatus, negativeMarking, instantAnswer } =
-        this.$route.query;
+        JSON.parse(decode(this.$route.query.token));
       this.examForm.time = time || 25;
       this.remainingTime = (time || 25) * 60;
       this.examForm.negativeMarkingStatus =

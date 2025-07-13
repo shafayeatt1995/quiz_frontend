@@ -48,6 +48,9 @@
                         <DropdownMenuItem @click="showQuestion(i)">
                           <PencilIcon /> Edit Quiz
                         </DropdownMenuItem>
+                        <DropdownMenuItem @click="showShareModal(i)">
+                          <Share2Icon /> Share Quiz
+                        </DropdownMenuItem>
                         <DropdownMenuItem>
                           <NuxtLink
                             :to="{
@@ -56,7 +59,7 @@
                             }"
                             class="flex gap-1 items-center"
                           >
-                            <ListTodoIcon :size="18" /> Create a new quiz
+                            <ListTodoIcon :size="18" /> Create online exam
                           </NuxtLink>
                         </DropdownMenuItem>
                         <DropdownMenuItem @click="showExamModal(item)">
@@ -398,7 +401,8 @@
     <Dialog v-model:open="examModal">
       <DialogContent class="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Test exam</DialogTitle>
+          <DialogTitle v-if="share.modal">Share quiz</DialogTitle>
+          <DialogTitle v-else>Test exam</DialogTitle>
         </DialogHeader>
         <div class="space-y-3">
           <div>
@@ -432,9 +436,34 @@
               :disabled="!examForm.negativeMarkingStatus"
             />
           </div>
+          <div v-if="share.modal">
+            <Label for="url">URL</Label>
+            <div class="relative">
+              <Input id="url" :modelValue="shareUrl" class="pr-14" disabled />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger as-child>
+                    <Button
+                      variant="outline"
+                      class="absolute right-0 top-0"
+                      @click="copyUrl"
+                    >
+                      <CopyIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Copy URL</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </div>
         </div>
         <DialogFooter>
-          <Button @click="startExam(item)">
+          <Button @click="examModal = false" v-if="share.modal">
+            <ArrowRightIcon /> Start Exam
+          </Button>
+          <Button @click="startExam(item)" v-else>
             <ArrowRightIcon /> Start Exam
           </Button>
         </DialogFooter>
@@ -460,6 +489,7 @@ import {
   Loader2Icon,
   PencilIcon,
   PlusIcon,
+  Share2Icon,
   Trash2Icon,
   XIcon,
 } from "lucide-vue-next";
@@ -484,6 +514,7 @@ export default {
     BookOpenCheckIcon,
     ArrowRightIcon,
     ChevronRightIcon,
+    Share2Icon,
   },
   data() {
     return {
@@ -623,6 +654,10 @@ export default {
         instantAnswer: false,
       },
       totalImage: 20,
+      share: {
+        item: null,
+        modal: false,
+      },
     };
   },
   computed: {
@@ -650,10 +685,33 @@ export default {
         this.prompt
       )}`;
     },
+    shareUrl() {
+      const { encode } = useUtils();
+      return `${window.location.origin}/quiz/${
+        this.share.item._id
+      }?token=${encode(JSON.stringify(this.examForm))}`;
+    },
   },
   watch: {
     "$route.query"() {
       this.fetchItems();
+    },
+    examModal(val) {
+      if (!val) {
+        this.examQuestion = {};
+        this.examForm = {
+          time: 25,
+          negativeMarkingStatus: false,
+          negativeMarking: 0.25,
+          instantAnswer: false,
+        };
+        this.share.modal = false;
+      }
+    },
+    "share.modal"(val) {
+      if (!val) {
+        this.share.item = null;
+      }
     },
   },
   mounted() {
@@ -855,10 +913,11 @@ export default {
       this.examModal = true;
     },
     startExam() {
+      const { encode } = useUtils();
       this.$router.push({
         name: "dashboard-exam-id",
         params: { id: this.examQuestion._id },
-        query: this.examForm,
+        query: { token: encode(JSON.stringify(this.examForm)) },
       });
     },
     async deleteQuestion(index) {
@@ -870,6 +929,20 @@ export default {
       } catch (error) {
         console.error(error);
         toast.error("Failed to delete question");
+      }
+    },
+    showShareModal(i) {
+      const item = this.items[i];
+      this.share.item = item;
+      this.share.modal = true;
+      this.examModal = true;
+    },
+    copyUrl() {
+      try {
+        navigator.clipboard.writeText(this.shareUrl);
+        toast.success("URL copied to clipboard");
+      } catch (error) {
+        console.error("Failed to copy URL:", error);
       }
     },
   },

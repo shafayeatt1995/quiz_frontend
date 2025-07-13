@@ -3,23 +3,22 @@
     <h2 class="md:text-4xl text-3xl font-bold text-center">
       How to use Mr. Quizer
     </h2>
-    <div class="grid lg:grid-cols-3 gap-5 mt-5">
-      <div
-        v-for="(option, i) in options"
-        :key="i"
-        class="bg-white p-5 rounded-lg shadow min-h-full flex flex-col"
-      >
-        <div class="flex gap-3 items-center">
-          <div
-            class="size-12 rounded-full bg-gray-700 flex items-center justify-center"
-          >
-            <Component :is="option.icon" class="text-white" />
+    <div class="flex flex-col-reverse xl:flex-row gap-5 mt-5">
+      <div class="space-y-4 flex-1">
+        <div v-for="(option, i) in options" :key="i" class="bg-white p-5 rounded-lg shadow">
+          <div class="flex gap-3 items-center">
+            <div class="size-12 rounded-full bg-gray-700 flex items-center justify-center">
+              <Component :is="option.icon" class="text-white" />
+            </div>
+            <h3 class="text-2xl font-bold flex-1">
+              {{ option.title }}
+            </h3>
           </div>
-          <h3 class="text-2xl font-bold flex-1">
-            {{ option.title }}
-          </h3>
+          <p class="text-gray-600 mt-2 flex-1">{{ option.description }}</p>
         </div>
-        <p class="text-gray-600 mt-2 flex-1">{{ option.description }}</p>
+      </div>
+      <div class="flex-1 md:px-20 xl:px-0">
+        <video ref="tutorialVideo" src="/tutorial.mp4" controls autoplay muted class="rounded-lg shadow"></video>
       </div>
     </div>
   </div>
@@ -54,5 +53,12 @@ export default {
       ],
     };
   },
+  mounted() {
+    try {
+      this.$refs.tutorialVideo.playbackRate = 2;
+    } catch (err) {
+      console.error(err)
+    }
+  }
 };
 </script>
