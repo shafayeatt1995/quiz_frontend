@@ -68,7 +68,7 @@
       <div class="text-xs text-muted-foreground">
         Created
         <time dateTime="2023-11-23">{{
-          quiz?.created_at ? $filters.normalDate(quiz?.created_at) : ""
+          quiz?.createdAt ? $filters.normalDate(quiz?.createdAt) : ""
         }}</time>
       </div>
       <Button @click="updateQuiz" :disabled="!changed || updateLoading">

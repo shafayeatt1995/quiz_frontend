@@ -211,8 +211,8 @@
         <div class="text-xs text-muted-foreground">
           Created
           <time dateTime="2023-11-23">{{
-            question?.created_at
-              ? $filters.normalDate(question?.created_at)
+            question?.createdAt
+              ? $filters.normalDate(question?.createdAt)
               : ""
           }}</time>
         </div>
