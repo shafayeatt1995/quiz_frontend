@@ -691,6 +691,7 @@ export default {
         this.share.item._id
       }?token=${encode(JSON.stringify(this.examForm))}`;
     },
+
   },
   watch: {
     "$route.query"() {
