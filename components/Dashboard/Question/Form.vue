@@ -6,7 +6,10 @@
       </Button>
     </div>
     <Sheet @update:open="modal = false" :open="modal">
-      <SheetContent side="right" class="w-full md:max-w-[550px] overflow-y-auto">
+      <SheetContent
+        side="right"
+        class="w-full md:max-w-[550px] overflow-y-auto"
+      >
         <SheetHeader>
           <SheetTitle>Create new question</SheetTitle>
         </SheetHeader>
@@ -14,13 +17,22 @@
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <Label for="difficulty">Question Name</Label>
-              <Input type="text" v-model="form.name" placeholder="Enter question Name" />
+              <Input
+                type="text"
+                v-model="form.name"
+                placeholder="Enter question Name"
+              />
               <ErrorMessage :error="errors" name="name" />
             </div>
             <div>
               <Label for="questionCount">Question count </Label>
-              <NumberField id="questionCount" :max="100" :min="10" :modelValue="form.questionCount"
-                @update:modelValue="form.questionCount = $event">
+              <NumberField
+                id="questionCount"
+                :max="100"
+                :min="10"
+                :modelValue="form.questionCount"
+                @update:modelValue="form.questionCount = $event"
+              >
                 <NumberFieldContent>
                   <NumberFieldDecrement />
                   <NumberFieldInput />
@@ -33,9 +45,13 @@
               <Label for="language">question language</Label>
               <Popover v-model:open="open">
                 <PopoverTrigger as-child>
-                  <Button variant="outline" role="combobox" :aria-expanded="open"
-                    class="w-full flex justify-between h-10">
-                    {{languages.find((lang) => lang === form.language)}}
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    :aria-expanded="open"
+                    class="w-full flex justify-between h-10"
+                  >
+                    {{ languages.find((lang) => lang === form.language) }}
                     <ChevronDownIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -45,15 +61,23 @@
                     <CommandEmpty>No language found.</CommandEmpty>
                     <CommandList>
                       <CommandGroup>
-                        <CommandItem v-for="lang in languages" :key="lang" :value="lang" @select="open = false"
-                          class="cursor-pointer">
-                          <CheckIcon :class="cn(
-                            'mr-2 h-4 w-4',
-                            lang === form.language
-                              ? 'opacity-100'
-                              : 'opacity-0'
-                          )
-                            " />
+                        <CommandItem
+                          v-for="lang in languages"
+                          :key="lang"
+                          :value="lang"
+                          @select="open = false"
+                          class="cursor-pointer"
+                        >
+                          <CheckIcon
+                            :class="
+                              cn(
+                                'mr-2 h-4 w-4',
+                                lang === form.language
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
+                              )
+                            "
+                          />
                           {{ lang }}
                         </CommandItem>
                       </CommandGroup>
@@ -65,13 +89,21 @@
             </div>
             <div>
               <Label for="difficulty">Difficulty level</Label>
-              <Select id="difficulty" :modelValue="form.difficulty" @update:modelValue="form.difficulty = $event">
+              <Select
+                id="difficulty"
+                :modelValue="form.difficulty"
+                @update:modelValue="form.difficulty = $event"
+              >
                 <SelectTrigger class="w-full">
                   <SelectValue placeholder="Select difficulty level" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem :value="type" v-for="(type, i) in difficultyLevels" :key="i">
+                    <SelectItem
+                      :value="type"
+                      v-for="(type, i) in difficultyLevels"
+                      :key="i"
+                    >
                       {{ type }}
                     </SelectItem>
                   </SelectGroup>
@@ -80,13 +112,21 @@
             </div>
             <div>
               <Label for="questionType">Question type</Label>
-              <Select id="questionType" :modelValue="form.questionType" @update:modelValue="form.questionType = $event">
+              <Select
+                id="questionType"
+                :modelValue="form.questionType"
+                @update:modelValue="form.questionType = $event"
+              >
                 <SelectTrigger class="w-full">
                   <SelectValue placeholder="Select question type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem :value="type" v-for="(type, i) in questionTypes" :key="i">
+                    <SelectItem
+                      :value="type"
+                      v-for="(type, i) in questionTypes"
+                      :key="i"
+                    >
                       {{ type }}
                     </SelectItem>
                   </SelectGroup>
@@ -95,13 +135,21 @@
             </div>
             <div>
               <Label for="inputType">Select input type</Label>
-              <Select id="inputType" :modelValue="inputType" @update:modelValue="inputType = $event">
+              <Select
+                id="inputType"
+                :modelValue="inputType"
+                @update:modelValue="inputType = $event"
+              >
                 <SelectTrigger class="w-full">
                   <SelectValue placeholder="Select input type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem :value="type" v-for="(type, i) in inputTypes" :key="i">
+                    <SelectItem
+                      :value="type"
+                      v-for="(type, i) in inputTypes"
+                      :key="i"
+                    >
                       {{ type }}
                     </SelectItem>
                   </SelectGroup>
@@ -110,26 +158,38 @@
             </div>
           </div>
           <div>
-            <Label for="characters" :class="form.prompt.length > countLimit ? 'text-red-500' : ''">Topic details: {{
-              form.prompt.length }}/{{ countLimit }}</Label>
+            <Label
+              for="characters"
+              :class="form.prompt.length > countLimit ? 'text-red-500' : ''"
+              >Topic details: {{ form.prompt.length }}/{{ countLimit }}</Label
+            >
             <label
               class="border-2 border-dashed rounded-md px-2 py-1 flex flex-col justify-center items-center gap-2 text-gray-600 bg-white cursor-pointer h-80 font-semibold"
-              for="file-upload" v-if="inputType === 'PDF / Document / TXT / Image'">
+              for="file-upload"
+              v-if="inputType === 'PDF / Document / TXT / Image'"
+            >
               <FileUpIcon :size="100" />
               Upload file
             </label>
-            <textarea v-else-if="inputType === 'Text / Topic'" id="characters"
+            <textarea
+              v-else-if="inputType === 'Text / Topic'"
+              id="characters"
               class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
-              :class="form.prompt.length > countLimit ? 'border-red-500' : ''" rows="10"
-              placeholder="Enter Topic details to create questions" v-model="form.prompt"></textarea>
+              :class="form.prompt.length > countLimit ? 'border-red-500' : ''"
+              rows="10"
+              placeholder="Enter Topic details to create questions"
+              v-model="form.prompt"
+            ></textarea>
             <Input v-else v-model="form.prompt" placeholder="Enter the url" />
             <ErrorMessage :error="errors" name="prompt" />
 
             <div v-if="pdfLoading">
               <p>Processing pdf page {{ pdfProcessing }}/{{ pdfPage }}</p>
               <div class="w-full h-2 bg-gray-200 rounded overflow-hidden">
-                <div class="h-full bg-custom-gradient transition-all duration-1000 animate-pulse"
-                  :style="{ width: (pdfProcessing / pdfPage) * 100 + '%' }"></div>
+                <div
+                  class="h-full bg-custom-gradient transition-all duration-1000 animate-pulse"
+                  :style="{ width: (pdfProcessing / pdfPage) * 100 + '%' }"
+                ></div>
               </div>
             </div>
           </div>
@@ -137,12 +197,18 @@
             <div class="flex items-center gap-2">
               <label
                 class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 text-gray-600 bg-white cursor-pointer"
-                for="file-upload">
+                for="file-upload"
+              >
                 <FileUpIcon />
                 Upload file
               </label>
-              <input type="file" id="file-upload" class="hidden"
-                accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp" @change="extractText" />
+              <input
+                type="file"
+                id="file-upload"
+                class="hidden"
+                accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
+                @change="extractText"
+              />
             </div>
             <Button type="button" @click="submit()">
               <Loader2Icon class="animate-spin" v-if="loading" />
@@ -162,13 +228,22 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" v-if="!homeMode">
       <div>
         <Label for="difficulty">Question Name</Label>
-        <Input type="text" v-model="form.name" placeholder="Enter question Name" />
+        <Input
+          type="text"
+          v-model="form.name"
+          placeholder="Enter question Name"
+        />
         <ErrorMessage :error="errors" name="name" />
       </div>
       <div>
         <Label for="questionCount">Question count </Label>
-        <NumberField id="questionCount" :max="100" :min="10" :modelValue="form.questionCount"
-          @update:modelValue="form.questionCount = $event">
+        <NumberField
+          id="questionCount"
+          :max="100"
+          :min="10"
+          :modelValue="form.questionCount"
+          @update:modelValue="form.questionCount = $event"
+        >
           <NumberFieldContent>
             <NumberFieldDecrement />
             <NumberFieldInput />
@@ -181,8 +256,13 @@
         <Label for="language">question language</Label>
         <Popover v-model:open="open">
           <PopoverTrigger as-child>
-            <Button variant="outline" role="combobox" :aria-expanded="open" class="w-full flex justify-between h-10">
-              {{languages.find((lang) => lang === form.language)}}
+            <Button
+              variant="outline"
+              role="combobox"
+              :aria-expanded="open"
+              class="w-full flex justify-between h-10"
+            >
+              {{ languages.find((lang) => lang === form.language) }}
               <ChevronDownIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -192,12 +272,20 @@
               <CommandEmpty>No language found.</CommandEmpty>
               <CommandList>
                 <CommandGroup>
-                  <CommandItem v-for="lang in languages" :key="lang" :value="lang" @select="open = false">
-                    <CheckIcon :class="cn(
-                      'mr-2 h-4 w-4',
-                      lang === form.language ? 'opacity-100' : 'opacity-0'
-                    )
-                      " />
+                  <CommandItem
+                    v-for="lang in languages"
+                    :key="lang"
+                    :value="lang"
+                    @select="open = false"
+                  >
+                    <CheckIcon
+                      :class="
+                        cn(
+                          'mr-2 h-4 w-4',
+                          lang === form.language ? 'opacity-100' : 'opacity-0'
+                        )
+                      "
+                    />
                     {{ lang }}
                   </CommandItem>
                 </CommandGroup>
@@ -209,13 +297,21 @@
       </div>
       <div>
         <Label for="difficulty">Difficulty level</Label>
-        <Select id="difficulty" :modelValue="form.difficulty" @update:modelValue="form.difficulty = $event">
+        <Select
+          id="difficulty"
+          :modelValue="form.difficulty"
+          @update:modelValue="form.difficulty = $event"
+        >
           <SelectTrigger class="w-full">
             <SelectValue placeholder="Select difficulty level" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem :value="type" v-for="(type, i) in difficultyLevels" :key="i">
+              <SelectItem
+                :value="type"
+                v-for="(type, i) in difficultyLevels"
+                :key="i"
+              >
                 {{ type }}
               </SelectItem>
             </SelectGroup>
@@ -224,13 +320,21 @@
       </div>
       <div>
         <Label for="questionType">Question type</Label>
-        <Select id="questionType" :modelValue="form.questionType" @update:modelValue="form.questionType = $event">
+        <Select
+          id="questionType"
+          :modelValue="form.questionType"
+          @update:modelValue="form.questionType = $event"
+        >
           <SelectTrigger class="w-full">
             <SelectValue placeholder="Select question type" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem :value="type" v-for="(type, i) in questionTypes" :key="i">
+              <SelectItem
+                :value="type"
+                v-for="(type, i) in questionTypes"
+                :key="i"
+              >
                 {{ type }}
               </SelectItem>
             </SelectGroup>
@@ -239,13 +343,21 @@
       </div>
       <div>
         <Label for="inputType">Select input type</Label>
-        <Select id="inputType" :modelValue="inputType" @update:modelValue="inputType = $event">
+        <Select
+          id="inputType"
+          :modelValue="inputType"
+          @update:modelValue="inputType = $event"
+        >
           <SelectTrigger class="w-full">
             <SelectValue placeholder="Select input type" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem :value="type" v-for="(type, i) in inputTypes" :key="i">
+              <SelectItem
+                :value="type"
+                v-for="(type, i) in inputTypes"
+                :key="i"
+              >
                 {{ type }}
               </SelectItem>
             </SelectGroup>
@@ -254,23 +366,38 @@
       </div>
     </div>
     <div>
-      <Label for="characters" :class="form.prompt.length > countLimit ? 'text-red-500' : ''">Topic details: {{
-        form.prompt.length }}/{{ countLimit }}</Label>
+      <Label
+        for="characters"
+        :class="form.prompt.length > countLimit ? 'text-red-500' : ''"
+        >Topic details: {{ form.prompt.length }}/{{ countLimit }}</Label
+      >
       <label
         class="border-2 border-dashed rounded-md px-2 py-1 flex flex-col justify-center items-center gap-2 text-gray-600 bg-white cursor-pointer h-80 font-semibold"
-        for="file-upload" v-if="inputType === 'PDF / Document / TXT / Image'">
+        for="file-upload"
+        v-if="inputType === 'PDF / Document / TXT / Image'"
+      >
         <FileUpIcon :size="100" />
         Upload file
       </label>
-      <textarea v-else-if="inputType === 'Text / Topic'" id="characters"
+      <textarea
+        v-else-if="inputType === 'Text / Topic'"
+        id="characters"
         class="block w-full rounded-lg border-2 border-dashed p-4 focus:outline-none"
-        :class="form.prompt.length > countLimit ? 'border-red-500' : ''" rows="8" :placeholder="homeMode
-          ? 'Enter Topic, Youtube URL, PDF, or Text to get a Quiz Docx in seconds. use the bulb for suggestions.'
-          : 'Enter Topic details to create questions'
-          " v-model="form.prompt"></textarea>
+        :class="form.prompt.length > countLimit ? 'border-red-500' : ''"
+        rows="8"
+        :placeholder="
+          homeMode
+            ? 'Enter Topic, Youtube URL, PDF, or Text to get a Quiz Docx in seconds. use the bulb for suggestions.'
+            : 'Enter Topic details to create questions'
+        "
+        v-model="form.prompt"
+      ></textarea>
       <Input v-else v-model="form.prompt" placeholder="Enter the url" />
       <ErrorMessage :error="errors" name="prompt" />
-      <p class="text-center text-red-500 mt-2 text-sm" v-if="form.prompt.length > countLimit">
+      <p
+        class="text-center text-red-500 mt-2 text-sm"
+        v-if="form.prompt.length > countLimit"
+      >
         For Best Results, Keep Your Text Under {{ countLimit }} Characters –
         Longer Topics May Affect AI Accuracy.
       </p>
@@ -278,8 +405,10 @@
       <div v-if="pdfLoading">
         <p>Processing pdf page {{ pdfProcessing }}/{{ pdfPage }}</p>
         <div class="w-full h-2 bg-gray-200 rounded overflow-hidden">
-          <div class="h-full bg-custom-gradient transition-all duration-1000 animate-pulse"
-            :style="{ width: (pdfProcessing / pdfPage) * 100 + '%' }"></div>
+          <div
+            class="h-full bg-custom-gradient transition-all duration-1000 animate-pulse"
+            :style="{ width: (pdfProcessing / pdfPage) * 100 + '%' }"
+          ></div>
         </div>
       </div>
       <p class="text-center text-sm mt-2" v-if="loading">
@@ -290,10 +419,18 @@
     <div class="my-3 mt-2" v-if="showPrompt">
       <div class="flex items-center">
         <div class="w-full">
-          <Label for="prompt">Prompt for AI
-            <span class="text-xs">(ChatGPT / Gemini / DeepSeek / Microsoft)</span></Label>
+          <Label for="prompt"
+            >Prompt for AI
+            <span class="text-xs"
+              >(ChatGPT / Gemini / DeepSeek / Microsoft)</span
+            ></Label
+          >
           <div class="relative mb-2">
-            <Textarea class="pr-14" placeholder="Enter Topic details to create questions" v-model="prompt" />
+            <Textarea
+              class="pr-14"
+              placeholder="Enter Topic details to create questions"
+              v-model="prompt"
+            />
             <!-- <div class="top-0 right-0 absolute">
               <TooltipProvider :open="true">
                 <Tooltip>
@@ -314,7 +451,11 @@
           <Tooltip :defaultOpen="true">
             <TooltipTrigger as-child>
               <a :href="chatgptUrl" target="_blank">
-                <img src="/images/icon/chatgpt.svg" alt="chatgpt" class="size-20" />
+                <img
+                  src="/images/icon/chatgpt.svg"
+                  alt="chatgpt"
+                  class="size-20"
+                />
               </a>
             </TooltipTrigger>
             <TooltipContent>
@@ -324,14 +465,21 @@
         </TooltipProvider>
       </div>
       <Label for="content">AI content </Label>
-      <Textarea class="pr-14" placeholder="Paste only chatgpt output here..." v-model="content" />
+      <Textarea
+        class="pr-14"
+        placeholder="Paste only chatgpt output here..."
+        v-model="content"
+      />
       <p v-if="errorOutput" class="text-rose-500 text-sm">
         1. For creating unlimited free quizzes, Click on Chatgpt Icon.
         <br />
-        2. Copy the AI generated output and paste it in the "AI content" input field.
+        2. Copy the AI generated output and paste it in the "AI content" input
+        field.
         <br />
         Don't understand how to use,
-        <span class="font-bold cursor-pointer" @click="tutorialModal = true">click here</span>
+        <span class="font-bold cursor-pointer" @click="tutorialModal = true"
+          >click here</span
+        >
         to see the tutorial.
       </p>
       <!-- <div class="flex justify-around mt-2 items-center">
@@ -349,21 +497,40 @@
         </a>
       </div> -->
     </div>
-    <div class="flex justify-between items-center mt-2 flex-col md:flex-row gap-2">
+    <div
+      class="flex justify-between items-center mt-2 flex-col md:flex-row gap-2"
+    >
       <div class="flex items-center gap-2 w-full">
         <label
           class="border-2 border-dashed rounded-md px-2 py-1 flex gap-2 bg-white cursor-pointer w-full md:w-auto justify-center text-sm items-center py-2"
-          for="file-upload">
+          for="file-upload"
+        >
           <FileUpIcon :size="20" />
           Upload file
         </label>
-        <input type="file" id="file-upload" class="hidden" accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
-          @change="extractText" />
-        <Button @click="tutorialModal = true" type="button" variant="outline" class="w-full md:w-auto">
+        <input
+          type="file"
+          id="file-upload"
+          class="hidden"
+          accept=".pdf&.doc&.docx&.txt&.jpg&.png&.jpeg&.svg&.webp"
+          @change="extractText"
+        />
+        <Button
+          @click="tutorialModal = true"
+          type="button"
+          variant="outline"
+          class="w-full md:w-auto"
+        >
           <YoutubeIcon :size="30" /> User Guide
         </Button>
       </div>
-      <Button type="button" v-if="homeMode" @click="generate" :disabled="loading" class="w-full md:w-auto">
+      <Button
+        type="button"
+        v-if="homeMode"
+        @click="generate"
+        :disabled="loading"
+        class="w-full md:w-auto"
+      >
         <Loader2Icon class="animate-spin" v-if="loading" />
         {{
           inputType === "Text / Topic"
@@ -394,9 +561,11 @@
           <Input id="time" v-model="examForm.time" class="col-span-3" />
         </div>
         <div class="flex justify-between items-center">
-          <Label for="instantAnswer">Instant show answer [{{
-            examForm.instantAnswer ? "Active" : "Inactive"
-            }}]</Label>
+          <Label for="instantAnswer"
+            >Instant show answer [{{
+              examForm.instantAnswer ? "Active" : "Inactive"
+            }}]</Label
+          >
           <Switch id="instantAnswer" v-model="examForm.instantAnswer" />
         </div>
         <div>
@@ -406,10 +575,17 @@
                 examForm.negativeMarkingStatus ? "Active" : "Inactive"
               }}]
             </Label>
-            <Checkbox id="negativeMarkingStatus" v-model="examForm.negativeMarkingStatus" />
+            <Checkbox
+              id="negativeMarkingStatus"
+              v-model="examForm.negativeMarkingStatus"
+            />
           </div>
-          <Input id="negativeMarking" v-model="examForm.negativeMarking" class="col-span-3"
-            :disabled="!examForm.negativeMarkingStatus" />
+          <Input
+            id="negativeMarking"
+            v-model="examForm.negativeMarking"
+            class="col-span-3"
+            :disabled="!examForm.negativeMarkingStatus"
+          />
         </div>
       </div>
       <DialogFooter>
@@ -422,14 +598,21 @@
   <Dialog v-model:open="tutorialModal">
     <DialogContent class="bg-transparent border-0 max-w-5xl">
       <DialogHeader>
-        <DialogClose class="text-white cursor-pointer absolute top-2 right-3 z-10">
+        <DialogClose
+          class="text-white cursor-pointer absolute top-2 right-3 z-10"
+        >
           <XIcon />
         </DialogClose>
       </DialogHeader>
-      <iframe src="https://www.youtube.com/embed/8yfIknKmN0w?si=Gra3i-SvP5jAKSFP" title="YouTube video player"
+      <iframe
+        src="https://www.youtube.com/embed/8yfIknKmN0w?si=Gra3i-SvP5jAKSFP"
+        title="YouTube video player"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen class="w-full h-56 md:h-[600px]"></iframe>
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        class="w-full h-56 md:h-[600px]"
+      ></iframe>
     </DialogContent>
   </Dialog>
 </template>
@@ -476,7 +659,7 @@ export default {
         language: "English",
         prompt: "",
         questionType: "Multiple choice questions",
-        questionCount: 10,
+        questionCount: 20,
       },
       inputType: "Text / Topic",
       inputTypes: [
@@ -859,15 +1042,17 @@ export default {
     setPrompt() {
       this.prompt = `You are a professional AI trained specifically in quiz generation. Act as an expert quiz creation engine capable of crafting high-quality, factually correct, and topic-aligned questions with precision and clarity.
 
-      Create exactly ${this.form.questionCount
-        } unique questions with the following specifications:
+      Create exactly ${
+        this.form.questionCount
+      } unique questions with the following specifications:
           - Difficulty level: ${this.form.difficulty}
-          - Question type: ${this.form.questionType === "True or False"
-          ? "True/False"
-          : this.form.questionType === "Multiple choice questions"
-            ? "Multiple Choice"
-            : "True/False and Multiple Choice both"
-        }
+          - Question type: ${
+            this.form.questionType === "True or False"
+              ? "True/False"
+              : this.form.questionType === "Multiple choice questions"
+              ? "Multiple Choice"
+              : "True/False and Multiple Choice both"
+          }
           - Question language: ${this.form.language}
           - Topic: ${this.form.prompt}
           - Provide only relevant, meaningful, and factually correct questions.
@@ -876,10 +1061,11 @@ export default {
               {
                 "sn": "Serial number, start from 1"
                 "q": "Question text here",
-                "o": [${this.form.questionType === "True or False"
-          ? '"True", "False"'
-          : '"Option1", "Option2", "Option3", "Option4"'
-        }],
+                "o": [${
+                  this.form.questionType === "True or False"
+                    ? '"True", "False"'
+                    : '"Option1", "Option2", "Option3", "Option4"'
+                }],
                 "a": correct Option Index
               }
             ]

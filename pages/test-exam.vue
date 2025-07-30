@@ -252,7 +252,10 @@ export default {
     getOptionClass(index, option, answer) {
       const selected = this.answers[index];
 
-      if (this.examForm.instantAnswer && selected !== null) {
+      if (
+        (this.examForm.instantAnswer && selected !== null) ||
+        this.submitted
+      ) {
         if (option === selected && option === answer) {
           return "bg-green-50 text-green-600 border-green-300";
         } else if (option === selected && option !== answer) {
