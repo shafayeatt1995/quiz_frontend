@@ -310,8 +310,6 @@ export default {
       }
     },
     checkExplanations(type, question) {
-      if (this.explanationCount >= 3) return eventBus.emit("loginModal");
-      this.explanationCount++;
       const { q, o } = question;
       if (type === "google") {
         const encoded = encodeURIComponent(`${q} ${o.join(", ")}`);
@@ -322,8 +320,6 @@ export default {
       }
     },
     copyContext(type, question) {
-      if (this.explanationCount >= 3) return eventBus.emit("loginModal");
-
       const { q, o } = question;
       let clipBoardText = "";
       if (type === "google") {
