@@ -655,7 +655,7 @@ export default {
     return {
       form: {
         name: "",
-        difficulty: "easy",
+        difficulty: "medium to hard",
         language: "Bangla",
         prompt: "",
         questionType: "Multiple choice questions",
