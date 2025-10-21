@@ -94,10 +94,7 @@
                 {{ option }}
               </p>
             </div>
-            <div
-              class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-2"
-              v-if="submitted"
-            >
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-2">
               <Button @click="checkExplanations('google', question)">
                 <img
                   src="/images/google.svg"
@@ -118,7 +115,6 @@
                 />
                 Explanation
               </Button>
-
               <Button @click="copyContext('chatgpt', question)">
                 <CopyIcon />
                 Copy Prompt
