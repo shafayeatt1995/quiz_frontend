@@ -655,8 +655,8 @@ export default {
     return {
       form: {
         name: "",
-        difficulty: "Medium",
-        language: "English",
+        difficulty: "easy",
+        language: "Bangla",
         prompt: "",
         questionType: "Multiple choice questions",
         questionCount: 20,
@@ -1059,14 +1059,13 @@ export default {
           - Output format: strictly as an array of JSON objects with this structure:
             [
               {
-                "sn": "Serial number, start from 1"
                 "q": "Question text here",
                 "o": [${
                   this.form.questionType === "True or False"
                     ? '"True", "False"'
                     : '"Option1", "Option2", "Option3", "Option4"'
                 }],
-                "a": correct Option Index
+                "a": correct Option Index number (0, 1, 2, 3)
               }
             ]
           - Ensure the questions are well-structured, unambiguous, and aligned with the provided topic.
@@ -1089,10 +1088,13 @@ export default {
       }
     },
     startExam() {
-      this.$router.push({
-        name: "test-exam",
-        query: { ...this.examForm, question: this.content },
-      });
+      window.open(
+        `${window.location.origin}/test-exam?${new URLSearchParams({
+          ...this.examForm,
+          question: this.content,
+        }).toString()}`,
+        "_blank"
+      );
     },
   },
 };
